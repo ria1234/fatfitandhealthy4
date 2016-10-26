@@ -112,7 +112,7 @@
 					<div class="panel-body">
 						<div class="pull-right">
 							<div class="btn-group">
-								<button type="button" class="btn btn-primary btn-filter" data-target="pagado">Authorized</button>
+								<button type="button" class="btn btn-primary btn-filter" data-target="authorized">Authorized</button>
 								<button type="button" class="btn btn-warning btn-filter" data-target="pendiente">Unauthorized</button>
 								<button type="button" class="btn btn-default btn-filter" data-target="all">All</button>
 							</div>
