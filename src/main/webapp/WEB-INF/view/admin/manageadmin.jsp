@@ -116,7 +116,15 @@
 						<div class="table-container">
 							<table class="table table-filter">
 								<thead>
-									
+									<tr>
+									<th>image</th>
+									<th>email</th>
+									<th>firstname</th>
+									<th>lastname</th>
+									<th>permission</th>
+									<th>update</th>
+									<th>delete</th>
+									</tr>	
 								</thead>
 								<tbody>
 									<tr data-status="pagado">
