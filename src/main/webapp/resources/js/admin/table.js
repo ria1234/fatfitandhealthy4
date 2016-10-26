@@ -9,7 +9,7 @@ $(document).ready(function () {
     });
 
     $('.btn-filter').on('click', function () {
-    	alert();
+    	
       var $target = $(this).data('target');
       if ($target != 'all') {
         $('.table tr').css('display', 'none');
