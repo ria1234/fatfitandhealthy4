@@ -143,6 +143,7 @@ public class adminlogin {
 	@RequestMapping(value="/manageadmin",method=RequestMethod.GET)
 	public String manageadmin(HttpSession session,Model model) {
 		List<Admin> l=Getdata.onecolumnvaluewhere("Admin", "role", "admin");
+		System.out.println(l);
 		model.addAttribute("admin", l);
 		if(session.getAttribute("aname")!=null)
 			return "admin/manageadmin";

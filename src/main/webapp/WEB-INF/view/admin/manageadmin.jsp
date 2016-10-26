@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="true" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page isELIgnored="false" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/table.css" />
 
 <jsp:include page="upperheader.jsp"></jsp:include>
@@ -108,7 +112,7 @@
 					<div class="panel-body">
 						<div class="pull-right">
 							<div class="btn-group">
-								<button type="button" class="btn btn-success btn-filter" data-target="pagado">Authorized</button>
+								<button type="button" class="btn btn-primary btn-filter" data-target="pagado">Authorized</button>
 								<button type="button" class="btn btn-warning btn-filter" data-target="pendiente">Unauthorized</button>
 								<button type="button" class="btn btn-default btn-filter" data-target="all">All</button>
 							</div>
@@ -127,6 +131,17 @@
 									</tr>	
 								</thead>
 								<tbody>
+									<c:forEach items="${admin}" var="admin">
+										<tr data-status="authorized">
+											<td> <img src="${pageContext.request.contextPath }/resources/image/admin/${admin.id }.jpg" class="img-circle" alt="Cinque Terre" width="50" height="50"></td>
+											<td>${admin.email }</td>
+											<td>${admin.firstname }</td>
+											<td>${admin.lastname }</td>
+											<td></td>
+											<td><a><span class="glyphicon glyphicon-pencil"></span></a></td>
+											<td><a><span class="glyphicon glyphicon-remove"></span></a></td>
+										</tr>
+									</c:forEach>
 									<tr data-status="pagado">
 										<td>
 											<div class="ckbox">
