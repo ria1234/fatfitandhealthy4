@@ -39,7 +39,7 @@
 			
 			<!-- Site Logo -->
 			<div class="site-logo fancy">
-				<a href="#" id="logo-text" class="scroll logo">
+				<a href="#" id="logo-text" class="">
 				Fatfitandhealthy
 				</a>
 			</div>
