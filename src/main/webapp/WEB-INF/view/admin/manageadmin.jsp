@@ -8,7 +8,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap-switch.min.css" />
 <jsp:include page="upperheader.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath }/resources/js/admin/table.js"></script>
-<script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.min.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.min.js"></script> --%>
+<script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.js"></script>
 <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -138,7 +139,7 @@
 											<td>${admin.email }</td>
 											<td>${admin.firstname }</td>
 											<td>${admin.lastname }</td>
-											<td></td>
+											<td><input type="checkbox" name="${admin.id }"></td>
 											<td><a><i class="fa fa-edit" aria-hidden="true"></i></a></td>
 											<td><a><i class="fa fa-remove" aria-hidden="true"></i></a></td>
 										</tr>
@@ -169,3 +170,22 @@
 <!-- ./wrapper -->
 </body>
 </html>
+<script type="text/javascript">
+$(document).ready(function(){
+	alert("document ready");	
+
+	<c:forEach items="${admin}" var="admin">
+		$("[name='${admin.id}']").bootstrapSwitch('state',${admin.permission eq 0?'false':'true' });
+		$('input[name="${admin.id}"]').on('switchChange.bootstrapSwitch', function(event,state) {
+			 //alert(state);
+			 if (state==true) {
+				permission=1;
+				//alert(permission);
+				
+			} else {
+
+			}
+			});
+	</c:forEach>
+});
+</script>
