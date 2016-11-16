@@ -104,12 +104,13 @@ public class adminlogin {
 			Iterator i=result.iterator();
 			
 			while (i.hasNext()) {
+				System.out.println("saras");
 				Admin u1 = (Admin) i.next();
 				if (u1.getEmail().equals(u.getEmail())&&u1.getPassword().equals(u.getPassword())&&u1.getPermission()==1) {
 					session.setAttribute("aname", u1.getFirstname()+" "+u1.getLastname());					
 					session.setAttribute("uid", u1.getId());					
 					u2=1;
-					
+					System.out.println("saras");
 				}
 			}
 		} catch (Exception e) {

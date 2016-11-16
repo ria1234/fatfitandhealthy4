@@ -134,7 +134,7 @@
 								</thead>
 								<tbody>
 									<c:forEach items="${admin}" var="admin">
-										<tr data-status="${admin.permission eq 0?'unauthorized':'authorized' }">
+										<tr data-status="${admin.permission eq 0?'unauthorized':'authorized' }" id=${admin.id }>
 											<td> <img src="${pageContext.request.contextPath}/resources/image/admin/${admin.id }.jpg" class="img-circle" alt="Cinque Terre" width="50" height="50"></td>
 											<td>${admin.email }</td>
 											<td>${admin.firstname }</td>
@@ -142,6 +142,7 @@
 											<td><input type="checkbox" name="${admin.id }"></td>
 											<td><a><i class="fa fa-edit" aria-hidden="true"></i></a></td>
 											<td><a><i class="fa fa-remove" aria-hidden="true"></i></a></td>
+											
 										</tr>
 									</c:forEach>
 									
@@ -172,8 +173,7 @@
 </html>
 <script type="text/javascript">
 $(document).ready(function(){
-	alert("document ready");	
-
+	
 	<c:forEach items="${admin}" var="admin">
 		$("[name='${admin.id}']").bootstrapSwitch('state',${admin.permission eq 0?'false':'true' });
 		$('input[name="${admin.id}"]').on('switchChange.bootstrapSwitch', function(event,state) {
@@ -183,8 +183,32 @@ $(document).ready(function(){
 				//alert(permission);
 				
 			} else {
-
+				permission=0;
 			}
+			var id=$(this).parent().parent().parent().parent().attr('id');
+			var row=$(this).parent().parent().parent().parent();
+			 $.ajax({
+					type : "POST",
+					//contentType : "application/json",
+					url : "${pageContext.request.contextPath }/admin/editadmin",
+					data : {"id":id,"permission":permission},
+					//dataType : 'json',
+					timeout : 100000,
+					success : function(data) {
+						console.log("SUCCESS: ", data);
+						//alert("success function");
+						if(permission ==0)
+							{
+							
+							row.attr("data-status","unauthorized");
+							}
+						else
+							{
+							row.attr("data-status","authorized");
+							}
+
+					}
+				});
 			});
 	</c:forEach>
 });
