@@ -254,13 +254,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="${pageContext.request.contextPath }/resources/image/admin/<%=session.getAttribute("uid")+".jpg" %>"  class="user-image" alt="User Image">
+              <img src="${pageContext.request.contextPath }/resources/image/admin/<%=session.getAttribute("image") %>"  class="user-image" alt="User Image">
               <span class="hidden-xs"><%=session.getAttribute("aname") %></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="${pageContext.request.contextPath }/resources/image/admin/<%=session.getAttribute("uid")+".jpg" %>" class="img-circle" alt="User Image">
+                <img src="${pageContext.request.contextPath }/resources/image/admin/<%=session.getAttribute("image") %>" class="img-circle" alt="User Image">
 
                 <p>
                   <%=session.getAttribute("aname") %>
@@ -308,7 +308,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="${pageContext.request.contextPath }/resources/image/admin/<%=session.getAttribute("uid")+".jpg" %>" class="img-circle" alt="User Image">
+          <img src="${pageContext.request.contextPath }/resources/image/admin/<%=session.getAttribute("image") %>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><%=session.getAttribute("aname") %></p>
@@ -338,6 +338,10 @@
           </a>
 
         </li>
+        
+        <%
+        	if(session.getAttribute("role").equals("superadmin")){
+        %>
         <li class="treeview">
           <a href="manageadmin">
             <i class="fa fa-user"></i> <span>Manage Admin</span>
@@ -347,6 +351,9 @@
           </a>
 
         </li>
+        <%
+        	}
+        %>
         <li class="treeview">
           <a href="manageusers">
             <i class="fa fa-user"></i> <span>Manage Users</span>

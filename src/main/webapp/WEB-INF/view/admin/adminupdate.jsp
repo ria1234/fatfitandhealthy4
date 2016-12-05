@@ -1,15 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page session="true" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page isELIgnored="false" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/table.css" />
+
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap-switch.min.css" />
 <jsp:include page="upperheader.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath }/resources/js/admin/table.js"></script>
 <%-- <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.min.js"></script> --%>
 <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+  <script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -80,80 +85,77 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Manage Admins
+        Update Admin Information
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i> Home</a></li>
-        <li class="active">Manage Admins</li>
+        <li>Manage Admins</li>
+        <li class="active">Update Admin Information</li>
       </ol>
     </section>
 
-      <!-- Main row -->
-      <div class="row">
-<!--         Left col -->
-<!--         <section class="col-lg-7 connectedSortable"> -->
-          
 
-          
-<!--         </section> -->
-<!--         /.Left col -->
-<!--         right col (We are only adding the ID to make the widgets sortable) -->
-<!--         <section class="col-lg-5 connectedSortable"> -->
-
-                       
-         
-
-<!--         </section> -->
-<!--         right col -->
 
 			<section class="content">
+			<div class="row">
 			
-			<div class="col-md-8 col-md-offset-2">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<div class="pull-right">
-							<div class="btn-group">
-								<button type="button" class="btn btn-primary btn-filter" data-target="authorized">Authorized</button>
-								<button type="button" class="btn btn-warning btn-filter" data-target="unauthorized">Unauthorized</button>
-								<button type="button" class="btn btn-default btn-filter" data-target="all">All</button>
-							</div>
-						</div>
-						<div class="table-container">
-							<table class="table table-filter">
-								<thead>
-									<tr>
-									<th>image</th>
-									<th>email</th>
-									<th>firstname</th>
-									<th>lastname</th>
-									<th>permission</th>
-									<th>update</th>
-									<th>delete</th>
-									</tr>	
-								</thead>
-								<tbody>
-									<c:forEach items="${admin}" var="admin">
-										<tr data-status="${admin.permission eq 0?'unauthorized':'authorized' }" id=${admin.id }>
-											<td> <img src="${pageContext.request.contextPath}/resources/image/admin/${admin.image }" class="img-circle" alt="Cinque Terre" width="50" height="50"></td>
-											<td>${admin.email }</td>
-											<td>${admin.firstname }</td>
-											<td>${admin.lastname }</td>
-											<td><input type="checkbox" name="${admin.id }"></td>
-											<td><a href="${pageContext.request.contextPath}/admin/adminupdate/${admin.id}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
-											<td><a href="javascript:;" onclick="d(${admin.id},'${admin.image }');"><i class="fa fa-remove" aria-hidden="true"></i></a></td>
-											
-										</tr>
-									</c:forEach>
-									
-								</tbody>
-							</table>
-						</div>
+				<div class="col-md-8 col-md-offset-2">
+				
+					
+						
+							<div class="box box-primary">
+					            <div class="box-header with-border">
+					              <h3 class="box-title">Update Admin Information</h3>
+				            </div>
+							<form:form modelAttribute="admin" method="post" action="${pageContext.request.contextPath }/admin/adminupdate" enctype="multipart/form-data">
+								<form:input type="hidden" path="id" />
+				              <div class="box-body">
+				                <div class="form-group">
+				                  <label>Email address</label>
+				                  <form:input type="email" class="form-control" path="email" required="true"/>
+				                </div>
+				                <div class="form-group">
+				                  <label>Password</label>
+				                  <form:input type="password" class="form-control" path="password" required="true"/>
+				                </div>
+				                 <div class="form-group">
+				                  <label>First Name</label>
+				                  <form:input type="text" class="form-control" path="firstname" required="true"/>
+				                </div>
+				                <div class="form-group">
+				                  <label>Last Name</label>
+				                  <form:input type="text" class="form-control" path="lastname" required="true"/>
+				                </div>
+				                <div class="form-group">
+				                  <label for="exampleInputFile">File input</label><br>
+				                  <img src="${pageContext.request.contextPath }/resources/image/admin/${admin.image}" class="img-thumbnail" alt="Cinque Terre" width="150" height="150" id="output"><br>
+				                  <input type="file" id="image" name="file" class="file" onchange="loadFile(event)">
+								  <form:input type="hidden" path="image" value="" class="image" />
+				                  <p class="help-block">select image that you want to update</p>
+				                </div>
+				                <div class="form-group">
+				                  <label>Role</label>
+				                  <form:select path="role" cssClass="form-control">
+				                  	<form:option value="admin" label="admin"></form:option>
+				                  	<form:option value="superadmin" label="superadmin"></form:option>
+				                  </form:select>
+				                </div>
+				               
+				              </div>
+				              <!-- /.box-body -->
+								<form:hidden path="permission"/>
+								<form:hidden path="createTimestamp"/>
+				              <div class="box-footer">
+				                <button type="submit" class="btn btn-primary">Submit</button>
+				              </div>
+            				</form:form>
+            				</div>
 					</div>
 				</div>
 				
 			</div>
-		</section>
+			</section>
       </div>
       <!-- /.row (main row) -->
 
@@ -172,58 +174,20 @@
 </body>
 </html>
 <script type="text/javascript">
-$(document).ready(function(){
-	
-	<c:forEach items="${admin}" var="admin">
-		$("[name='${admin.id}']").bootstrapSwitch('state',${admin.permission eq 0?'false':'true' });
-		$('input[name="${admin.id}"]').on('switchChange.bootstrapSwitch', function(event,state) {
-			 //alert(state);
-			 if (state==true) {
-				permission=1;
-				//alert(permission);
-				
-			} else {
-				permission=0;
-			}
-			var id=$(this).parent().parent().parent().parent().attr('id');
-			var row=$(this).parent().parent().parent().parent();
-			 $.ajax({
-					type : "POST",
-					//contentType : "application/json",
-					url : "${pageContext.request.contextPath }/admin/editadmin",
-					data : {"id":id,"permission":permission},
-					//dataType : 'json',
-					timeout : 100000,
-					success : function(data) {
-						console.log("SUCCESS: ", data);
-						//alert("success function");
-						if(permission ==0)
-							{
-							
-							row.attr("data-status","unauthorized");
-							}
-						else
-							{
-							row.attr("data-status","authorized");
-							}
-
-					}
-				});
-			});
-	</c:forEach>
-});
-
-function d(id,image) {
-	$.ajax({
-		type : "POST",
-		//contentType : "application/json",
-		url : "${pageContext.request.contextPath }/admin/admindelete",
-		data : {"id":id,"image":image},
-		//dataType : 'json',
-		timeout : 100000,
-		success : function(data) {
-			$("#"+id).remove();
-		}
+var loadFile = function(event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+      var output = document.getElementById('output');
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  };
+  $(document).ready(function(){
+	   $(".file").change(function(){
+			var filename=$(this).val();
+			filename=filename.substr(filename.indexOf('.'));
+			//alert(filename);
+			$(".image").val(filename);
+		}); 
 	});
-}
 </script>

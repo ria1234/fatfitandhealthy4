@@ -46,8 +46,8 @@
         
             <input type="password" name="password" placeholder="Password" required />  
             <p>Not registered? Register as admin <a href="signup" style="color:lightblue;">here</a></p>       
-                     
-            <a id="submit" onclick="document.getElementById('signup').submit();">Login</a>
+			<input type="submit" value="Submit" id="forvalidation"  style="display:none;"/>
+            <a id="submit">Login</a>
         
         </div>
 
@@ -56,3 +56,11 @@
 </div>
 </body>
 </html>
+<script>
+$(document).ready(function(){
+	$("#submit").click(function(){
+		
+		$("#forvalidation").click();
+	});
+});
+</script>

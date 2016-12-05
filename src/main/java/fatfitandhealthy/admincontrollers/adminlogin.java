@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import antlr.StringUtils;
 import fatfitandhealthy.dao.Admin;
 import fatfitandhealthy.hibernate.Getdata;
 
@@ -38,11 +39,14 @@ public class adminlogin {
 	}
 	@RequestMapping(value="/signup",method=RequestMethod.POST)
 	public String signup(HttpSession session,@ModelAttribute Admin a,@RequestParam(value="file") MultipartFile file,HttpServletResponse response) {
-		a.setCreateTimestamp(new SimpleDateFormat("E MMM dd yyyy HH:mm:ss").format(new Date()));
-		a.setEditTimestamp(new SimpleDateFormat("E MMM dd yyyy HH:mm:ss").format(new Date()));
+		a.setCreateTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		a.setEditTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		a.setRole("admin");
-		System.out.println(a.toString());
+		
+		
 		Getdata.save(a);
+		a.setImage(a.getId()+a.getImage().substring(a.getImage().lastIndexOf(".")));
+		Getdata.update(a);
 		if (!file.isEmpty()) {
 			try {
 				byte[] bytes = file.getBytes();
@@ -73,7 +77,7 @@ public class adminlogin {
 			System.out.println("You failed to upload " + a.getImage()
 					+ " because the file was empty."); 
 		}
-		return null;
+		return "redirect:/admin/";
 		
 	}
 	@RequestMapping(value={"/","/{error}"},method=RequestMethod.GET)
@@ -108,7 +112,8 @@ public class adminlogin {
 				Admin u1 = (Admin) i.next();
 				if (u1.getEmail().equals(u.getEmail())&&u1.getPassword().equals(u.getPassword())&&u1.getPermission()==1) {
 					session.setAttribute("aname", u1.getFirstname()+" "+u1.getLastname());					
-					session.setAttribute("uid", u1.getId());					
+					session.setAttribute("role", u1.getRole());
+					session.setAttribute("image", u1.getImage());
 					u2=1;
 					System.out.println("saras");
 				}
@@ -128,6 +133,7 @@ public class adminlogin {
 	}
 	@RequestMapping(value="/dashboard",method=RequestMethod.GET)
 	public String index(HttpSession session) {
+		
 		if(session.getAttribute("aname")!=null)
 		return "admin/index";
 		else
@@ -138,6 +144,7 @@ public class adminlogin {
 	public String signout(HttpSession session) {
 		session.removeAttribute("uid");
 		session.removeAttribute("aname");
+		session.removeAttribute("image");
 		return "redirect:/admin/";
 		
 	}
@@ -150,6 +157,60 @@ public class adminlogin {
 			return "admin/manageadmin";
 			else
 				return "redirect:/admin/";
+		
+	}
+	@RequestMapping(value="/adminupdate/{id}",method=RequestMethod.GET)
+	public String adminupdate(HttpSession session,Model model,@PathVariable int id)
+	{
+		Admin admin=(Admin)Getdata.onecolumnvaluewhere("Admin", "id", String.valueOf(id)).iterator().next();
+		model.addAttribute("admin", admin);
+		if (session.getAttribute("aname")==null) {
+			return "redirect:/admin/";
+		}
+		return "admin/adminupdate";
+		
+	}
+	@RequestMapping(value="/adminupdate",method=RequestMethod.POST)
+	public String adminupdate(HttpSession session,@ModelAttribute("admin") Admin a,@RequestParam(value="file") MultipartFile file)
+	{
+		a.setEditTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		if (file.getOriginalFilename()!=null&&!file.getOriginalFilename().isEmpty()) {
+			a.setImage(a.getId()+a.getImage());
+			File file1=new File("F:\\fatfitandhealthy\\fatfitandhealthy\\src\\main\\webapp\\resources\\image\\admin"+File.separator+((Admin)Getdata.onecolumnvaluewhere("Admin", "id", a.getId().toString()).iterator().next()).getImage());
+			file1.delete();
+		}
+		//System.out.println(a.getImage());
+		Getdata.update(a);
+		if (!file.getOriginalFilename().isEmpty()) {
+			
+			try {
+				byte[] bytes = file.getBytes();
+
+				// Creating the directory to store file
+				String rootPath = System.getProperty("catalina.home");
+				File dir = new File("F:\\fatfitandhealthy\\fatfitandhealthy\\src\\main\\webapp\\resources\\image\\admin");
+				//System.out.println("E:\\javapractise\\spring\\facebook\\src\\main\\webapp\\image");
+				if (!dir.exists())
+					dir.mkdirs();
+				//System.out.println(dir.getAbsolutePath()+ File.separator + u.getImage());
+				// Create the file on server
+				
+				File serverFile = new File(dir.getAbsolutePath()
+						+ File.separator + a.getId()+a.getImage().substring(a.getImage().lastIndexOf(".")));
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+
+				//logger.info("Server File Location="+serverFile.getAbsolutePath());
+
+				//return "You successfully uploaded file=" + name; 
+			} catch (Exception e) {
+				System.out.println("You failed to upload " + a.getImage() + " => " + e.getMessage());
+			}
+		}
+		
+		return "redirect:/admin/manageadmin";
 		
 	}
 }

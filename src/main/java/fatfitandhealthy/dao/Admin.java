@@ -136,4 +136,13 @@ public class Admin implements java.io.Serializable {
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Override
+	public String toString() {
+		return "Admin [id=" + id + ", email=" + email + ", password=" + password + ", firstname=" + firstname
+				+ ", lastname=" + lastname + ", image=" + image + ", role=" + role + ", permission=" + permission
+				+ ", editTimestamp=" + editTimestamp + ", createTimestamp=" + createTimestamp + "]";
+	}
+	
+	
+
 }

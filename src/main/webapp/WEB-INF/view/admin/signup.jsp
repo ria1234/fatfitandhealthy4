@@ -15,17 +15,20 @@
 	
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/signup.css" />
-	
-
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/validationEngine.jquery.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/validationcolor.css" />
 	<!-- End CSS Files -->
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-1.11.0.min.js"></script>
+	<%-- <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/admin/jquery.min.js"></script> --%>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
- 
+ 	<script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+  <script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+ 	
 </head>
 <body>
 	<div class="container">
 
-    <form id="signup" method="post" action="signup" enctype="multipart/form-data">
+    <form id="signup" method="post" action="signup" enctype="multipart/form-data" >
 
         <div class="header">
         
@@ -39,22 +42,22 @@
 
         <div class="inputs">
         
-            <input type="email" name="email" placeholder="e-mail" autofocus required />
+            <input type="email" name="email" placeholder="e-mail" value="" class=" validate[required,custom[email]]" autofocus required />
         
-            <input type="password" name="password" placeholder="Password" required />
+            <input type="password" name="password" placeholder="Password" class="validate[required] text-input" required />
             
-            <input type="text" placeholder="firstname" name="firstname" required />
+            <input type="text" placeholder="firstname" name="firstname" class="validate[required] text-input" required />
             
-            <input type="text" placeholder="lastname" name="lastname" required />
+            <input type="text" placeholder="lastname" name="lastname" class="validate[required] text-input" required />
             Select image for your profile
-            <input type="file" required="true" id="image" name="file" class="file"/>
+            <input type="file" required="true" id="image" name="file" class="file validate[required] text-input"/>
             <input type="hidden" name="image" value="" class="image">
             
             <div class="checkboxy">
-                <input name="cecky" id="checky" value="1" type="checkbox" required /><label class="terms">I accept the terms of use</label>
+                <input name="cecky" id="checky" value="1" type="checkbox" class="validate[required]" required /><label class="terms">I accept the terms of use</label>
             </div>
-            
-            <a id="submit" onclick="document.getElementById('signup').submit();">SIGN UP</a>
+			<input type="submit" value="Submit" id="forvalidation" style="display:none;"/>
+            <a id="submit" >SIGN UP</a>
         
         </div>
 
@@ -69,12 +72,18 @@
 					if($("#image").val()==''){
 						alert("enter image for your profile");
 						}
+					$("#forvalidation").click();
 				});
 			$(".file").change(function(){
 				var filename=$(this).val();
 				//alert(filename);
 				$(".image").val(filename);
 			});
-	 
+			 
 		});
+	jQuery(document).ready(function(){
+		// binds form submission and fields to the validation engine
+		//alert();
+		jQuery("#signup").validationEngine();
+	});
 </script>

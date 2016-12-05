@@ -3,8 +3,10 @@
 <div style="display: block; height: 100px;"></div>
 <div class="login-block">
     <h1>Login</h1>
+    <form action="" method="post">
     <input type="text" value="" placeholder="Username" id="username" />
     <input type="password" value="" placeholder="Password" id="password" />
-    <button>Submit</button>
+    <button type="submit">Submit</button>
+    </form>
 </div>
 <jsp:include page="footer.jsp"></jsp:include>

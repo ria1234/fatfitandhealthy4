@@ -1,0 +1,14 @@
+@CHARSET "ISO-8859-1";
+.formError .formErrorContent {
+	background: #a4b0cb none repeat scroll 0 0 !important;
+	border: 2px solid #3366cc !important;
+}
+.formError .formErrorArrow div {
+    	background: #a4b0cb none repeat scroll 0 0 !important;
+    	border-left:2px solid #a4b0cb !important;
+    	border-right:2px solid #a4b0cb !important;
+    	box-shadow:0 2px 3px #a4b0cb !important;
+    }
+.formError .formErrorArrow .line1 {
+    background: #a4b0cb none repeat scroll 0 0 !important;
+}
