@@ -17,6 +17,9 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.validator.apply_to_ddl">false</property>
        <mapping class="fatfitandhealthy.dao.Admin" />
+       <mapping class="fatfitandhealthy.dao.UserLogin" />
+       <mapping class="fatfitandhealthy.dao.UserHealth" />
+       <mapping class="fatfitandhealthy.dao.UsersPersonal" />
         <!-- <mapping class="facebook.dao.Comment" />
         <mapping class="facebook.dao.User" />
         <mapping class="facebook.dao.HibernateSequence" /> -->

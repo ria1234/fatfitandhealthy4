@@ -29,7 +29,7 @@
 	<script type="text/javascript" src="resources/js/jquery.mb.YTPlayer.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.fitvids.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.slabtext.js"></script>
-	<script type="text/javascript" src="resources/js/plugins.js"></script>
+	<!-- <script type="text/javascript" src="resources/js/plugins.js"></script> -->
 
 	<script>
 
@@ -39,7 +39,7 @@
  	$(this).children("i").removeClass("fa-spin");
  });
 
-
+</script>
 
 </body>
 

@@ -48,13 +48,9 @@
 			<!-- Navigation Menu -->
 		    <div class="nav-menu">
 				<ul class="nav uppercase">
-					<li><a href="#home" class="scroll">Home</a></li>       
-					<li><a href="#about" class="scroll">About us</a></li>
-					<li><a href="#features" class="scroll">Features</a></li>     
-					<!-- <li><a href="#clients" class="scroll">Gymnasts</a></li> -->
-					<li><a href="#testimonial" class="scroll">Testimonial</a></li>
-					<li><a href="#contact" class="scroll">Contact</a></li>
-					<li><a href="#" class="scroll">Login</a></li>
+					<li><a href="${pageContext.request.contextPath }" class="scroll">Home</a></li>       
+					
+					
 				</ul>
 		  </div><!-- End Navigation Menu -->
 		</div><!-- End Navigation Inner -->
