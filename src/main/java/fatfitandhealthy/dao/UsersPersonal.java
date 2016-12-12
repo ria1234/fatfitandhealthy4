@@ -1,7 +1,7 @@
 package fatfitandhealthy.dao;
 
 // default package
-// Generated 7 Dec, 2016 9:53:14 AM by Hibernate Tools 5.1.0.Beta1
+// Generated 11 Dec, 2016 2:18:44 PM by Hibernate Tools 5.1.0.Beta1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,19 +20,17 @@ public class UsersPersonal implements java.io.Serializable {
 	private String lname;
 	private String dob;
 	private String mobNo;
-	private String image;
 	private String gender;
 
 	public UsersPersonal() {
 	}
 
-	public UsersPersonal(int id, String fname, String lname, String dob, String mobNo, String image, String gender) {
+	public UsersPersonal(int id, String fname, String lname, String dob, String mobNo, String gender) {
 		this.id = id;
 		this.fname = fname;
 		this.lname = lname;
 		this.dob = dob;
 		this.mobNo = mobNo;
-		this.image = image;
 		this.gender = gender;
 	}
 
@@ -81,15 +79,6 @@ public class UsersPersonal implements java.io.Serializable {
 
 	public void setMobNo(String mobNo) {
 		this.mobNo = mobNo;
-	}
-
-	@Column(name = "image", nullable = false)
-	public String getImage() {
-		return this.image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
 	}
 
 	@Column(name = "gender", nullable = false)

@@ -56,9 +56,12 @@ public class login {
 		ul.setEmail(email);
 		ul.setPassword(password);
 		ul.setStatus("not varified");
+		ul.setImage("");
 		ul.setEditTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		ul.setCreateTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		Getdata.save(ul);
+		ul.setImage(ul.getId()+image.substring(image.lastIndexOf(".")));
+		Getdata.update(ul);
 		UserHealth uh=new UserHealth();
 		uh.setId(ul.getId());
 		uh.setUno(ul.getId());
@@ -75,7 +78,7 @@ public class login {
 		up.setLname(lastname);
 		up.setDob(dob);
 		up.setMobNo(mobile);
-		up.setImage(ul.getId()+image.substring(image.lastIndexOf(".")));
+		
 		up.setGender(gender);
 		Getdata.save(up);
 		if (!file.isEmpty()) {

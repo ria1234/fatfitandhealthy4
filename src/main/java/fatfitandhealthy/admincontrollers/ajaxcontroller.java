@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import fatfitandhealthy.dao.Admin;
+import fatfitandhealthy.dao.UserLogin;
 import fatfitandhealthy.hibernate.Getdata;
 import fatfitandhealthy.jsonview.Views;
 
@@ -36,6 +37,28 @@ public class ajaxcontroller {
 	{
 		Getdata.delete("Admin", "id", id);
 		File file=new File("F:\\fatfitandhealthy\\fatfitandhealthy\\src\\main\\webapp\\resources\\image\\admin"+File.separator+image);
+		file.delete();
+		
+	}
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/admin/edituser",method=RequestMethod.POST)
+	public void status(@RequestParam int id,@RequestParam String status)
+	{
+		//System.out.println(id+" "+permission);
+		UserLogin ul=(UserLogin) Getdata.onecolumnvaluewhere("UserLogin", "id", String.valueOf(id)).iterator().next();
+		ul.setStatus(status);
+		ul.setEditTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		Getdata.update(ul);
+		
+	}
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/admin/userdelete",method=RequestMethod.POST)
+	public void userdelete(@RequestParam int id,@RequestParam String image)
+	{
+		Getdata.delete("UserLogin", "id", id);
+		Getdata.delete("UserHealth", "id", id);
+		Getdata.delete("UsersPersonal", "id", id);
+		File file=new File("F:\\fatfitandhealthy\\fatfitandhealthy\\src\\main\\webapp\\resources\\image\\user"+File.separator+image);
 		file.delete();
 		
 	}

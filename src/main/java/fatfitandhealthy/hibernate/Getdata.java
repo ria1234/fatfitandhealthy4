@@ -1,4 +1,6 @@
 package fatfitandhealthy.hibernate;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import fatfitandhealthy.dao.*;
 
@@ -91,5 +93,47 @@ public class Getdata {
 			t.commit();
 			s.close();
 		}
+	}
+	public static double calcuatecalgoal(String dob,String gender,String weight,String height,String activity_factor,String weight_goal,String kgs) {
+		float age=Float.valueOf(new SimpleDateFormat("yyyy").format(new Date()))-Float.valueOf(dob.substring(6));
+		double bmr,daily_cal_goal;
+		if (gender.equals("male")) {
+			bmr=(10*Float.valueOf(weight))+(6.25*Float.valueOf(height))-5*age+5;
+			//System.out.println(bmr);
+		} else {
+			bmr=(10*Float.valueOf(weight))+(6.25*Float.valueOf(height))-5*age-161;
+			//System.out.println(bmr);
+		}
+		if (activity_factor.equals("sedentary")) {
+			daily_cal_goal=bmr*1.2;
+			//System.out.println(daily_cal_goal);
+		} else if (activity_factor.equals("lightly active")) {
+			daily_cal_goal=bmr*1.375;
+		}else if (activity_factor.equals("moderetly active")) {
+			daily_cal_goal=bmr*1.55;
+		}else if (activity_factor.equals("very active")) {
+			daily_cal_goal=bmr*1.725;
+		}else {
+			daily_cal_goal=bmr*1.9;
+		}
+		//System.out.println(daily_cal_goal);
+		if (weight_goal.equals("gain weight")) {
+			if (kgs.equals("0.5")) {
+				daily_cal_goal=daily_cal_goal+550;
+			}
+			else {
+				daily_cal_goal=daily_cal_goal+300;
+			}
+		}
+		else if (weight_goal.equals("loose weight")) {
+			if (kgs.equals("0.5")) {
+				daily_cal_goal=daily_cal_goal-550;
+			}
+			else {
+				daily_cal_goal=daily_cal_goal-300;
+			}
+		}
+		return daily_cal_goal;
+		
 	}
 }

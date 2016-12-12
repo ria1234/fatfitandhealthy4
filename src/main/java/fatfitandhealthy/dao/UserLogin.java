@@ -1,7 +1,7 @@
 package fatfitandhealthy.dao;
 
 // default package
-// Generated 7 Dec, 2016 9:53:14 AM by Hibernate Tools 5.1.0.Beta1
+// Generated 11 Dec, 2016 2:18:44 PM by Hibernate Tools 5.1.0.Beta1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,16 +21,19 @@ public class UserLogin implements java.io.Serializable {
 	private String email;
 	private String password;
 	private String status;
+	private String image;
 	private String editTimestamp;
 	private String createTimestamp;
 
 	public UserLogin() {
 	}
 
-	public UserLogin(String email, String password, String status, String editTimestamp, String createTimestamp) {
+	public UserLogin(String email, String password, String status, String image, String editTimestamp,
+			String createTimestamp) {
 		this.email = email;
 		this.password = password;
 		this.status = status;
+		this.image = image;
 		this.editTimestamp = editTimestamp;
 		this.createTimestamp = createTimestamp;
 	}
@@ -72,6 +75,15 @@ public class UserLogin implements java.io.Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	@Column(name = "image", nullable = false)
+	public String getImage() {
+		return this.image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	@Column(name = "edit_timestamp", nullable = false)

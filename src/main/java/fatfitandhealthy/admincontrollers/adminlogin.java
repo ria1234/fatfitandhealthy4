@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import antlr.StringUtils;
 import fatfitandhealthy.dao.Admin;
+import fatfitandhealthy.dao.UserHealth;
+import fatfitandhealthy.dao.UserLogin;
+import fatfitandhealthy.dao.UsersPersonal;
 import fatfitandhealthy.hibernate.Getdata;
 
 @Controller
@@ -211,6 +216,84 @@ public class adminlogin {
 		}
 		
 		return "redirect:/admin/manageadmin";
+		
+	}
+	@RequestMapping(value="/manageusers",method=RequestMethod.GET)
+	public String manageusers(HttpSession session,Model model) {
+		
+		List<UserLogin> l=Getdata.getData("UserLogin");
+		model.addAttribute("user", l);
+		if(session.getAttribute("aname")!=null)
+			return "admin/manageusers";
+			else
+				return "redirect:/admin/";
+		
+	}
+	@RequestMapping(value="/userupdate/{id}",method=RequestMethod.GET)
+	public String userupdate(HttpSession session,ModelMap model,@PathVariable int id)
+	{
+		UserLogin ul=(UserLogin)Getdata.onecolumnvaluewhere("UserLogin", "id", String.valueOf(id)).iterator().next();
+		model.addAttribute("UserLogin", ul);
+		UserHealth uh=(UserHealth)Getdata.onecolumnvaluewhere("UserHealth", "id", String.valueOf(id)).iterator().next();
+		model.addAttribute("UserHealth", uh);
+		UsersPersonal up=(UsersPersonal)Getdata.onecolumnvaluewhere("UsersPersonal", "id", String.valueOf(id)).iterator().next();
+		model.addAttribute("UsersPersonal", up);
+		if (session.getAttribute("aname")==null) {
+			return "redirect:/admin/";
+		}
+		return "admin/userupdate";
+		
+	}
+	@RequestMapping(value="/userupdate",method=RequestMethod.POST)
+	public String userupdate(HttpSession session,@ModelAttribute("UserLogin") UserLogin ul,BindingResult resultUserLogin,@ModelAttribute("UsersPersonal") UsersPersonal up,BindingResult resultUsersPersonal,@ModelAttribute("UserHealth") UserHealth uh,BindingResult resultUserHealth,@RequestParam(value="file") MultipartFile file) {
+		//System.out.println(ul.getEmail()+up.getMobNo()+uh.getActivityFactor());
+		ul.setEditTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		//ul.setImage(ul.getId()+ul.getImage().substring(ul.getImage().lastIndexOf(".")));
+		if (file.getOriginalFilename()!=null&&!file.getOriginalFilename().isEmpty()) {
+			ul.setImage(ul.getId()+ul.getImage());
+			File file1=new File("F:\\fatfitandhealthy\\fatfitandhealthy\\src\\main\\webapp\\resources\\image\\user"+File.separator+((UserLogin)Getdata.onecolumnvaluewhere("UserLogin", "id", ul.getId().toString()).iterator().next()).getImage());
+			file1.delete();
+		}
+		Getdata.update(ul);
+if (!file.getOriginalFilename().isEmpty()) {
+			
+			try {
+				byte[] bytes = file.getBytes();
+
+				// Creating the directory to store file
+				String rootPath = System.getProperty("catalina.home");
+				File dir = new File("F:\\fatfitandhealthy\\fatfitandhealthy\\src\\main\\webapp\\resources\\image\\user");
+				//System.out.println("E:\\javapractise\\spring\\facebook\\src\\main\\webapp\\image");
+				if (!dir.exists())
+					dir.mkdirs();
+				//System.out.println(dir.getAbsolutePath()+ File.separator + u.getImage());
+				// Create the file on server
+				
+				File serverFile = new File(dir.getAbsolutePath()
+						+ File.separator + ul.getId()+ul.getImage().substring(ul.getImage().lastIndexOf(".")));
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+
+				//logger.info("Server File Location="+serverFile.getAbsolutePath());
+
+				//return "You successfully uploaded file=" + name; 
+			} catch (Exception e) {
+				System.out.println("You failed to upload " + ul.getImage() + " => " + e.getMessage());
+			}
+		}
+		up.setId(ul.getId());
+		uh.setId(ul.getId());
+		uh.setUno(ul.getId());
+		Getdata.update(up);
+		if (uh.getWeightGoal().equals("maintain weight")) {
+			uh.setKgs("0");
+		}
+		double daily_cal_goal=Getdata.calcuatecalgoal(up.getDob(), up.getGender(), uh.getWeight(), uh.getHeight(), uh.getActivityFactor(), uh.getWeightGoal(), uh.getKgs());
+		uh.setDailyCalGoal(Double.toString(Math.round(daily_cal_goal)));
+		Getdata.update(uh);
+		return "redirect:/admin/manageusers";
 		
 	}
 }
