@@ -1,15 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page session="true" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page isELIgnored="false" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/table.css" />
+
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap-switch.min.css" />
 <jsp:include page="upperheader.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath }/resources/js/admin/table.js"></script>
 <%-- <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.min.js"></script> --%>
 <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+  <script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -47,7 +52,7 @@
           </a>
 
         </li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="manageadmin">
             <i class="fa fa-user"></i> <span>Manage Admin</span>
             <span class="pull-right-container">
@@ -56,7 +61,7 @@
           </a>
 
         </li>
-        <li class="treeview">
+        <li class="active treeview">
           <a href="manageusers">
             <i class="fa fa-user"></i> <span>Manage Users</span>
             <span class="pull-right-container">
@@ -65,7 +70,7 @@
           </a>
 
         </li>
-		<li class="treeview">
+        <li class="treeview">
           <a href="managefooditems">
             <i class="fa fa-user"></i> <span>Manage Food Items</span>
             <span class="pull-right-container">
@@ -83,6 +88,7 @@
           </a>
 
         </li>
+
         <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
@@ -97,80 +103,112 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Manage Admins
+        View User Information
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i> Home</a></li>
-        <li class="active">Manage Admins</li>
+        <li>Manage Users</li>
+        <li class="active">View User Information</li>
       </ol>
     </section>
 
-      <!-- Main row -->
-      <div class="row">
-<!--         Left col -->
-<!--         <section class="col-lg-7 connectedSortable"> -->
-          
 
-          
-<!--         </section> -->
-<!--         /.Left col -->
-<!--         right col (We are only adding the ID to make the widgets sortable) -->
-<!--         <section class="col-lg-5 connectedSortable"> -->
-
-                       
-         
-
-<!--         </section> -->
-<!--         right col -->
 
 			<section class="content">
+			<div class="row">
 			
-			<div class="col-md-8 col-md-offset-2">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<div class="pull-right">
-							<div class="btn-group">
-								<button type="button" class="btn btn-primary btn-filter" data-target="authorized">Authorized</button>
-								<button type="button" class="btn btn-warning btn-filter" data-target="unauthorized">Unauthorized</button>
-								<button type="button" class="btn btn-default btn-filter" data-target="all">All</button>
-							</div>
-						</div>
-						<div class="table-container">
-							<table class="table table-filter">
-								<thead>
-									<tr>
-									<th>image</th>
-									<th>email</th>
-									<th>firstname</th>
-									<th>lastname</th>
-									<th>permission</th>
-									<th>update</th>
-									<th>delete</th>
-									</tr>	
-								</thead>
-								<tbody>
-									<c:forEach items="${admin}" var="admin">
-										<tr data-status="${admin.permission eq 0?'unauthorized':'authorized' }" id=${admin.id }>
-											<td> <img src="${pageContext.request.contextPath}/resources/image/admin/${admin.image }" class="img-circle" alt="Cinque Terre" width="50" height="50"></td>
-											<td>${admin.email }</td>
-											<td>${admin.firstname }</td>
-											<td>${admin.lastname }</td>
-											<td><input type="checkbox" name="${admin.id }"></td>
-											<td><a href="${pageContext.request.contextPath}/admin/adminupdate/${admin.id}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
-											<td><a href="javascript:;" onclick="d(${admin.id},'${admin.image }');"><i class="fa fa-remove" aria-hidden="true"></i></a></td>
-											
-										</tr>
-									</c:forEach>
-									
-								</tbody>
-							</table>
-						</div>
+				<div class="col-md-8 col-md-offset-2">
+				
+					
+						
+							<div class="box box-primary">
+					            <div class="box-header with-border">
+					              <h3 class="box-title">View User Information</h3>
+				            </div>
+							
+							<div class="box box-solid">
+					            <div class="box-header with-border">
+					              <i class="fa fa-user"  aria-hidden="true"></i>
+					
+					              <h3 class="box-title">User Login details</h3>
+					            </div>
+					            <!-- /.box-header -->
+					            <div class="box-body">
+					              <dl class="dl-horizontal">
+					              	<dt>Profile Picture</dt>
+					                <dd><img class="img-thumbnail" src="${pageContext.request.contextPath }/resources/image/user/${UserLogin.image}" alt="User Image" height="50" width="50"></dd>
+					                <dt>Email:</dt>
+					                <dd>${UserLogin.email}.</dd>
+					                <dt>Status</dt>
+					                <dd>${UserLogin.status}.</dd>
+					              </dl>
+					            </div>
+					            <!-- /.box-body -->
+					          </div>
+          <!-- /.box -->
+          					<div class="box box-solid">
+          					<div class="box-header with-border">
+					              <i class="fa fa-book"  aria-hidden="true"></i>
+					
+					              <h3 class="box-title">User Personal details</h3>
+					            </div>
+					            <!-- /.box-header -->
+					            <div class="box-body">
+					              <dl class="dl-horizontal">
+					              	<dt>First Name:</dt>
+					                <dd>${UsersPersonal.fname}</dd>
+					                <dt>Last Name:</dt>
+					                <dd>${UsersPersonal.lname}.</dd>
+					                <dt>Date Of Birth:</dt>
+					                <dd>${UsersPersonal.dob}.</dd>
+					                <dt>Mobile Number:</dt>
+					                <dd>${UsersPersonal.mobNo}.</dd>
+					                <dt>Gender:</dt>
+					                <dd>${UsersPersonal.gender}.</dd>
+					              </dl>
+					            </div>
+					            <!-- /.box-body -->
+					            </div>
+					            <div class="box box-solid">
+					            
+					            <div class="box-header with-border">
+					              <i class="fa fa-heartbeat"  aria-hidden="true"></i>
+					
+					              <h3 class="box-title">User Health details</h3>
+					            </div>
+					            <!-- /.box-header -->
+					            <div class="box-body">
+					              <dl class="dl-horizontal">
+					              	<dt>Height</dt>
+					                <dd>${UserHealth.height}</dd>
+					                <dt>Weight:</dt>
+					                <dd>${UserHealth.weight}.</dd>
+					                <dt>Activity Factor</dt>
+					                <dd>${UserHealth.activityFactor}.</dd>
+					                <dt>Weight Goal</dt>
+					                <dd>${UserHealth.weightGoal}.</dd>
+					                <dt>alter Weight per week</dt>
+					                <dd>${UserHealth.kgs} kg.</dd>
+					                <dt>Daily Calorie Goal</dt>
+					                <dd>${UserHealth.dailyCalGoal} cal.</dd>
+					                
+					              </dl>
+					            </div>
+					            <!-- /.box-body -->
+					            
+					          </div>
+					          <div class="box-footer">
+				                <button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath }/admin/manageusers';">Back</button>
+				              </div>
+					          </div>
+							
+            				</div>
 					</div>
 				</div>
 				
 			</div>
-		</section>
+			</section>
       </div>
       <!-- /.row (main row) -->
 
@@ -188,59 +226,3 @@
 <!-- ./wrapper -->
 </body>
 </html>
-<script type="text/javascript">
-$(document).ready(function(){
-	
-	<c:forEach items="${admin}" var="admin">
-		$("[name='${admin.id}']").bootstrapSwitch('state',${admin.permission eq 0?'false':'true' });
-		$('input[name="${admin.id}"]').on('switchChange.bootstrapSwitch', function(event,state) {
-			 //alert(state);
-			 if (state==true) {
-				permission=1;
-				//alert(permission);
-				
-			} else {
-				permission=0;
-			}
-			var id=$(this).parent().parent().parent().parent().attr('id');
-			var row=$(this).parent().parent().parent().parent();
-			 $.ajax({
-					type : "POST",
-					//contentType : "application/json",
-					url : "${pageContext.request.contextPath }/admin/editadmin",
-					data : {"id":id,"permission":permission},
-					//dataType : 'json',
-					timeout : 100000,
-					success : function(data) {
-						console.log("SUCCESS: ", data);
-						//alert("success function");
-						if(permission ==0)
-							{
-							
-							row.attr("data-status","unauthorized");
-							}
-						else
-							{
-							row.attr("data-status","authorized");
-							}
-
-					}
-				});
-			});
-	</c:forEach>
-});
-
-function d(id,image) {
-	$.ajax({
-		type : "POST",
-		//contentType : "application/json",
-		url : "${pageContext.request.contextPath }/admin/admindelete",
-		data : {"id":id,"image":image},
-		//dataType : 'json',
-		timeout : 100000,
-		success : function(data) {
-			$("#"+id).remove();
-		}
-	});
-}
-</script>

@@ -65,7 +65,24 @@
           </a>
 
         </li>
+		<li class="treeview">
+          <a href="managefooditems">
+            <i class="fa fa-user"></i> <span>Manage Food Items</span>
+            <span class="pull-right-container">
+<!--               <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
 
+        </li>
+        <li class="treeview">
+          <a href="manageexerciseitems">
+            <i class="fa fa-user"></i> <span>Manage Exercise Items</span>
+            <span class="pull-right-container">
+<!--               <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+
+        </li>
         <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
@@ -136,7 +153,7 @@
 										<tr data-status="${user.status eq 'not varified'?'unauthorized':'authorized' }" id=${user.id }>
 											<td> <img src="${pageContext.request.contextPath}/resources/image/user/${user.image }" class="img-circle" alt="Cinque Terre" width="50" height="50"></td>
 											<td>${user.email }</td>
-											<td><a href="#">details</a></td>
+											<td><a href="${pageContext.request.contextPath}/admin/userdetail/${user.id}">details</a></td>
 											
 											<td><input type="checkbox" name="${user.id }"></td>
 											<td><a href="${pageContext.request.contextPath}/admin/userupdate/${user.id}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>

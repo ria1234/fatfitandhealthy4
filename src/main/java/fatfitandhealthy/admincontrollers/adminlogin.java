@@ -296,4 +296,18 @@ if (!file.getOriginalFilename().isEmpty()) {
 		return "redirect:/admin/manageusers";
 		
 	}
+	@RequestMapping(value="/userdetail/{id}",method=RequestMethod.GET)
+	public String userdetail(HttpSession session,ModelMap model,@PathVariable int id) {
+		UserLogin ul=(UserLogin)Getdata.onecolumnvaluewhere("UserLogin", "id", String.valueOf(id)).iterator().next();
+		model.addAttribute("UserLogin", ul);
+		UserHealth uh=(UserHealth)Getdata.onecolumnvaluewhere("UserHealth", "id", String.valueOf(id)).iterator().next();
+		model.addAttribute("UserHealth", uh);
+		UsersPersonal up=(UsersPersonal)Getdata.onecolumnvaluewhere("UsersPersonal", "id", String.valueOf(id)).iterator().next();
+		model.addAttribute("UsersPersonal", up);
+		if (session.getAttribute("aname")==null) {
+			return "redirect:/admin/";
+		}
+		return "admin/userdetail";
+		
+	}
 }
