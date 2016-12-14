@@ -8,13 +8,13 @@
 <%@page isELIgnored="false" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/table.css" />
 
-<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap-switch.min.css" />
+<%-- <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap-switch.min.css" /> --%>
 <jsp:include page="upperheader.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath }/resources/js/admin/table.js"></script>
 <%-- <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.min.js"></script> --%>
-<script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
-  <script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+  <script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script> --%>
 <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -61,7 +61,7 @@
           </a>
 
         </li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="manageusers">
             <i class="fa fa-user"></i> <span>Manage Users</span>
             <span class="pull-right-container">
@@ -70,7 +70,7 @@
           </a>
 
         </li>
-        <li class="treeview">
+        <li class="active treeview">
           <a href="managefooditems">
             <i class="fa fa-cutlery"></i> <span>Manage Food Items</span>
             <span class="pull-right-container">
@@ -103,13 +103,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        View User Information
+        View Food Nutrition Information
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i> Home</a></li>
-        <li>Manage Users</li>
-        <li class="active">View User Information</li>
+        <li>Manage Food Items</li>
+        <li class="active">View Food Nutrition Information</li>
       </ol>
     </section>
 
@@ -124,82 +124,43 @@
 						
 							<div class="box box-primary">
 					            <div class="box-header with-border">
-					              <h3 class="box-title">View User Information</h3>
+					              <h3 class="box-title">View Food Nutrition Information</h3>
 				            </div>
 							
 							<div class="box box-solid">
 					            <div class="box-header with-border">
-					              <i class="fa fa-user"  aria-hidden="true"></i>
+					              <i class="fa fa-cutlery"  aria-hidden="true"></i>
 					
-					              <h3 class="box-title">User Login details</h3>
+					              <h3 class="box-title">Food Nutrition details</h3>
 					            </div>
 					            <!-- /.box-header -->
 					            <div class="box-body">
 					              <dl class="dl-horizontal">
-					              	<dt>Profile Picture</dt>
-					                <dd><img class="img-thumbnail" src="${pageContext.request.contextPath }/resources/image/user/${UserLogin.image}" alt="User Image" height="50" width="50"></dd>
-					                <dt>Email:</dt>
-					                <dd>${UserLogin.email}.</dd>
-					                <dt>Status</dt>
-					                <dd>${UserLogin.status}.</dd>
+					              	<dt>Fat</dt>
+					                <dd>${FoodItems.fat}</dd>
+					                <dt>Cholesterol:</dt>
+					                <dd>${FoodItems.cholesterol}.</dd>
+					                <dt>Sodium</dt>
+					                <dd>${FoodItems.sodium}</dd>
+					                <dt>Potassium:</dt>
+					                <dd>${FoodItems.potassium}</dd>
+					                <dt>Carbs</dt>
+					                <dd>${FoodItems.carbs}</dd>
+					                <dt>Fiber</dt>
+					                <dd>${FoodItems.fiber}</dd>
+					                <dt>Sugars</dt>
+					                <dd>${FoodItems.sugars}</dd>
+					                <dt>Protein:</dt>
+					                <dd>${FoodItems.protein}</dd>
 					              </dl>
 					            </div>
 					            <!-- /.box-body -->
 					          </div>
           <!-- /.box -->
-          					<div class="box box-solid">
-          					<div class="box-header with-border">
-					              <i class="fa fa-book"  aria-hidden="true"></i>
-					
-					              <h3 class="box-title">User Personal details</h3>
-					            </div>
-					            <!-- /.box-header -->
-					            <div class="box-body">
-					              <dl class="dl-horizontal">
-					              	<dt>First Name:</dt>
-					                <dd>${UsersPersonal.fname}</dd>
-					                <dt>Last Name:</dt>
-					                <dd>${UsersPersonal.lname}.</dd>
-					                <dt>Date Of Birth:</dt>
-					                <dd>${UsersPersonal.dob}.</dd>
-					                <dt>Mobile Number:</dt>
-					                <dd>${UsersPersonal.mobNo}.</dd>
-					                <dt>Gender:</dt>
-					                <dd>${UsersPersonal.gender}.</dd>
-					              </dl>
-					            </div>
-					            <!-- /.box-body -->
-					            </div>
-					            <div class="box box-solid">
+          					
 					            
-					            <div class="box-header with-border">
-					              <i class="fa fa-heartbeat"  aria-hidden="true"></i>
-					
-					              <h3 class="box-title">User Health details</h3>
-					            </div>
-					            <!-- /.box-header -->
-					            <div class="box-body">
-					              <dl class="dl-horizontal">
-					              	<dt>Height</dt>
-					                <dd>${UserHealth.height}</dd>
-					                <dt>Weight:</dt>
-					                <dd>${UserHealth.weight}.</dd>
-					                <dt>Activity Factor</dt>
-					                <dd>${UserHealth.activityFactor}.</dd>
-					                <dt>Weight Goal</dt>
-					                <dd>${UserHealth.weightGoal}.</dd>
-					                <dt>alter Weight per week</dt>
-					                <dd>${UserHealth.kgs} kg.</dd>
-					                <dt>Daily Calorie Goal</dt>
-					                <dd>${UserHealth.dailyCalGoal} cal.</dd>
-					                
-					              </dl>
-					            </div>
-					            <!-- /.box-body -->
-					            
-					          </div>
 					          <div class="box-footer">
-				                <button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath }/admin/manageusers';">Back</button>
+				                <button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath }/admin/managefooditems';">Back</button>
 				              </div>
 					          </div>
 							

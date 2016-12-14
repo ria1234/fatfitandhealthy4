@@ -72,7 +72,7 @@
         </li>
         <li class="treeview">
           <a href="managefooditems">
-            <i class="fa fa-user"></i> <span>Manage Food Items</span>
+            <i class="fa fa-cutlery"></i> <span>Manage Food Items</span>
             <span class="pull-right-container">
 <!--               <i class="fa fa-angle-left pull-right"></i> -->
             </span>
@@ -81,7 +81,7 @@
         </li>
         <li class="treeview">
           <a href="manageexerciseitems">
-            <i class="fa fa-user"></i> <span>Manage Exercise Items</span>
+            <i class="fa fa-heartbeat"></i> <span>Manage Exercise Items</span>
             <span class="pull-right-container">
 <!--               <i class="fa fa-angle-left pull-right"></i> -->
             </span>

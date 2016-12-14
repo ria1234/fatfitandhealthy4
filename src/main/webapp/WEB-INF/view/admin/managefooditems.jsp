@@ -1,20 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page session="true" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page isELIgnored="false" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/table.css" />
-
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap-switch.min.css" />
 <jsp:include page="upperheader.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath }/resources/js/admin/table.js"></script>
 <%-- <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.min.js"></script> --%>
 <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.js"></script>
-<script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
-  <script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -61,7 +56,7 @@
           </a>
 
         </li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="manageusers">
             <i class="fa fa-user"></i> <span>Manage Users</span>
             <span class="pull-right-container">
@@ -70,7 +65,7 @@
           </a>
 
         </li>
-        <li class="treeview">
+		<li class="active treeview">
           <a href="managefooditems">
             <i class="fa fa-cutlery"></i> <span>Manage Food Items</span>
             <span class="pull-right-container">
@@ -88,7 +83,6 @@
           </a>
 
         </li>
-
         <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
@@ -103,112 +97,83 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        View User Information
+        Manage Food Items
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i> Home</a></li>
-        <li>Manage Users</li>
-        <li class="active">View User Information</li>
+        <li class="active">Manage Food Items</li>
       </ol>
     </section>
 
+      <!-- Main row -->
+      <div class="row">
+<!--         Left col -->
+<!--         <section class="col-lg-7 connectedSortable"> -->
+          
 
+          
+<!--         </section> -->
+<!--         /.Left col -->
+<!--         right col (We are only adding the ID to make the widgets sortable) -->
+<!--         <section class="col-lg-5 connectedSortable"> -->
+
+                       
+         
+
+<!--         </section> -->
+<!--         right col -->
 
 			<section class="content">
-			<div class="row">
 			
-				<div class="col-md-8 col-md-offset-2">
-				
-					
-						
-							<div class="box box-primary">
-					            <div class="box-header with-border">
-					              <h3 class="box-title">View User Information</h3>
-				            </div>
-							
-							<div class="box box-solid">
-					            <div class="box-header with-border">
-					              <i class="fa fa-user"  aria-hidden="true"></i>
-					
-					              <h3 class="box-title">User Login details</h3>
-					            </div>
-					            <!-- /.box-header -->
-					            <div class="box-body">
-					              <dl class="dl-horizontal">
-					              	<dt>Profile Picture</dt>
-					                <dd><img class="img-thumbnail" src="${pageContext.request.contextPath }/resources/image/user/${UserLogin.image}" alt="User Image" height="50" width="50"></dd>
-					                <dt>Email:</dt>
-					                <dd>${UserLogin.email}.</dd>
-					                <dt>Status</dt>
-					                <dd>${UserLogin.status}.</dd>
-					              </dl>
-					            </div>
-					            <!-- /.box-body -->
-					          </div>
-          <!-- /.box -->
-          					<div class="box box-solid">
-          					<div class="box-header with-border">
-					              <i class="fa fa-book"  aria-hidden="true"></i>
-					
-					              <h3 class="box-title">User Personal details</h3>
-					            </div>
-					            <!-- /.box-header -->
-					            <div class="box-body">
-					              <dl class="dl-horizontal">
-					              	<dt>First Name:</dt>
-					                <dd>${UsersPersonal.fname}</dd>
-					                <dt>Last Name:</dt>
-					                <dd>${UsersPersonal.lname}.</dd>
-					                <dt>Date Of Birth:</dt>
-					                <dd>${UsersPersonal.dob}.</dd>
-					                <dt>Mobile Number:</dt>
-					                <dd>${UsersPersonal.mobNo}.</dd>
-					                <dt>Gender:</dt>
-					                <dd>${UsersPersonal.gender}.</dd>
-					              </dl>
-					            </div>
-					            <!-- /.box-body -->
-					            </div>
-					            <div class="box box-solid">
-					            
-					            <div class="box-header with-border">
-					              <i class="fa fa-heartbeat"  aria-hidden="true"></i>
-					
-					              <h3 class="box-title">User Health details</h3>
-					            </div>
-					            <!-- /.box-header -->
-					            <div class="box-body">
-					              <dl class="dl-horizontal">
-					              	<dt>Height</dt>
-					                <dd>${UserHealth.height}</dd>
-					                <dt>Weight:</dt>
-					                <dd>${UserHealth.weight}.</dd>
-					                <dt>Activity Factor</dt>
-					                <dd>${UserHealth.activityFactor}.</dd>
-					                <dt>Weight Goal</dt>
-					                <dd>${UserHealth.weightGoal}.</dd>
-					                <dt>alter Weight per week</dt>
-					                <dd>${UserHealth.kgs} kg.</dd>
-					                <dt>Daily Calorie Goal</dt>
-					                <dd>${UserHealth.dailyCalGoal} cal.</dd>
-					                
-					              </dl>
-					            </div>
-					            <!-- /.box-body -->
-					            
-					          </div>
-					          <div class="box-footer">
-				                <button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath }/admin/manageusers';">Back</button>
-				              </div>
-					          </div>
-							
-            				</div>
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="pull-right">
+							<div class="btn-group">
+								<button type="button" class="btn btn-primary btn-filter" onclick="location.href='${pageContext.request.contextPath }/admin/managefooditems/newfooditem';">Add New Food Item</button>
+								
+							</div>
+						</div>
+						<div class="table-container">
+							<table class="table table-filter">
+							<col width="400">
+							<col>
+							<col>
+							<col>
+							<col>
+							<col>
+								<thead>
+									<tr>
+									<th>name</th>
+									<th>Serving Size</th>
+									<th>Calories</th>
+									<th>Nutrients Details</th>
+									<th>Edit</th>
+									<th>delete</th>
+									</tr>	
+								</thead>
+								<tbody>
+									<c:forEach items="${FoodItems}" var="FoodItems">
+										<tr id=${FoodItems.id }>
+											<td> ${FoodItems.name }</td>
+											<td>${FoodItems.servingSize }</td>
+											<td>${FoodItems.cal }</td>
+											<td><a href="${pageContext.request.contextPath}/admin/fooddetails/${FoodItems.id}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+											<td><a href="${pageContext.request.contextPath}/admin/foodupdate/${FoodItems.id}"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
+											<td><a href="javascript:;" onclick="d(${FoodItems.id});"><i class="fa fa-remove" aria-hidden="true"></i></a></td>
+											
+										</tr>
+									</c:forEach>
+									
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 				
 			</div>
-			</section>
+		</section>
       </div>
       <!-- /.row (main row) -->
 
@@ -226,3 +191,19 @@
 <!-- ./wrapper -->
 </body>
 </html>
+<script type="text/javascript">
+
+function d(id) {
+	$.ajax({
+		type : "POST",
+		//contentType : "application/json",
+		url : "${pageContext.request.contextPath }/admin/fooditemdelete",
+		data : {"id":id,},
+		//dataType : 'json',
+		timeout : 100000,
+		success : function(data) {
+			$("#"+id).remove();
+		}
+	});
+}
+</script>

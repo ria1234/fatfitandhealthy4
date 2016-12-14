@@ -26,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import antlr.StringUtils;
 import fatfitandhealthy.dao.Admin;
+import fatfitandhealthy.dao.Exercise;
+import fatfitandhealthy.dao.FoodItems;
 import fatfitandhealthy.dao.UserHealth;
 import fatfitandhealthy.dao.UserLogin;
 import fatfitandhealthy.dao.UsersPersonal;
@@ -308,6 +310,104 @@ if (!file.getOriginalFilename().isEmpty()) {
 			return "redirect:/admin/";
 		}
 		return "admin/userdetail";
+		
+	}
+	@RequestMapping(value="/managefooditems",method=RequestMethod.GET)
+	public String managefooditems(HttpSession session,Model model) {
+		List<FoodItems> l=Getdata.getData("FoodItems");
+		model.addAttribute("FoodItems", l);
+		if(session.getAttribute("aname")!=null)
+			return "admin/managefooditems";
+			else
+				return "redirect:/admin/";
+		
+	}
+	@RequestMapping(value="/managefooditems/newfooditem",method=RequestMethod.GET)
+	public String addfooditem(HttpSession session) {
+		
+		if(session.getAttribute("aname")!=null)
+			return "admin/addfooditem";
+			else
+				return "redirect:/admin/";
+		
+	}
+	@RequestMapping(value="/addfooditem",method=RequestMethod.POST)
+	public String addfooditem(HttpSession session,@ModelAttribute FoodItems fi) {
+		Getdata.save(fi);
+		return "redirect:/admin/managefooditems";
+		
+	}
+	
+	@RequestMapping(value="/foodupdate/{id}",method=RequestMethod.GET)
+	public String foodupdate(HttpSession session,ModelMap model,@PathVariable int id)
+	{
+		FoodItems fi=(FoodItems)Getdata.onecolumnvaluewhere("FoodItems", "id", String.valueOf(id)).iterator().next();
+		model.addAttribute("FoodItems", fi);
+		
+		if (session.getAttribute("aname")==null) {
+			return "redirect:/admin/";
+		}
+		return "admin/foodupdate";
+		
+	}
+	@RequestMapping(value="/updatefooditem",method=RequestMethod.POST)
+	public String foodupdate(HttpSession session,@ModelAttribute FoodItems fi) {
+		Getdata.update(fi);
+		return "redirect:/admin/managefooditems";
+		
+	}
+	@RequestMapping(value="/fooddetails/{id}",method=RequestMethod.GET)
+	public String fooddetails(HttpSession session,ModelMap model,@PathVariable int id) {
+		FoodItems fi=(FoodItems)Getdata.onecolumnvaluewhere("FoodItems", "id", String.valueOf(id)).iterator().next();
+		model.addAttribute("FoodItems", fi);
+		
+		if (session.getAttribute("aname")==null) {
+			return "redirect:/admin/";
+		}
+		return "admin/fooddetail";
+		
+	}
+	@RequestMapping(value="/manageexerciseitems",method=RequestMethod.GET)
+	public String manageexerciseitems(HttpSession session,Model model) {
+		List<Exercise> l=Getdata.getData("Exercise");
+		model.addAttribute("Exercise", l);
+		if(session.getAttribute("aname")!=null)
+			return "admin/manageexerciseitems";
+			else
+				return "redirect:/admin/";
+		
+	}
+	@RequestMapping(value="/manageexerciseitems/newexerciseitem",method=RequestMethod.GET)
+	public String addexerciseitem(HttpSession session) {
+		
+		if(session.getAttribute("aname")!=null)
+			return "admin/addexerciseitem";
+			else
+				return "redirect:/admin/";
+		
+	}
+	@RequestMapping(value="/addexerciseitem",method=RequestMethod.POST)
+	public String addexerciseitem(HttpSession session,@ModelAttribute Exercise e) {
+		Getdata.save(e);
+		return "redirect:/admin/manageexerciseitems";
+		
+	}
+	@RequestMapping(value="/updateexerciseitem",method=RequestMethod.POST)
+	public String exerciseupdate(HttpSession session,@ModelAttribute Exercise e) {
+		Getdata.update(e);
+		return "redirect:/admin/manageexerciseitems";
+		
+	}
+	@RequestMapping(value="/exerciseupdate/{id}",method=RequestMethod.GET)
+	public String exerciseupdate(HttpSession session,ModelMap model,@PathVariable int id)
+	{
+		Exercise e=(Exercise)Getdata.onecolumnvaluewhere("Exercise", "id", String.valueOf(id)).iterator().next();
+		model.addAttribute("Exercise", e);
+		
+		if (session.getAttribute("aname")==null) {
+			return "redirect:/admin/";
+		}
+		return "admin/exerciseupdate";
 		
 	}
 }

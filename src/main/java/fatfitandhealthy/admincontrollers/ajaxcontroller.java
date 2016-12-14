@@ -62,5 +62,17 @@ public class ajaxcontroller {
 		file.delete();
 		
 	}
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/admin/fooditemdelete",method=RequestMethod.POST)
+	public void fooditemdelete(@RequestParam int id)
+	{
+		Getdata.delete("FoodItems", "id", id);		
+	}
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/admin/exerciseitemdelete",method=RequestMethod.POST)
+	public void exerciseitemdelete(@RequestParam int id)
+	{
+		Getdata.delete("Exercise", "id", id);		
+	}
 }
 	

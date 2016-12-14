@@ -20,6 +20,8 @@
        <mapping class="fatfitandhealthy.dao.UserLogin" />
        <mapping class="fatfitandhealthy.dao.UserHealth" />
        <mapping class="fatfitandhealthy.dao.UsersPersonal" />
+       <mapping class="fatfitandhealthy.dao.FoodItems" />
+       <mapping class="fatfitandhealthy.dao.Exercise" />
         <!-- <mapping class="facebook.dao.Comment" />
         <mapping class="facebook.dao.User" />
         <mapping class="facebook.dao.HibernateSequence" /> -->

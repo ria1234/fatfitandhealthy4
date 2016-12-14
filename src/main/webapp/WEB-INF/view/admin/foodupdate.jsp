@@ -61,7 +61,7 @@
           </a>
 
         </li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="manageusers">
             <i class="fa fa-user"></i> <span>Manage Users</span>
             <span class="pull-right-container">
@@ -70,7 +70,7 @@
           </a>
 
         </li>
-        <li class="treeview">
+        <li class="active treeview">
           <a href="managefooditems">
             <i class="fa fa-cutlery"></i> <span>Manage Food Items</span>
             <span class="pull-right-container">
@@ -103,13 +103,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        View User Information
+        Update Food Item
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i> Home</a></li>
-        <li>Manage Users</li>
-        <li class="active">View User Information</li>
+        <li>Manage Food Items</li>
+        <li class="active">Update Food Item</li>
       </ol>
     </section>
 
@@ -124,85 +124,65 @@
 						
 							<div class="box box-primary">
 					            <div class="box-header with-border">
-					              <h3 class="box-title">View User Information</h3>
+					              <h3 class="box-title">Update Food Item</h3>
 				            </div>
-							
-							<div class="box box-solid">
-					            <div class="box-header with-border">
-					              <i class="fa fa-user"  aria-hidden="true"></i>
-					
-					              <h3 class="box-title">User Login details</h3>
-					            </div>
-					            <!-- /.box-header -->
-					            <div class="box-body">
-					              <dl class="dl-horizontal">
-					              	<dt>Profile Picture</dt>
-					                <dd><img class="img-thumbnail" src="${pageContext.request.contextPath }/resources/image/user/${UserLogin.image}" alt="User Image" height="50" width="50"></dd>
-					                <dt>Email:</dt>
-					                <dd>${UserLogin.email}.</dd>
-					                <dt>Status</dt>
-					                <dd>${UserLogin.status}.</dd>
-					              </dl>
-					            </div>
-					            <!-- /.box-body -->
-					          </div>
-          <!-- /.box -->
-          					<div class="box box-solid">
-          					<div class="box-header with-border">
-					              <i class="fa fa-book"  aria-hidden="true"></i>
-					
-					              <h3 class="box-title">User Personal details</h3>
-					            </div>
-					            <!-- /.box-header -->
-					            <div class="box-body">
-					              <dl class="dl-horizontal">
-					              	<dt>First Name:</dt>
-					                <dd>${UsersPersonal.fname}</dd>
-					                <dt>Last Name:</dt>
-					                <dd>${UsersPersonal.lname}.</dd>
-					                <dt>Date Of Birth:</dt>
-					                <dd>${UsersPersonal.dob}.</dd>
-					                <dt>Mobile Number:</dt>
-					                <dd>${UsersPersonal.mobNo}.</dd>
-					                <dt>Gender:</dt>
-					                <dd>${UsersPersonal.gender}.</dd>
-					              </dl>
-					            </div>
-					            <!-- /.box-body -->
-					            </div>
-					            <div class="box box-solid">
-					            
-					            <div class="box-header with-border">
-					              <i class="fa fa-heartbeat"  aria-hidden="true"></i>
-					
-					              <h3 class="box-title">User Health details</h3>
-					            </div>
-					            <!-- /.box-header -->
-					            <div class="box-body">
-					              <dl class="dl-horizontal">
-					              	<dt>Height</dt>
-					                <dd>${UserHealth.height}</dd>
-					                <dt>Weight:</dt>
-					                <dd>${UserHealth.weight}.</dd>
-					                <dt>Activity Factor</dt>
-					                <dd>${UserHealth.activityFactor}.</dd>
-					                <dt>Weight Goal</dt>
-					                <dd>${UserHealth.weightGoal}.</dd>
-					                <dt>alter Weight per week</dt>
-					                <dd>${UserHealth.kgs} kg.</dd>
-					                <dt>Daily Calorie Goal</dt>
-					                <dd>${UserHealth.dailyCalGoal} cal.</dd>
-					                
-					              </dl>
-					            </div>
-					            <!-- /.box-body -->
-					            
-					          </div>
-					          <div class="box-footer">
-				                <button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath }/admin/manageusers';">Back</button>
+							<form:form method="post" action="${pageContext.request.contextPath }/admin/updatefooditem" modelAttribute="FoodItems">
+								<form:hidden path="id"/>
+				              <div class="box-body">
+				                <div class="form-group">
+				                  <label>Name:</label>
+				                  <form:input type="text" class="form-control" path="name" required="true"/>
+				                </div>
+				                <div class="form-group">
+				                  <label>Serving Size</label>
+				                  <form:input type="text" class="form-control" path="servingSize" required="true"/>
+				                </div>
+				                <p><b>Note: </b>Below food item nutrients details are to be added per serving size.</p>
+				                 <div class="form-group">
+				                  <label>Calories</label>
+				                  <form:input type="number" class="form-control" path="cal" required="true" step="0.01"/>
+				                </div>
+				                <div class="form-group">
+				                  <label>Fat (in gram)</label>
+				                  <form:input type="number" class="form-control" path="fat" required="true" step="0.01"/>
+				                </div>
+				                <div class="form-group">
+				                  <label>Cholesterol (in mg)</label>
+				                  <form:input type="number" class="form-control" path="cholesterol" required="true" step="0.01"/>
+				                </div>
+				                <div class="form-group">
+				                  <label>Sodium (in mg)</label>
+				                  <form:input type="number" class="form-control" path="sodium" required="true" step="0.01"/>
+				                </div>
+				                <div class="form-group">
+				                  <label>Potassium (in mg)</label>
+				                  <form:input type="number" class="form-control" path="potassium" required="true" step="0.01"/>
+				                </div>
+				               <div class="form-group">
+				                  <label>Carbs (in gram)</label>
+				                  <form:input type="number" class="form-control" path="carbs" required="true" step="0.01"/>
+				                </div>
+				                <div class="form-group">
+				                  <label>Fiber (in gram)</label>
+				                  <form:input type="number" class="form-control" path="fiber" required="true" step="0.01"/>
+				                </div>
+				                <div class="form-group">
+				                  <label>Sugars (in gram)</label>
+				                  <form:input type="number" class="form-control" path="sugars" required="true" step="0.01"/>
+				                </div>
+				                <div class="form-group">
+				                  <label>Protein (in gram)</label>
+				                  <form:input type="number" class="form-control" path="protein" required="true" step="0.01"/>
+				                </div>
+				                
+				               
 				              </div>
-					          </div>
-							
+				              <!-- /.box-body -->
+								
+				              <div class="box-footer">
+				                <button type="submit" class="btn btn-primary">Submit</button>
+				              </div>
+            				</form:form>
             				</div>
 					</div>
 				</div>
