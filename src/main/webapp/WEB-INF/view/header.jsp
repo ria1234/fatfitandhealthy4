@@ -8,19 +8,19 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <!--Favicon -->
-	<link rel="icon" type="image/png" href="resources/images/favicon.jpg" />
+	<link rel="icon" type="image/png" href="${pageContext.request.contextPath }/resources/images/favicon.jpg" />
 		
 	<!-- CSS Files -->
 		
-	<link rel="stylesheet" href="resources/css/reset.css" />
-	<link rel="stylesheet" href="resources/css/animate.min.css" />
-	<link rel="stylesheet" href="resources/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="resources/css/style.css" />
-	<link rel="stylesheet" href="resources/font-awesome-4.6.3/css/font-awesome.css" />
-	<link rel="stylesheet" href="resources/css/owl.carousel.css" />
-	<link rel="stylesheet" href="resources/css/responsive.css" />
-	<link rel="stylesheet" href="resources/css/player/YTPlayer.css" />
-	<link href="resources/css/pro-bars.css" rel="stylesheet" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/reset.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/animate.min.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/font-awesome-4.6.3/css/font-awesome.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/owl.carousel.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/responsive.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/player/YTPlayer.css" />
+	<link href="${pageContext.request.contextPath }/resources/css/pro-bars.css" rel="stylesheet" />
 	
 
 	<!-- End CSS Files -->
@@ -35,11 +35,11 @@
 
 		<div class="nav-inner">
 			<div style="display: inline; height:70px;">
-			<img src="resources/images/logo.png" width="75" height="70" alt="Logo" style="float: left;" />
+			<img src="${pageContext.request.contextPath }/resources/images/logo.png" width="75" height="70" alt="Logo" style="float: left;" />
 			
 			<!-- Site Logo -->
 			<div class="site-logo fancy">
-				<a href="#" id="logo-text" class="">
+				<a href="${pageContext.request.contextPath }" id="logo-text" class="">
 				Fatfitandhealthy
 				</a>
 			</div>

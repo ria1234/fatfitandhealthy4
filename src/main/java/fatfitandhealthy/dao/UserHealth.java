@@ -1,11 +1,15 @@
 package fatfitandhealthy.dao;
 
 // default package
-// Generated 14 Dec, 2016 2:26:28 PM by Hibernate Tools 5.1.0.Beta1
+// Generated 18 Dec, 2016 5:15:39 PM by Hibernate Tools 5.1.0.Beta1
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,6 +27,8 @@ public class UserHealth implements java.io.Serializable {
 	private String weightGoal;
 	private String kgs;
 	private String dailyCalGoal;
+	private Set<Breakfast> breakfasts = new HashSet<Breakfast>(0);
+	private Set<ActivityLog> activityLogs = new HashSet<ActivityLog>(0);
 
 	public UserHealth() {
 	}
@@ -37,6 +43,20 @@ public class UserHealth implements java.io.Serializable {
 		this.weightGoal = weightGoal;
 		this.kgs = kgs;
 		this.dailyCalGoal = dailyCalGoal;
+	}
+
+	public UserHealth(int id, int uno, String height, String weight, String activityFactor, String weightGoal,
+			String kgs, String dailyCalGoal, Set<Breakfast> breakfasts, Set<ActivityLog> activityLogs) {
+		this.id = id;
+		this.uno = uno;
+		this.height = height;
+		this.weight = weight;
+		this.activityFactor = activityFactor;
+		this.weightGoal = weightGoal;
+		this.kgs = kgs;
+		this.dailyCalGoal = dailyCalGoal;
+		this.breakfasts = breakfasts;
+		this.activityLogs = activityLogs;
 	}
 
 	@Id
@@ -111,6 +131,24 @@ public class UserHealth implements java.io.Serializable {
 
 	public void setDailyCalGoal(String dailyCalGoal) {
 		this.dailyCalGoal = dailyCalGoal;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userHealth")
+	public Set<Breakfast> getBreakfasts() {
+		return this.breakfasts;
+	}
+
+	public void setBreakfasts(Set<Breakfast> breakfasts) {
+		this.breakfasts = breakfasts;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userHealth")
+	public Set<ActivityLog> getActivityLogs() {
+		return this.activityLogs;
+	}
+
+	public void setActivityLogs(Set<ActivityLog> activityLogs) {
+		this.activityLogs = activityLogs;
 	}
 
 }

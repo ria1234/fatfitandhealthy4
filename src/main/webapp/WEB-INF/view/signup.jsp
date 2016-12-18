@@ -96,7 +96,7 @@
                 <div class="form-group" id="kg" style="display: none">
                   <label for="exampleInputEmail1" id="kglabel"></label>
                   <select name="kg" class="form-control">
-                  	<option selected="selected">----select----</option>
+                  	<option selected="selected" value="0">----select----</option>
                   	<option value="0.5">0.5 kg</option>
                   	<option value="0.25">0.25 kg</option>
                   	

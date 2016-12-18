@@ -1,13 +1,17 @@
 package fatfitandhealthy.dao;
 
 // default package
-// Generated 14 Dec, 2016 2:26:28 PM by Hibernate Tools 5.1.0.Beta1
+// Generated 18 Dec, 2016 5:15:39 PM by Hibernate Tools 5.1.0.Beta1
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -29,6 +33,7 @@ public class FoodItems implements java.io.Serializable {
 	private float fiber;
 	private float sugars;
 	private float protein;
+	private Set<Breakfast> breakfasts = new HashSet<Breakfast>(0);
 
 	public FoodItems() {
 	}
@@ -46,6 +51,22 @@ public class FoodItems implements java.io.Serializable {
 		this.fiber = fiber;
 		this.sugars = sugars;
 		this.protein = protein;
+	}
+
+	public FoodItems(String name, String servingSize, float cal, float fat, float cholesterol, float sodium,
+			float potassium, float carbs, float fiber, float sugars, float protein, Set<Breakfast> breakfasts) {
+		this.name = name;
+		this.servingSize = servingSize;
+		this.cal = cal;
+		this.fat = fat;
+		this.cholesterol = cholesterol;
+		this.sodium = sodium;
+		this.potassium = potassium;
+		this.carbs = carbs;
+		this.fiber = fiber;
+		this.sugars = sugars;
+		this.protein = protein;
+		this.breakfasts = breakfasts;
 	}
 
 	@Id
@@ -157,6 +178,15 @@ public class FoodItems implements java.io.Serializable {
 
 	public void setProtein(float protein) {
 		this.protein = protein;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "foodItems")
+	public Set<Breakfast> getBreakfasts() {
+		return this.breakfasts;
+	}
+
+	public void setBreakfasts(Set<Breakfast> breakfasts) {
+		this.breakfasts = breakfasts;
 	}
 
 }

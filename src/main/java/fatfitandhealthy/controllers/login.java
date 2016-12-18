@@ -5,15 +5,26 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import fatfitandhealthy.dao.Admin;
+import fatfitandhealthy.dao.Exercise;
+import fatfitandhealthy.dao.FoodItems;
 import fatfitandhealthy.dao.UserHealth;
 import fatfitandhealthy.dao.UserLogin;
 import fatfitandhealthy.dao.UsersPersonal;
@@ -28,9 +39,22 @@ public class login {
 	{
 		return "index";
 	}
-	@RequestMapping(value="/login",method=RequestMethod.GET)
-	public String login()
+	@RequestMapping(value={"/login","/login/{error}"},method=RequestMethod.GET)
+	public String login1(@PathVariable Optional<String> error,Model model,@CookieValue(value="uname",defaultValue="") String uname)
 	{
+		System.out.println(uname);
+		if (!uname.equals("")) {
+			//System.out.println("abc");
+			return "redirect:/home";
+		}
+		
+		if (error.isPresent()) {
+			//System.out.println("attribute set"+error.get());
+			
+				model.addAttribute("error", error.get());
+			
+			
+		}
 		return "login";
 	}
 	@RequestMapping(value="/contact",method=RequestMethod.POST)
@@ -155,4 +179,78 @@ public class login {
 		return "redirect:/login";
 		
 	}
+	
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+	public String login(HttpSession session,@RequestParam(value="username") String username,@RequestParam(value="password") String password,HttpServletResponse response)
+	{
+		int u2=0;
+		try {
+			/*t=s.beginTransaction();
+			Query query=s.createQuery("from User");
+			List result=query.list();*/
+			List result=Getdata.getData("UserLogin");
+			Iterator i=result.iterator();
+			
+			while (i.hasNext()) {
+				System.out.println("saras");
+				UserLogin u1 = (UserLogin) i.next();
+				if (u1.getEmail().equals(username)&&u1.getPassword().equals(password)&&u1.getStatus().equals("varified")) {
+					UsersPersonal up=(UsersPersonal)(Getdata.onecolumnvaluewhere("UsersPersonal", "id", u1.getId().toString()).iterator().next());
+					//session.setAttribute("uname", up.getFname()+" "+up.getLname());					
+					//session.setAttribute("uimage", u1.getImage());
+					Cookie cookie1=new Cookie("uname",up.getFname()+" "+up.getLname() );
+					response.addCookie(cookie1);
+					Cookie cookie2=new Cookie("uimage", u1.getImage());
+					response.addCookie(cookie2);
+					Cookie cookie3=new Cookie("id", u1.getId().toString());
+					response.addCookie(cookie3);
+					u2=1;
+					//System.out.println("saras");
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		if (u2==0) {
+			return "redirect:/login/1";
+		}
+		else{
+			return "redirect:/home";
+		}
+		
+	}
+	@RequestMapping(value="/home",method=RequestMethod.GET)
+	public String home(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
+		List<FoodItems> l=Getdata.getData("FoodItems");
+		model.addAttribute("FoodItems", l);
+		List<Exercise> l2=Getdata.getData("Exercise");
+		model.addAttribute("Exercise", l2);
+		UserHealth uh=(UserHealth)Getdata.onecolumnvaluewhere("UserHealth", "id", id.toString()).iterator().next();
+		model.addAttribute("calgoal",Float.parseFloat(uh.getDailyCalGoal()));
+		if(!id.equals(""))
+			return "home";
+			else
+				return "redirect:/login";
+	
+		
+		
+	}
+	
+	@RequestMapping(value="/signout",method=RequestMethod.GET)
+	public String signout(HttpServletResponse response) {
+		Cookie uname=new Cookie("uname", "");
+		uname.setMaxAge(0);
+		response.addCookie(uname);
+		Cookie uimage=new Cookie("uimage", "");
+		uimage.setMaxAge(0);
+		response.addCookie(uimage);
+		Cookie id=new Cookie("id", "");
+		id.setMaxAge(0);
+		response.addCookie(id);
+		return "redirect:/login";
+		
+	}
+	
 }

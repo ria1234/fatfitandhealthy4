@@ -22,6 +22,8 @@
        <mapping class="fatfitandhealthy.dao.UsersPersonal" />
        <mapping class="fatfitandhealthy.dao.FoodItems" />
        <mapping class="fatfitandhealthy.dao.Exercise" />
+       <mapping class="fatfitandhealthy.dao.ActivityLog" />
+       <mapping class="fatfitandhealthy.dao.Breakfast" />
         <!-- <mapping class="facebook.dao.Comment" />
         <mapping class="facebook.dao.User" />
         <mapping class="facebook.dao.HibernateSequence" /> -->

@@ -136,4 +136,18 @@ public class Getdata {
 		return daily_cal_goal;
 		
 	}
+	
+	public static List twocolumnvaluewhere(String s,String c1,String v1,String c2,String v2){
+		Session session=HibernateUtil.openSession();
+		Transaction transaction=session.beginTransaction();
+		try{
+		Query query=session.createQuery("from "+s+" where "+c1+" = '"+v1+"' and "+c2+" = '"+v2+"'");
+		return query.list();
+		}
+		finally {
+			transaction.commit();
+			session.close();
+		}
+		
+	}
 }

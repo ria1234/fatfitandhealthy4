@@ -160,7 +160,7 @@ public class adminlogin {
 		List<Admin> l=Getdata.onecolumnvaluewhere("Admin", "role", "admin");
 		System.out.println(l);
 		model.addAttribute("admin", l);
-		if(session.getAttribute("aname")!=null)
+		if(session.getAttribute("aname")!=null||session.getAttribute("role").equals("superadmin"))
 			return "admin/manageadmin";
 			else
 				return "redirect:/admin/";
@@ -171,7 +171,7 @@ public class adminlogin {
 	{
 		Admin admin=(Admin)Getdata.onecolumnvaluewhere("Admin", "id", String.valueOf(id)).iterator().next();
 		model.addAttribute("admin", admin);
-		if (session.getAttribute("aname")==null) {
+		if (session.getAttribute("aname")==null||session.getAttribute("role").equals("admin")) {
 			return "redirect:/admin/";
 		}
 		return "admin/adminupdate";

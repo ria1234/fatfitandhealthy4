@@ -44,7 +44,7 @@
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
         <li class="treeview">
-          <a href="dashboard">
+          <a href="${pageContext.request.contextPath }/admin/dashboard">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
             <span class="pull-right-container">
 
@@ -53,7 +53,7 @@
 
         </li>
         <li class="active treeview">
-          <a href="manageadmin">
+          <a href="${pageContext.request.contextPath }/admin/manageadmin">
             <i class="fa fa-user"></i> <span>Manage Admin</span>
             <span class="pull-right-container">
 <!--               <i class="fa fa-angle-left pull-right"></i> -->
@@ -62,7 +62,7 @@
 
         </li>
         <li class="treeview">
-          <a href="manageusers">
+          <a href="${pageContext.request.contextPath }/admin/manageusers">
             <i class="fa fa-user"></i> <span>Manage Users</span>
             <span class="pull-right-container">
 <!--               <i class="fa fa-angle-left pull-right"></i> -->
@@ -71,7 +71,7 @@
 
         </li>
         <li class="treeview">
-          <a href="managefooditems">
+          <a href="${pageContext.request.contextPath }/admin/managefooditems">
             <i class="fa fa-cutlery"></i> <span>Manage Food Items</span>
             <span class="pull-right-container">
 <!--               <i class="fa fa-angle-left pull-right"></i> -->
@@ -80,7 +80,7 @@
 
         </li>
         <li class="treeview">
-          <a href="manageexerciseitems">
+          <a href="${pageContext.request.contextPath }/admin/manageexerciseitems">
             <i class="fa fa-heartbeat"></i> <span>Manage Exercise Items</span>
             <span class="pull-right-container">
 <!--               <i class="fa fa-angle-left pull-right"></i> -->

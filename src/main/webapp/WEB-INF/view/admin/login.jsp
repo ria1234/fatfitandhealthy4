@@ -47,6 +47,7 @@
             <input type="password" name="password" placeholder="Password" required />  
             <p>Not registered? Register as admin <a href="signup" style="color:lightblue;">here</a></p>       
 			<input type="submit" value="Submit" id="forvalidation"  style="display:none;"/>
+			
             <a id="submit">Login</a>
         
         </div>
