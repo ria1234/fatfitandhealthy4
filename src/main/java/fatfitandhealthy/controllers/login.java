@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import fatfitandhealthy.dao.ActivityLog;
 import fatfitandhealthy.dao.Admin;
 import fatfitandhealthy.dao.Exercise;
 import fatfitandhealthy.dao.FoodItems;
@@ -223,12 +224,24 @@ public class login {
 	}
 	@RequestMapping(value="/home",method=RequestMethod.GET)
 	public String home(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
+		float foodcal=0;
+		float execal=0;
 		List<FoodItems> l=Getdata.getData("FoodItems");
 		model.addAttribute("FoodItems", l);
 		List<Exercise> l2=Getdata.getData("Exercise");
 		model.addAttribute("Exercise", l2);
 		UserHealth uh=(UserHealth)Getdata.onecolumnvaluewhere("UserHealth", "id", id.toString()).iterator().next();
 		model.addAttribute("calgoal",Float.parseFloat(uh.getDailyCalGoal()));
+		Iterator<ActivityLog> i=uh.getActivityLogs().iterator();
+		while (i.hasNext()) {
+			ActivityLog activityLog = (ActivityLog) i.next();
+			if (activityLog.getDate().equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+				foodcal=Float.parseFloat(activityLog.getBreakfast())+Float.parseFloat(activityLog.getLunch())+Float.parseFloat(activityLog.getDinner());
+				execal=Float.parseFloat(activityLog.getExercise());
+			}
+		}
+		model.addAttribute("foodcal", foodcal);
+		model.addAttribute("execal", execal);
 		if(!id.equals(""))
 			return "home";
 			else

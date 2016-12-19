@@ -3,6 +3,7 @@
     
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page isELIgnored="false" %>
@@ -141,21 +142,22 @@
 					            <!-- /.box-header -->
 					            <div class="box-body">
 					            <div class="row">
-					              <div class="col-md-1 col-md-offset-1" style="border: outset #3c8dbc; padding-left: 5px !important;">
+					              <div class="col-md-1 col-md-offset-1" style="border: outset #3c8dbc; padding-left: 5px !important;" id="dcal">
 					              ${calgoal}
 					              </div>
 					              <div class="col-md-1" style="horizontal-align: middle;"><p style="font-size: 2em; padding-left: 10px; margin-top: -10px"><b>-</b></p></div>
 					              
-					              <div class="col-md-1" style="border: outset #3c8dbc; padding-left: 5px !important;">
-					              	0
+					              <div class="col-md-1" style="border: outset #3c8dbc; padding-left: 5px !important;" id="fcal">
+					              	${foodcal}
 					              </div>
 					              <div class="col-md-1" style="horizontal-align: middle;"><p style="font-size: 2em; padding-left: 10px; margin-top: -10px"><b>+</b></p></div>
-					              <div class="col-md-1" style="border: outset #3c8dbc; padding-left: 5px !important;">
-					              	0
+					              <div class="col-md-1" style="border: outset #3c8dbc; padding-left: 5px !important;" id="ecal">
+					              	${execal}
 					              </div>
 					              <div class="col-md-1" style="horizontal-align: middle;"><p style="font-size: 2em; padding-left: 10px; margin-top: -10px"><b>=</b></p></div>
-					              <div class="col-md-1" style="border: outset #3c8dbc; padding-left: 5px !important;">
-					              	${calgoal}
+					              <div class="col-md-1" style="border: outset #3c8dbc; padding-left: 5px !important;" id="tcal">
+					              <fmt:formatNumber value="${calgoal-foodcal+execal}" maxFractionDigits="1" />
+					              
 					              </div>
 					              </div>
 					              <div class="row">
@@ -339,6 +341,7 @@
 			var servingNo=$("input[name=servingno]").val();
 			var uid=${cookie.id.value};
 			//alert(food);
+			this.reset();
 			var formURL = $(this).attr("action");
 			$.ajax(
 					{
@@ -347,8 +350,13 @@
 						data : {"foodId":foodId,"servingNo":servingNo,"uid":uid,"slot":food},
 						success:function(data, textStatus, jqXHR) 
 						{
+							alert(data.result);
+							$('#food').removeClass( "in" );
+							//$("#f").reset();
 							//data: return data from server
-							
+							$("#fcal").text((parseFloat($("#fcal").text())+parseFloat(data.result)).toFixed(2));
+							$("#tcal").text((parseFloat($("#dcal").text())-parseFloat($("#fcal").text())+parseFloat($("#ecal").text())).toFixed(2));
+							//alert($("fcal").html());
 						},
 						error: function(jqXHR, textStatus, errorThrown) 
 						{

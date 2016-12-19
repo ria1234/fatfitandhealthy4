@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import fatfitandhealthy.dao.ActivityLog;
 import fatfitandhealthy.dao.Admin;
+import fatfitandhealthy.dao.AjaxResponseBody;
 import fatfitandhealthy.dao.Breakfast;
 import fatfitandhealthy.dao.FoodItems;
 import fatfitandhealthy.dao.UserHealth;
@@ -82,7 +83,7 @@ public class ajaxcontroller {
 	//user section controller methods
 	@JsonView(Views.Public.class)
 	@RequestMapping(value="/home/addfood",method=RequestMethod.POST)
-	public void addfood(@RequestParam int foodId,@RequestParam Float servingNo,@RequestParam int uid,@RequestParam String slot)
+	public AjaxResponseBody addfood(@RequestParam int foodId,@RequestParam Float servingNo,@RequestParam int uid,@RequestParam String slot)
 	{
 		//UserHealth uh=(UserHealth)Getdata.onecolumnvaluewhere("UserHealth", "id", Integer.toString(uid)).iterator().next();		
 		UserHealth uh=new UserHealth();
@@ -112,6 +113,8 @@ public class ajaxcontroller {
 		}
 		
 		}
+		AjaxResponseBody result=new AjaxResponseBody("", "200", calplus);
+		return result;
 	}
 	
 }

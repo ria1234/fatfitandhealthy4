@@ -142,7 +142,7 @@ public class UserHealth implements java.io.Serializable {
 		this.breakfasts = breakfasts;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userHealth")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userHealth")
 	public Set<ActivityLog> getActivityLogs() {
 		return this.activityLogs;
 	}
