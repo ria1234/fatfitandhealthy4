@@ -1,13 +1,17 @@
 package fatfitandhealthy.dao;
 
 // default package
-// Generated 18 Dec, 2016 5:15:39 PM by Hibernate Tools 5.1.0.Beta1
+// Generated 19 Dec, 2016 5:55:57 PM by Hibernate Tools 5.1.0.Beta1
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -20,6 +24,7 @@ public class Exercise implements java.io.Serializable {
 	private Integer id;
 	private String name;
 	private float met;
+	private Set<ExerciseLog> exerciseLogs = new HashSet<ExerciseLog>(0);
 
 	public Exercise() {
 	}
@@ -27,6 +32,12 @@ public class Exercise implements java.io.Serializable {
 	public Exercise(String name, float met) {
 		this.name = name;
 		this.met = met;
+	}
+
+	public Exercise(String name, float met, Set<ExerciseLog> exerciseLogs) {
+		this.name = name;
+		this.met = met;
+		this.exerciseLogs = exerciseLogs;
 	}
 
 	@Id
@@ -57,6 +68,15 @@ public class Exercise implements java.io.Serializable {
 
 	public void setMet(float met) {
 		this.met = met;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "exercise")
+	public Set<ExerciseLog> getExerciseLogs() {
+		return this.exerciseLogs;
+	}
+
+	public void setExerciseLogs(Set<ExerciseLog> exerciseLogs) {
+		this.exerciseLogs = exerciseLogs;
 	}
 
 }

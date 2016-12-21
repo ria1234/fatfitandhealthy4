@@ -17,7 +17,11 @@ import fatfitandhealthy.dao.ActivityLog;
 import fatfitandhealthy.dao.Admin;
 import fatfitandhealthy.dao.AjaxResponseBody;
 import fatfitandhealthy.dao.Breakfast;
+import fatfitandhealthy.dao.Dinner;
+import fatfitandhealthy.dao.Exercise;
+import fatfitandhealthy.dao.ExerciseLog;
 import fatfitandhealthy.dao.FoodItems;
+import fatfitandhealthy.dao.Lunch;
 import fatfitandhealthy.dao.UserHealth;
 import fatfitandhealthy.dao.UserLogin;
 import fatfitandhealthy.hibernate.Getdata;
@@ -113,9 +117,92 @@ public class ajaxcontroller {
 		}
 		
 		}
+		//adding food in lunch
+		else if (slot.equals("lunch")) {
+			Lunch lunch=new Lunch();
+			
+			lunch.setUserHealth(uh);
+			lunch.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+			lunch.setFoodItems(foodItems);
+			lunch.setServingNo(servingNo);
+			Getdata.save(lunch);
+		
+		
+		if (Getdata.twocolumnvaluewhere("ActivityLog", "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"uid",Integer.toString(uid)).isEmpty()) {
+			ActivityLog al=new ActivityLog(uh, new SimpleDateFormat("yyyy-MM-dd").format(new Date()), "0", Float.toString(calplus), "0", "0", 0, 0);
+			Getdata.save(al);
+			
+		}
+		else{
+			ActivityLog al=(ActivityLog)Getdata.twocolumnvaluewhere("ActivityLog", "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"uid",Integer.toString(uid)).iterator().next();
+			al.setLunch(Float.toString((Float.parseFloat(al.getLunch()))+calplus));
+			Getdata.update(al);
+		}
+		
+		}
+		else if (slot.equals("dinner")) {
+			Dinner dinner=new Dinner();
+			
+			dinner.setUserHealth(uh);
+			dinner.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+			dinner.setFoodItems(foodItems);
+			dinner.setServingNo(servingNo);
+			Getdata.save(dinner);
+		
+		
+		if (Getdata.twocolumnvaluewhere("ActivityLog", "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"uid",Integer.toString(uid)).isEmpty()) {
+			ActivityLog al=new ActivityLog(uh, new SimpleDateFormat("yyyy-MM-dd").format(new Date()), "0","0" , Float.toString(calplus), "0", 0, 0);
+			Getdata.save(al);
+			
+		}
+		else{
+			ActivityLog al=(ActivityLog)Getdata.twocolumnvaluewhere("ActivityLog", "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"uid",Integer.toString(uid)).iterator().next();
+			al.setDinner(Float.toString((Float.parseFloat(al.getDinner()))+calplus));
+			Getdata.update(al);
+		}
+		
+		}
 		AjaxResponseBody result=new AjaxResponseBody("", "200", calplus);
 		return result;
 	}
 	
+	
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/home/addexercise",method=RequestMethod.POST)
+	public AjaxResponseBody addexercise(@RequestParam int exerciseId,@RequestParam Float minutes,@RequestParam int uid)
+	{
+		UserHealth uh=(UserHealth)Getdata.onecolumnvaluewhere("UserHealth", "id", Integer.toString(uid)).iterator().next();		
+		/*UserHealth uh=new UserHealth();
+		uh.setId(uid);*/ 							//uparni 2 column temporary nakheli 6, eni uparni column temporary kadheli 6
+		Exercise exercise=(Exercise)Getdata.onecolumnvaluewhere("Exercise", "id", Integer.toString(exerciseId)).iterator().next();
+		float calplus= (float) (0.0175*exercise.getMet()*Float.parseFloat(uh.getWeight())*minutes);
+		//System.out.println(foodId+" "+servingNo+" "+uid+" "+slot);
+		
+			ExerciseLog el=new ExerciseLog();
+			
+			el.setUserHealth(uh);
+			el.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+			el.setExercise(exercise);;
+			el.setMinutes(minutes);
+			Getdata.save(el);
+		
+		
+		if (Getdata.twocolumnvaluewhere("ActivityLog", "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"uid",Integer.toString(uid)).isEmpty()) {
+			ActivityLog al=new ActivityLog(uh, new SimpleDateFormat("yyyy-MM-dd").format(new Date()), "0", "0", "0",Float.toString(calplus) , 0, 0);
+			Getdata.save(al);
+			
+		}
+		else{
+			ActivityLog al=(ActivityLog)Getdata.twocolumnvaluewhere("ActivityLog", "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"uid",Integer.toString(uid)).iterator().next();
+			al.setExercise(Float.toString((Float.parseFloat(al.getExercise()))+calplus));
+			Getdata.update(al);
+		}
+		
+		
+		
+		
+		AjaxResponseBody result=new AjaxResponseBody("", "200", calplus);
+		return result;
+	}
 }
 	

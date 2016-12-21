@@ -1,7 +1,7 @@
 package fatfitandhealthy.dao;
 
 // default package
-// Generated 18 Dec, 2016 5:15:39 PM by Hibernate Tools 5.1.0.Beta1
+// Generated 19 Dec, 2016 5:55:57 PM by Hibernate Tools 5.1.0.Beta1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,6 +34,8 @@ public class FoodItems implements java.io.Serializable {
 	private float sugars;
 	private float protein;
 	private Set<Breakfast> breakfasts = new HashSet<Breakfast>(0);
+	private Set<Dinner> dinners = new HashSet<Dinner>(0);
+	private Set<Lunch> lunches = new HashSet<Lunch>(0);
 
 	public FoodItems() {
 	}
@@ -54,7 +56,8 @@ public class FoodItems implements java.io.Serializable {
 	}
 
 	public FoodItems(String name, String servingSize, float cal, float fat, float cholesterol, float sodium,
-			float potassium, float carbs, float fiber, float sugars, float protein, Set<Breakfast> breakfasts) {
+			float potassium, float carbs, float fiber, float sugars, float protein, Set<Breakfast> breakfasts,
+			Set<Dinner> dinners, Set<Lunch> lunches) {
 		this.name = name;
 		this.servingSize = servingSize;
 		this.cal = cal;
@@ -67,6 +70,8 @@ public class FoodItems implements java.io.Serializable {
 		this.sugars = sugars;
 		this.protein = protein;
 		this.breakfasts = breakfasts;
+		this.dinners = dinners;
+		this.lunches = lunches;
 	}
 
 	@Id
@@ -187,6 +192,24 @@ public class FoodItems implements java.io.Serializable {
 
 	public void setBreakfasts(Set<Breakfast> breakfasts) {
 		this.breakfasts = breakfasts;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "foodItems")
+	public Set<Dinner> getDinners() {
+		return this.dinners;
+	}
+
+	public void setDinners(Set<Dinner> dinners) {
+		this.dinners = dinners;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "foodItems")
+	public Set<Lunch> getLunches() {
+		return this.lunches;
+	}
+
+	public void setLunches(Set<Lunch> lunches) {
+		this.lunches = lunches;
 	}
 
 }

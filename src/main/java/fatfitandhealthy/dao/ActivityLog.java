@@ -1,7 +1,7 @@
 package fatfitandhealthy.dao;
 
 // default package
-// Generated 18 Dec, 2016 5:15:39 PM by Hibernate Tools 5.1.0.Beta1
+// Generated 19 Dec, 2016 5:55:57 PM by Hibernate Tools 5.1.0.Beta1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

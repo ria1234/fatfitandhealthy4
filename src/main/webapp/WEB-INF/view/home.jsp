@@ -148,15 +148,17 @@
 					              <div class="col-md-1" style="horizontal-align: middle;"><p style="font-size: 2em; padding-left: 10px; margin-top: -10px"><b>-</b></p></div>
 					              
 					              <div class="col-md-1" style="border: outset #3c8dbc; padding-left: 5px !important;" id="fcal">
-					              	${foodcal}
+					              	<%-- ${foodcal} --%>
+					              	<fmt:formatNumber value="${foodcal}" maxFractionDigits="3" groupingUsed="False"/>
 					              </div>
 					              <div class="col-md-1" style="horizontal-align: middle;"><p style="font-size: 2em; padding-left: 10px; margin-top: -10px"><b>+</b></p></div>
 					              <div class="col-md-1" style="border: outset #3c8dbc; padding-left: 5px !important;" id="ecal">
-					              	${execal}
+					              	<%-- ${execal} --%>
+					              	<fmt:formatNumber value="${execal}" maxFractionDigits="3" groupingUsed="False"/>
 					              </div>
 					              <div class="col-md-1" style="horizontal-align: middle;"><p style="font-size: 2em; padding-left: 10px; margin-top: -10px"><b>=</b></p></div>
 					              <div class="col-md-1" style="border: outset #3c8dbc; padding-left: 5px !important;" id="tcal">
-					              <fmt:formatNumber value="${calgoal-foodcal+execal}" maxFractionDigits="1" />
+					              <fmt:formatNumber value="${calgoal-foodcal+execal}" maxFractionDigits="1" groupingUsed="False"/>
 					              
 					              </div>
 					              </div>
@@ -237,7 +239,7 @@
 					              </div>
 					              <div id="minute">
 					              	
-					              	<form>
+					              	<form  action="${pageContext.request.contextPath }/home/addexercise" id="e">
 					              		<div class="form-group" style="margin-top: 15px;">
 					              			<label style="font-weight:400;">Minutes Performed</label>
 					              			<div class="col-sm-10">
@@ -355,6 +357,43 @@
 							//$("#f").reset();
 							//data: return data from server
 							$("#fcal").text((parseFloat($("#fcal").text())+parseFloat(data.result)).toFixed(2));
+							$("#tcal").text((parseFloat($("#dcal").text())-parseFloat($("#fcal").text())+parseFloat($("#ecal").text())).toFixed(2));
+							//alert($("fcal").html());
+						},
+						error: function(jqXHR, textStatus, errorThrown) 
+						{
+							//if fails		
+						}
+					});
+			//$(this).unbind(e);
+		});
+
+
+		//submit exerciseitems form
+		$("#e").submit(function(e)
+		{
+			e.preventDefault();
+			//this.reset();
+			
+			//var select=$("#fooditem");
+			var exerciseId=$("#exerciseitem").val();
+			var minutes=$("input[name=minute]").val();
+			var uid=${cookie.id.value};
+			//alert(uid);
+			this.reset();
+			var formURL = $(this).attr("action");
+			$.ajax(
+					{
+						url : formURL,
+						type: "POST",
+						data : {"exerciseId":exerciseId,"minutes":minutes,"uid":uid},
+						success:function(data, textStatus, jqXHR) 
+						{
+							alert(data.result);
+							$('#exercisei').removeClass( "in" );
+							//$("#f").reset();
+							//data: return data from server
+							$("#ecal").text((parseFloat($("#ecal").text())+parseFloat(data.result)).toFixed(2));
 							$("#tcal").text((parseFloat($("#dcal").text())-parseFloat($("#fcal").text())+parseFloat($("#ecal").text())).toFixed(2));
 							//alert($("fcal").html());
 						},

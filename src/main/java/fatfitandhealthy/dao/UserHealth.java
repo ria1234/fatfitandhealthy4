@@ -1,7 +1,7 @@
 package fatfitandhealthy.dao;
 
 // default package
-// Generated 18 Dec, 2016 5:15:39 PM by Hibernate Tools 5.1.0.Beta1
+// Generated 19 Dec, 2016 5:55:57 PM by Hibernate Tools 5.1.0.Beta1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +28,10 @@ public class UserHealth implements java.io.Serializable {
 	private String kgs;
 	private String dailyCalGoal;
 	private Set<Breakfast> breakfasts = new HashSet<Breakfast>(0);
+	private Set<ExerciseLog> exerciseLogs = new HashSet<ExerciseLog>(0);
+	private Set<Dinner> dinners = new HashSet<Dinner>(0);
 	private Set<ActivityLog> activityLogs = new HashSet<ActivityLog>(0);
+	private Set<Lunch> lunches = new HashSet<Lunch>(0);
 
 	public UserHealth() {
 	}
@@ -46,7 +49,8 @@ public class UserHealth implements java.io.Serializable {
 	}
 
 	public UserHealth(int id, int uno, String height, String weight, String activityFactor, String weightGoal,
-			String kgs, String dailyCalGoal, Set<Breakfast> breakfasts, Set<ActivityLog> activityLogs) {
+			String kgs, String dailyCalGoal, Set<Breakfast> breakfasts, Set<ExerciseLog> exerciseLogs,
+			Set<Dinner> dinners, Set<ActivityLog> activityLogs, Set<Lunch> lunches) {
 		this.id = id;
 		this.uno = uno;
 		this.height = height;
@@ -56,7 +60,10 @@ public class UserHealth implements java.io.Serializable {
 		this.kgs = kgs;
 		this.dailyCalGoal = dailyCalGoal;
 		this.breakfasts = breakfasts;
+		this.exerciseLogs = exerciseLogs;
+		this.dinners = dinners;
 		this.activityLogs = activityLogs;
+		this.lunches = lunches;
 	}
 
 	@Id
@@ -142,6 +149,24 @@ public class UserHealth implements java.io.Serializable {
 		this.breakfasts = breakfasts;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userHealth")
+	public Set<ExerciseLog> getExerciseLogs() {
+		return this.exerciseLogs;
+	}
+
+	public void setExerciseLogs(Set<ExerciseLog> exerciseLogs) {
+		this.exerciseLogs = exerciseLogs;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userHealth")
+	public Set<Dinner> getDinners() {
+		return this.dinners;
+	}
+
+	public void setDinners(Set<Dinner> dinners) {
+		this.dinners = dinners;
+	}
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userHealth")
 	public Set<ActivityLog> getActivityLogs() {
 		return this.activityLogs;
@@ -149,6 +174,15 @@ public class UserHealth implements java.io.Serializable {
 
 	public void setActivityLogs(Set<ActivityLog> activityLogs) {
 		this.activityLogs = activityLogs;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userHealth")
+	public Set<Lunch> getLunches() {
+		return this.lunches;
+	}
+
+	public void setLunches(Set<Lunch> lunches) {
+		this.lunches = lunches;
 	}
 
 }

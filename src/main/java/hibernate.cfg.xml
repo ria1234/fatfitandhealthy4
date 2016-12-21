@@ -24,6 +24,10 @@
        <mapping class="fatfitandhealthy.dao.Exercise" />
        <mapping class="fatfitandhealthy.dao.ActivityLog" />
        <mapping class="fatfitandhealthy.dao.Breakfast" />
+       <mapping class="fatfitandhealthy.dao.Dinner" />
+       <mapping class="fatfitandhealthy.dao.ExerciseLog" />
+       <mapping class="fatfitandhealthy.dao.Lunch" />
+       
         <!-- <mapping class="facebook.dao.Comment" />
         <mapping class="facebook.dao.User" />
         <mapping class="facebook.dao.HibernateSequence" /> -->
