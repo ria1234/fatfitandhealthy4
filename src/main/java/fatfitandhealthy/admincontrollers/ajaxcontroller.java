@@ -204,5 +204,34 @@ public class ajaxcontroller {
 		AjaxResponseBody result=new AjaxResponseBody("", "200", calplus);
 		return result;
 	}
+	
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/home/addwater",method=RequestMethod.POST)
+	public void addwater(@RequestParam int water,@RequestParam int uid)
+	{
+		
+		
+		//System.out.println(foodId+" "+servingNo+" "+uid+" "+slot);
+		UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", Integer.toString(uid)).iterator().next();
+		
+	/*	UserHealth uh=new UserHealth();
+		uh.setId(uid);*/
+		
+		if (Getdata.twocolumnvaluewhere("ActivityLog", "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"uid",Integer.toString(uid)).isEmpty()) {
+			ActivityLog al=new ActivityLog(uh, new SimpleDateFormat("yyyy-MM-dd").format(new Date()), "0", "0", "0","0" , water, 0);
+			Getdata.save(al);
+			
+		}
+		else{
+			ActivityLog al=(ActivityLog)Getdata.twocolumnvaluewhere("ActivityLog", "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"uid",Integer.toString(uid)).iterator().next();
+			al.setWater(water);
+			Getdata.update(al);
+		}
+		
+		
+		
+		
+	
+	}
 }
 	

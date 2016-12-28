@@ -1,7 +1,7 @@
 package fatfitandhealthy.dao;
 
 // default package
-// Generated 19 Dec, 2016 5:55:57 PM by Hibernate Tools 5.1.0.Beta1
+// Generated 21 Dec, 2016 4:53:43 PM by Hibernate Tools 5.1.0.Beta1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,6 +27,9 @@ public class UserHealth implements java.io.Serializable {
 	private String weightGoal;
 	private String kgs;
 	private String dailyCalGoal;
+	private Set<SleepLog> sleepLogs = new HashSet<SleepLog>(0);
+	private Set<PasswordResetToken> passwordResetTokens = new HashSet<PasswordResetToken>(0);
+	private Set<Weight> weights = new HashSet<Weight>(0);
 	private Set<Breakfast> breakfasts = new HashSet<Breakfast>(0);
 	private Set<ExerciseLog> exerciseLogs = new HashSet<ExerciseLog>(0);
 	private Set<Dinner> dinners = new HashSet<Dinner>(0);
@@ -49,8 +52,9 @@ public class UserHealth implements java.io.Serializable {
 	}
 
 	public UserHealth(int id, int uno, String height, String weight, String activityFactor, String weightGoal,
-			String kgs, String dailyCalGoal, Set<Breakfast> breakfasts, Set<ExerciseLog> exerciseLogs,
-			Set<Dinner> dinners, Set<ActivityLog> activityLogs, Set<Lunch> lunches) {
+			String kgs, String dailyCalGoal, Set<SleepLog> sleepLogs, Set<PasswordResetToken> passwordResetTokens,
+			Set<Weight> weights, Set<Breakfast> breakfasts, Set<ExerciseLog> exerciseLogs, Set<Dinner> dinners,
+			Set<ActivityLog> activityLogs, Set<Lunch> lunches) {
 		this.id = id;
 		this.uno = uno;
 		this.height = height;
@@ -59,6 +63,9 @@ public class UserHealth implements java.io.Serializable {
 		this.weightGoal = weightGoal;
 		this.kgs = kgs;
 		this.dailyCalGoal = dailyCalGoal;
+		this.sleepLogs = sleepLogs;
+		this.passwordResetTokens = passwordResetTokens;
+		this.weights = weights;
 		this.breakfasts = breakfasts;
 		this.exerciseLogs = exerciseLogs;
 		this.dinners = dinners;
@@ -138,6 +145,33 @@ public class UserHealth implements java.io.Serializable {
 
 	public void setDailyCalGoal(String dailyCalGoal) {
 		this.dailyCalGoal = dailyCalGoal;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userHealth")
+	public Set<SleepLog> getSleepLogs() {
+		return this.sleepLogs;
+	}
+
+	public void setSleepLogs(Set<SleepLog> sleepLogs) {
+		this.sleepLogs = sleepLogs;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userHealth")
+	public Set<PasswordResetToken> getPasswordResetTokens() {
+		return this.passwordResetTokens;
+	}
+
+	public void setPasswordResetTokens(Set<PasswordResetToken> passwordResetTokens) {
+		this.passwordResetTokens = passwordResetTokens;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userHealth")
+	public Set<Weight> getWeights() {
+		return this.weights;
+	}
+
+	public void setWeights(Set<Weight> weights) {
+		this.weights = weights;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userHealth")

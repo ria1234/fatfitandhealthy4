@@ -4,13 +4,12 @@ import java.util.Date;
 import java.util.List;
 import fatfitandhealthy.dao.*;
 
-
-
-
-
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 public class Getdata {
 
@@ -145,6 +144,25 @@ public class Getdata {
 		return query.list();
 		}
 		finally {
+			transaction.commit();
+			session.close();
+		}
+		
+	}
+	
+	public static List lastnrecord(Class t, String c, int n,String c1,Object v1) {
+		Session session=HibernateUtil.openSession();
+		Transaction transaction=session.beginTransaction();
+		try{
+		Criteria criteria=session.createCriteria(t);
+		criteria.add(Restrictions.eq(c1, v1));
+		criteria.addOrder(Order.desc(c));
+		criteria.setMaxResults(n);
+		List l=criteria.list();
+		return l;
+		
+		}
+		finally{
 			transaction.commit();
 			session.close();
 		}

@@ -24,8 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import fatfitandhealthy.dao.ActivityLog;
 import fatfitandhealthy.dao.Admin;
+import fatfitandhealthy.dao.Breakfast;
+import fatfitandhealthy.dao.Dinner;
 import fatfitandhealthy.dao.Exercise;
 import fatfitandhealthy.dao.FoodItems;
+import fatfitandhealthy.dao.Lunch;
+import fatfitandhealthy.dao.NutritionGoal;
 import fatfitandhealthy.dao.UserHealth;
 import fatfitandhealthy.dao.UserLogin;
 import fatfitandhealthy.dao.UsersPersonal;
@@ -263,6 +267,204 @@ public class login {
 		id.setMaxAge(0);
 		response.addCookie(id);
 		return "redirect:/login";
+		
+	}
+	
+	@RequestMapping(value="/nutritions",method=RequestMethod.GET)
+	public String nutritions(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
+		Iterator<Breakfast> ib=Getdata.twocolumnvaluewhere("Breakfast", "uid", id, "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date())).iterator();
+		float fat=0;
+		float cholesterol=0;
+		float sodium=0;
+		float potassium=0;
+		float carbs=0;
+		float fiber=0;
+		float sugars=0;
+		float protein=0;
+		//System.out.println(ib.hasNext());
+		while (ib.hasNext()) {
+			//System.out.println("aavyu");
+			Breakfast breakfast = (Breakfast) ib.next();
+			fat=fat+(breakfast.getFoodItems().getFat()*breakfast.getServingNo());
+			cholesterol=cholesterol+(breakfast.getFoodItems().getCholesterol()*breakfast.getServingNo());
+			sodium=sodium+(breakfast.getFoodItems().getSodium()*breakfast.getServingNo());
+			potassium=potassium+(breakfast.getFoodItems().getPotassium()*breakfast.getServingNo());
+			carbs=carbs+(breakfast.getFoodItems().getCarbs()*breakfast.getServingNo());
+			fiber=fiber+(breakfast.getFoodItems().getFiber()*breakfast.getServingNo());
+			sugars=sugars+(breakfast.getFoodItems().getSugars()*breakfast.getServingNo());
+			protein=protein+(breakfast.getFoodItems().getProtein()*breakfast.getServingNo());
+		}
+		
+		Iterator<Lunch> il=Getdata.twocolumnvaluewhere("Lunch", "uid", id, "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date())).iterator();
+		
+		//System.out.println(ib.hasNext());
+		while (il.hasNext()) {
+			//System.out.println("aavyu");
+			Lunch lunch = (Lunch) il.next();
+			fat=fat+(lunch.getFoodItems().getFat()*lunch.getServingNo());
+			cholesterol=cholesterol+(lunch.getFoodItems().getCholesterol()*lunch.getServingNo());
+			sodium=sodium+(lunch.getFoodItems().getSodium()*lunch.getServingNo());
+			potassium=potassium+(lunch.getFoodItems().getPotassium()*lunch.getServingNo());
+			carbs=carbs+(lunch.getFoodItems().getCarbs()*lunch.getServingNo());
+			fiber=fiber+(lunch.getFoodItems().getFiber()*lunch.getServingNo());
+			sugars=sugars+(lunch.getFoodItems().getSugars()*lunch.getServingNo());
+			protein=protein+(lunch.getFoodItems().getProtein()*lunch.getServingNo());
+		}
+		Iterator<Dinner> itd=Getdata.twocolumnvaluewhere("Dinner", "uid", id, "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date())).iterator();
+		
+		//System.out.println(ib.hasNext());
+		while (itd.hasNext()) {
+			//System.out.println("aavyu");
+			Dinner dinner= (Dinner) itd.next();
+			fat=fat+(dinner.getFoodItems().getFat()*dinner.getServingNo());
+			cholesterol=cholesterol+(dinner.getFoodItems().getCholesterol()*dinner.getServingNo());
+			sodium=sodium+(dinner.getFoodItems().getSodium()*dinner.getServingNo());
+			potassium=potassium+(dinner.getFoodItems().getPotassium()*dinner.getServingNo());
+			carbs=carbs+(dinner.getFoodItems().getCarbs()*dinner.getServingNo());
+			fiber=fiber+(dinner.getFoodItems().getFiber()*dinner.getServingNo());
+			sugars=sugars+(dinner.getFoodItems().getSugars()*dinner.getServingNo());
+			protein=protein+(dinner.getFoodItems().getProtein()*dinner.getServingNo());
+		}
+		model.addAttribute("fat", fat);
+		model.addAttribute("cholesterol", cholesterol);
+		model.addAttribute("sodium", sodium);
+		model.addAttribute("potassium", potassium);
+		model.addAttribute("carbs", carbs);
+		model.addAttribute("fiber", fiber);
+		model.addAttribute("sugars", sugars);
+		model.addAttribute("protein", protein);
+		model.addAttribute("goal", Getdata.getData("NutritionGoal").iterator().next());
+		if(!id.equals(""))
+			return "nutritions";
+			else
+				return "redirect:/login";
+	
+		
+		
+	}
+	
+	@RequestMapping(value="/waterintake",method=RequestMethod.GET)
+	public String waterintake(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
+		model.addAttribute("goal", ((NutritionGoal)Getdata.getData("NutritionGoal").iterator().next()).getWater());
+		Iterator<ActivityLog> i=Getdata.twocolumnvaluewhere("ActivityLog", "uid", id, "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date())).iterator();
+		float water=0;
+		while (i.hasNext()) {
+			ActivityLog activityLog = (ActivityLog) i.next();
+			water=activityLog.getWater();
+		}
+		
+		model.addAttribute("water",water);
+		if(!id.equals(""))
+			return "waterintake";
+			else
+				return "redirect:/login";
+	
+		
+		
+	}
+	
+	@RequestMapping(value="/sleepcycle",method=RequestMethod.GET)
+	public String sleepcycle(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
+		
+	
+		
+		if(!id.equals(""))
+			return "sleepcycle";
+			else
+				return "redirect:/login";
+	
+		
+		
+	}
+	
+	@RequestMapping(value="/caloriehistory",method=RequestMethod.GET)
+	public String caloriehistory(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
+		UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", id).iterator().next();
+		model.addAttribute("calGoal",uh.getDailyCalGoal());
+		NutritionGoal ng=(NutritionGoal) Getdata.getData("NutritionGoal").iterator().next();
+		model.addAttribute("watergoal", ng.getWater());
+		List<ActivityLog> l=Getdata.lastnrecord(ActivityLog.class, "date", 10,"userHealth",uh);
+		model.addAttribute("activitylog", l);
+		if(!id.equals(""))
+			return "caloriehistory";
+			else
+				return "redirect:/login";
+	
+		
+		
+	}
+	
+	@RequestMapping(value="/nutrienthistory/{date}",method=RequestMethod.GET)
+	public String nutrienthistory(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model,@PathVariable String date) {
+		Iterator<Breakfast> ib=Getdata.twocolumnvaluewhere("Breakfast", "uid", id, "date", date).iterator();
+		float fat=0;
+		float cholesterol=0;
+		float sodium=0;
+		float potassium=0;
+		float carbs=0;
+		float fiber=0;
+		float sugars=0;
+		float protein=0;
+		//System.out.println(ib.hasNext());
+		while (ib.hasNext()) {
+			//System.out.println("aavyu");
+			Breakfast breakfast = (Breakfast) ib.next();
+			fat=fat+(breakfast.getFoodItems().getFat()*breakfast.getServingNo());
+			cholesterol=cholesterol+(breakfast.getFoodItems().getCholesterol()*breakfast.getServingNo());
+			//System.out.println(fat+" "+breakfast.getFoodItems().getFat()*breakfast.getServingNo()+"\n");
+			sodium=sodium+(breakfast.getFoodItems().getSodium()*breakfast.getServingNo());
+			potassium=potassium+(breakfast.getFoodItems().getPotassium()*breakfast.getServingNo());
+			carbs=carbs+(breakfast.getFoodItems().getCarbs()*breakfast.getServingNo());
+			fiber=fiber+(breakfast.getFoodItems().getFiber()*breakfast.getServingNo());
+			sugars=sugars+(breakfast.getFoodItems().getSugars()*breakfast.getServingNo());
+			protein=protein+(breakfast.getFoodItems().getProtein()*breakfast.getServingNo());
+		}
+		
+		Iterator<Lunch> il=Getdata.twocolumnvaluewhere("Lunch", "uid", id, "date", date).iterator();
+		
+		//System.out.println(ib.hasNext());
+		while (il.hasNext()) {
+			//System.out.println("aavyu");
+			Lunch lunch = (Lunch) il.next();
+			fat=fat+(lunch.getFoodItems().getFat()*lunch.getServingNo());
+			cholesterol=cholesterol+(lunch.getFoodItems().getCholesterol()*lunch.getServingNo());
+			sodium=sodium+(lunch.getFoodItems().getSodium()*lunch.getServingNo());
+			potassium=potassium+(lunch.getFoodItems().getPotassium()*lunch.getServingNo());
+			carbs=carbs+(lunch.getFoodItems().getCarbs()*lunch.getServingNo());
+			fiber=fiber+(lunch.getFoodItems().getFiber()*lunch.getServingNo());
+			sugars=sugars+(lunch.getFoodItems().getSugars()*lunch.getServingNo());
+			protein=protein+(lunch.getFoodItems().getProtein()*lunch.getServingNo());
+		}
+		Iterator<Dinner> itd=Getdata.twocolumnvaluewhere("Dinner", "uid", id, "date", date).iterator();
+		
+		//System.out.println(ib.hasNext());
+		while (itd.hasNext()) {
+			//System.out.println("aavyu");
+			Dinner dinner= (Dinner) itd.next();
+			fat=fat+(dinner.getFoodItems().getFat()*dinner.getServingNo());
+			cholesterol=cholesterol+(dinner.getFoodItems().getCholesterol()*dinner.getServingNo());
+			sodium=sodium+(dinner.getFoodItems().getSodium()*dinner.getServingNo());
+			potassium=potassium+(dinner.getFoodItems().getPotassium()*dinner.getServingNo());
+			carbs=carbs+(dinner.getFoodItems().getCarbs()*dinner.getServingNo());
+			fiber=fiber+(dinner.getFoodItems().getFiber()*dinner.getServingNo());
+			sugars=sugars+(dinner.getFoodItems().getSugars()*dinner.getServingNo());
+			protein=protein+(dinner.getFoodItems().getProtein()*dinner.getServingNo());
+		}
+		model.addAttribute("fat", fat);
+		model.addAttribute("cholesterol", cholesterol);
+		model.addAttribute("sodium", sodium);
+		model.addAttribute("potassium", potassium);
+		model.addAttribute("carbs", carbs);
+		model.addAttribute("fiber", fiber);
+		model.addAttribute("sugars", sugars);
+		model.addAttribute("protein", protein);
+		model.addAttribute("goal", Getdata.getData("NutritionGoal").iterator().next());
+		if(!id.equals(""))
+			return "nutrienthistory";
+			else
+				return "redirect:/login";
+	
+		
 		
 	}
 	

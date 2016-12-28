@@ -51,7 +51,7 @@
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
         <li class="active treeview">
-          <a href="${pageContext.request.contextPath }/managecalories">
+          <a href="${pageContext.request.contextPath }/home">
             <!-- <i class="fa fa-dashboard"></i> --> <img src="${pageContext.request.contextPath }/resources/images/calorie.png" height="15" width="15"><span style="padding-left: 7px">Manage Calories</span>
             <span class="pull-right-container">
 
@@ -62,7 +62,7 @@
      
         <li class="treeview">
           <a href="${pageContext.request.contextPath }/waterintake">
-            <i class="fa fa-user"></i> <span>Water Intake</span>
+            <i class="fa fa-tint"></i> <span>Water Intake</span>
             <span class="pull-right-container">
 <!--               <i class="fa fa-angle-left pull-right"></i> -->
             </span>
@@ -71,8 +71,8 @@
         </li>
        
         <li class="treeview">
-          <a href="${pageContext.request.contextPath }/admin/sleepcycle">
-            <i class="fa fa-user"></i> <span>Sleep Cycle</span>
+          <a href="${pageContext.request.contextPath }/sleepcycle">
+            <i class="fa fa-bed"></i> <span>Sleep Cycle</span>
             <span class="pull-right-container">
 <!--               <i class="fa fa-angle-left pull-right"></i> -->
             </span>
@@ -80,17 +80,39 @@
 
         </li>
         <li class="treeview">
-          <a href="${pageContext.request.contextPath }/admin/caloriehistory">
-            <i class="fa fa-cutlery"></i> <span>Calorie History</span>
+          <a href="${pageContext.request.contextPath }/caloriehistory">
+            <i class="fa fa-history"></i> <span>View History</span>
             <span class="pull-right-container">
 <!--               <i class="fa fa-angle-left pull-right"></i> -->
             </span>
           </a>
 
         </li>
+        
         <li class="treeview">
-          <a href="${pageContext.request.contextPath }/admin/shareideas">
-            <i class="fa fa-heartbeat"></i> <span>Share Ideas</span>
+          <a href="${pageContext.request.contextPath }/editgoal">
+            <i class="fa fa-pencil-square-o"></i> <span>Edit Weight And Fitness Goal</span>
+            <span class="pull-right-container">
+<!--               <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+
+        </li>
+        
+         <li class="treeview">
+          <a href="${pageContext.request.contextPath }/progress">
+            <i class="fa fa-bar-chart"></i> <span>View Progress</span>
+            <span class="pull-right-container">
+<!--               <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+
+        </li>
+
+        
+        <li class="treeview">
+          <a href="${pageContext.request.contextPath }/shareideas">
+            <i class="fa fa-comments"></i> <span>Share Ideas</span>
             <span class="pull-right-container">
 <!--               <i class="fa fa-angle-left pull-right"></i> -->
             </span>
@@ -110,7 +132,7 @@
     <section class="content-header">
       <h1>
         Manage Calories
-        <small>Control panel</small>
+        <small>Fatfitandhealthy</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i> Home</a></li>
@@ -193,7 +215,7 @@
 					            	</div>
 					            </div>
 					            <div class="col-md-4">
-					            	<button type="button" class="btn btn-primary" style="padding-bottom: 30px; padding-top: 30px;">Nutrients Details</button>
+					            	<button type="button" class="btn btn-primary" style="padding-bottom: 30px; padding-top: 30px;" onclick="location.href = '${pageContext.request.contextPath }/nutritions';">Nutrients Details</button>
 					            </div>
 					            </div>
 					            <!-- /.box-body -->

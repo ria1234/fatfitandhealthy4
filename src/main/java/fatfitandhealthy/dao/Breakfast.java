@@ -1,7 +1,7 @@
 package fatfitandhealthy.dao;
 
 // default package
-// Generated 19 Dec, 2016 5:55:57 PM by Hibernate Tools 5.1.0.Beta1
+// Generated 21 Dec, 2016 4:53:43 PM by Hibernate Tools 5.1.0.Beta1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,7 +48,7 @@ public class Breakfast implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "food_id", nullable = false)
 	public FoodItems getFoodItems() {
 		return this.foodItems;

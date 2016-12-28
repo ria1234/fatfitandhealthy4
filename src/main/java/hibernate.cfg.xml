@@ -27,6 +27,11 @@
        <mapping class="fatfitandhealthy.dao.Dinner" />
        <mapping class="fatfitandhealthy.dao.ExerciseLog" />
        <mapping class="fatfitandhealthy.dao.Lunch" />
+       <mapping class="fatfitandhealthy.dao.NutritionGoal" />
+       <mapping class="fatfitandhealthy.dao.SleepLog" />
+       <mapping class="fatfitandhealthy.dao.Weight" />
+       <mapping class="fatfitandhealthy.dao.SystemLog" />
+       <mapping class="fatfitandhealthy.dao.PasswordResetToken" />
        
         <!-- <mapping class="facebook.dao.Comment" />
         <mapping class="facebook.dao.User" />

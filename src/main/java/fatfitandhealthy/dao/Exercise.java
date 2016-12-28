@@ -1,7 +1,7 @@
 package fatfitandhealthy.dao;
 
 // default package
-// Generated 19 Dec, 2016 5:55:57 PM by Hibernate Tools 5.1.0.Beta1
+// Generated 21 Dec, 2016 4:53:43 PM by Hibernate Tools 5.1.0.Beta1
 
 import java.util.HashSet;
 import java.util.Set;
