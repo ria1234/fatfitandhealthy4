@@ -33,6 +33,7 @@ import fatfitandhealthy.dao.NutritionGoal;
 import fatfitandhealthy.dao.UserHealth;
 import fatfitandhealthy.dao.UserLogin;
 import fatfitandhealthy.dao.UsersPersonal;
+import fatfitandhealthy.dao.Weight;
 import fatfitandhealthy.hibernate.Getdata;
 import fatfitandhealthy.methods.sendemail;
 
@@ -181,6 +182,11 @@ public class login {
 		}
 		uh.setDailyCalGoal(Double.toString(Math.round(daily_cal_goal)));
 		Getdata.save(uh);
+		Weight w=new Weight();
+		w.setUserHealth(uh);
+		w.setDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		w.setWeight(weight);
+		Getdata.save(w);
 		return "redirect:/login";
 		
 	}
@@ -383,7 +389,7 @@ public class login {
 		model.addAttribute("calGoal",uh.getDailyCalGoal());
 		NutritionGoal ng=(NutritionGoal) Getdata.getData("NutritionGoal").iterator().next();
 		model.addAttribute("watergoal", ng.getWater());
-		List<ActivityLog> l=Getdata.lastnrecord(ActivityLog.class, "date", 10,"userHealth",uh);
+		List<ActivityLog> l=Getdata.lastnrecord(ActivityLog.class, "date", 10,"userHealth",uh,"date",new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		model.addAttribute("activitylog", l);
 		if(!id.equals(""))
 			return "caloriehistory";
@@ -461,6 +467,19 @@ public class login {
 		model.addAttribute("goal", Getdata.getData("NutritionGoal").iterator().next());
 		if(!id.equals(""))
 			return "nutrienthistory";
+			else
+				return "redirect:/login";
+	
+		
+		
+	}
+	
+	@RequestMapping(value="/editgoal",method=RequestMethod.GET)
+	public String editgoal(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
+		UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", id).iterator().next();
+		model.addAttribute("UserHealth", uh);
+		if(!id.equals(""))
+			return "editgoal";
 			else
 				return "redirect:/login";
 	

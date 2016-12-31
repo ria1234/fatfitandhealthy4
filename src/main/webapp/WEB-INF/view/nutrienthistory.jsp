@@ -142,6 +142,7 @@ th{
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i> Home</a></li>
+        <li>View History</li>
         <li class="active">Nutrients History</li>
         
       </ol>
@@ -158,14 +159,14 @@ th{
 						
 							<div class="box box-primary">
 					            <div class="box-header with-border">
-					              <h3 class="box-title">Manage Nutrients</h3>
+					              <h3 class="box-title">Nutrients History</h3>
 				            </div>
 							
 							<div class="box box-solid">
 					            <div class="box-header with-border">
 					             <i class="fa fa-cutlery"  aria-hidden="true"></i>
 								 
-					              <h3 class="box-title">Maintain Daily Nutrients Goal</h3>
+					              <h3 class="box-title">Daily Nutrients History</h3>
 					            </div>
 					            <!-- /.box-header -->
 					            <div class="box-body table-responsive no-padding">
@@ -231,13 +232,94 @@ th{
 											</tr>
 										</tbody>
 									</table>
+									</div>
+									
+								<c:set value="${goal.protein-protein}" var="proteinleft"></c:set>
+								<c:if test="${proteinleft le 0 or proteinleft gt 10}">
+					              <div class="box-footer">
+					              
+					              	<div class="alert alert-${proteinleft <= 0?'success':'warning'} alert-dismissible">
+										<button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button>
+										
+										<i class="icon fa fa-${proteinleft <= 0?'check':'warning'}"></i>
+											<c:choose>
+												<c:when test="${proteinleft<=0}">
+													Congrats ! Protein goal is crossed !
+												</c:when>
+												<c:when test="${proteinleft>10}">
+													You are not taking sufficient Protein.
+												</c:when>
+												<c:otherwise>
+													Your goal is OK.
+												</c:otherwise>
+											</c:choose>
+										
+										
+									</div>
+					              </div>
+					              </c:if>
+					            
+					            <c:set value="${goal.cholesterol-cholesterol}" var="cholesterolleft"></c:set>
+								<c:if test="${cholesterolleft lt 0}">
+					              <div class="box-footer">
+					              
+					              	<div class="alert alert-danger alert-dismissible">
+										<button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button>
+										
+										<i class="icon fa fa-ban"></i>
+										Your cholesterol goal is crossed !
+										
+										
+									</div>
+					              </div>
+					              </c:if>
+					              
+					            <c:set value="${goal.carbohydrates-carbs}" var="carbsleft"></c:set>
+								<c:if test="${carbsleft lt 0}">
+					              <div class="box-footer">
+					              
+					              	<div class="alert alert-warning alert-dismissible">
+										<button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button>
+										
+										<i class="icon fa fa-warning"></i>
+										Your carbohydrates goal is crossed !
+										
+										
+									</div>
+					              </div>
+					              </c:if>
+					              
+					            <c:set value="${goal.fiber-fiber}" var="fiberleft"></c:set>
+								<c:if test="${fiberleft le 0 or fiberleft gt 2}">
+					              <div class="box-footer">
+					              
+					              	<div class="alert alert-${fiberleft <= 0?'success':'warning'} alert-dismissible">
+										<button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button>
+										
+										<i class="icon fa fa-${fiberleft <= 0?'check':'warning'}"></i>
+											<c:choose>
+												<c:when test="${fiberleft<=0}">
+													Congrats ! Fiber goal is crossed !
+												</c:when>
+												<c:when test="${fiberleft>2}">
+													You are not taking sufficient Fiber.
+												</c:when>
+												<c:otherwise>
+													Your goal is OK.
+												</c:otherwise>
+											</c:choose>
+										
+										
+									</div>
+					              </div>
+					              </c:if>
 					              
 					            <div class="box-footer">
 					            
-					            <button class="btn btn-primary" style="float: right;" onclick="location.href = '${pageContext.request.contextPath }/home';">Back</button>
+					            <button class="btn btn-primary" style="float: right;" onclick="location.href = '${pageContext.request.contextPath }/caloriehistory';">Back</button>
 					            </div>
 					            <!-- /.box-body -->
-					          </div>
+					          
           <!-- /.box -->
           					
 					            

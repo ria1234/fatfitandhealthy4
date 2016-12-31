@@ -24,6 +24,8 @@ import fatfitandhealthy.dao.FoodItems;
 import fatfitandhealthy.dao.Lunch;
 import fatfitandhealthy.dao.UserHealth;
 import fatfitandhealthy.dao.UserLogin;
+import fatfitandhealthy.dao.UsersPersonal;
+import fatfitandhealthy.dao.Weight;
 import fatfitandhealthy.hibernate.Getdata;
 import fatfitandhealthy.jsonview.Views;
 
@@ -227,6 +229,69 @@ public class ajaxcontroller {
 			al.setWater(water);
 			Getdata.update(al);
 		}
+		
+		
+		
+		
+	
+	}
+	
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/editgoal",method=RequestMethod.POST)
+	public AjaxResponseBody editgoal(@RequestParam int id,@RequestParam String activityFactor,@RequestParam String weightGoal,@RequestParam String kgs)
+	{
+		
+		//System.out.println(id+" "+activityFactor+" "+weightGoal+" "+kgs);
+		UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", Integer.toString(id)).iterator().next();
+		uh.setActivityFactor(activityFactor);
+		uh.setWeightGoal(weightGoal);
+		uh.setKgs(kgs);
+		//calculating daily cal goal
+		String dob=((UsersPersonal)Getdata.onecolumnvaluewhere("UsersPersonal", "id", Integer.toString(id)).iterator().next()).getDob();
+		String gender=((UsersPersonal)Getdata.onecolumnvaluewhere("UsersPersonal", "id", Integer.toString(id)).iterator().next()).getGender();
+		String weight=uh.getWeight();
+		String height=uh.getHeight();
+		double dailyCalGoal=Getdata.calcuatecalgoal(dob, gender, weight, height, activityFactor, weightGoal, kgs);
+		uh.setDailyCalGoal(Double.toString(Math.round(dailyCalGoal)));
+		Getdata.update(uh);
+		AjaxResponseBody result=new AjaxResponseBody("", "200", (float) Math.round(dailyCalGoal));
+		return result;
+		
+		
+		
+		
+		
+	
+	}
+	
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/editweight",method=RequestMethod.POST)
+	public AjaxResponseBody editweight(@RequestParam int id,@RequestParam String weight)
+	{
+		
+		//System.out.println(id+" "+activityFactor+" "+weightGoal+" "+kgs);
+		UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", Integer.toString(id)).iterator().next();
+		
+		
+		uh.setWeight(weight);
+		//calculating daily cal goal
+		String dob=((UsersPersonal)Getdata.onecolumnvaluewhere("UsersPersonal", "id", Integer.toString(id)).iterator().next()).getDob();
+		String gender=((UsersPersonal)Getdata.onecolumnvaluewhere("UsersPersonal", "id", Integer.toString(id)).iterator().next()).getGender();
+		String activityFactor=uh.getActivityFactor();
+		String weightGoal=uh.getWeightGoal();
+		String kgs=uh.getKgs();
+		String height=uh.getHeight();
+		double dailyCalGoal=Getdata.calcuatecalgoal(dob, gender, weight, height, activityFactor, weightGoal, kgs);
+		uh.setDailyCalGoal(Double.toString(Math.round(dailyCalGoal)));
+		Getdata.update(uh);
+		Weight w=new Weight();
+		w.setDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		w.setUserHealth(uh);
+		w.setWeight(weight);
+		Getdata.save(w);
+		AjaxResponseBody result=new AjaxResponseBody("", "200", (float) Math.round(dailyCalGoal));
+		return result;
+		
 		
 		
 		

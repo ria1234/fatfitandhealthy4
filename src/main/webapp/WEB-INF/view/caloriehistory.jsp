@@ -218,14 +218,14 @@
 					            <div class="box-footer">
 					            	<div class="alert alert-${remaining<5 and remaining >-5?'success':'warning'} alert-dismissible">
 										<button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button>
-										<h4>
+										
 										<i class="icon fa fa-${remaining<5 and remaining >-5?'check':'warning'}"></i>
 											<c:choose>
 												<c:when test="${remaining<5 and remaining >-5}">Well done</c:when>
 												<c:when test="${remaining>5 }">Eating Not Sufficient</c:when>
 												<c:otherwise>Eating Too Much</c:otherwise>
 											</c:choose>
-										</h4>
+										
 									
 									</div>
 					            </div>
@@ -258,7 +258,7 @@
 					            <div class="box-footer">
 					            	<div class="alert alert-${waterremaining <= 0?'success':'warning'} alert-dismissible">
 										<button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button>
-										<h4>
+										
 										<i class="icon fa fa-${waterremaining <= 0?'check':'warning'}"></i>
 											<c:choose>
 												<c:when test="${waterremaining<=0}">
@@ -268,7 +268,7 @@
 													You are not taking sufficient water
 												</c:otherwise>
 											</c:choose>
-										</h4>
+										
 										
 									</div>
 					            </div>

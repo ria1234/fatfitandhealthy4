@@ -150,12 +150,13 @@ public class Getdata {
 		
 	}
 	
-	public static List lastnrecord(Class t, String c, int n,String c1,Object v1) {
+	public static List lastnrecord(Class t, String c, int n,String c1,Object v1,String nc1,Object nv1) {
 		Session session=HibernateUtil.openSession();
 		Transaction transaction=session.beginTransaction();
 		try{
 		Criteria criteria=session.createCriteria(t);
 		criteria.add(Restrictions.eq(c1, v1));
+		criteria.add(Restrictions.ne(nc1, nv1));
 		criteria.addOrder(Order.desc(c));
 		criteria.setMaxResults(n);
 		List l=criteria.list();
