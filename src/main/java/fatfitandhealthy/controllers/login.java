@@ -22,6 +22,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
 import fatfitandhealthy.dao.ActivityLog;
 import fatfitandhealthy.dao.Admin;
 import fatfitandhealthy.dao.Breakfast;
@@ -480,6 +486,28 @@ public class login {
 		model.addAttribute("UserHealth", uh);
 		if(!id.equals(""))
 			return "editgoal";
+			else
+				return "redirect:/login";
+	
+		
+		
+	}
+	
+	@RequestMapping(value="/progress",method=RequestMethod.GET)
+	public String progress(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
+		List<Weight> l=Getdata.onecolumnvaluewhere("Weight", "uid", id);
+		
+		JsonArray array = new JsonArray();
+		for (Weight gi : l)
+		{
+		    JsonObject obj = new JsonObject();
+		    obj.addProperty("date", gi.getDate());
+		    obj.addProperty("weight", gi.getWeight());
+		    array.add(obj);
+		}
+		model.addAttribute("weight", array);
+		if(!id.equals(""))
+			return "progress";
 			else
 				return "redirect:/login";
 	

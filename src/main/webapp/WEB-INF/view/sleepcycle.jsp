@@ -176,7 +176,7 @@ td{
 							
 							<div class="box box-solid">
 					            <div class="box-header with-border">
-					              <i class="fa fa-tint"  aria-hidden="true"></i>
+					              <i class="fa fa-bed"  aria-hidden="true"></i>
 								 <%-- <img src="${pageContext.request.contextPath }/resources/images/calorie.png" height="30" width="30" style="padding-top: 0px; margin-top: 0px"> --%>
 					              <h3 class="box-title">Maintain Daily Sleep Cycle</h3>
 					            </div>
