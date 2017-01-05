@@ -515,4 +515,16 @@ public class login {
 		
 	}
 	
+	@RequestMapping(value="/shareideas",method=RequestMethod.GET)
+	public String shareideas(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
+		
+		if(!id.equals(""))
+			return "shareideas";
+			else
+				return "redirect:/login";
+	
+		
+		
+	}
+	
 }

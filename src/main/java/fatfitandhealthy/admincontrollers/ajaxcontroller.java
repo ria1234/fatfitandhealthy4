@@ -226,7 +226,7 @@ public class ajaxcontroller {
 		}
 		else{
 			ActivityLog al=(ActivityLog)Getdata.twocolumnvaluewhere("ActivityLog", "date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()),"uid",Integer.toString(uid)).iterator().next();
-			al.setWater(water);
+			al.setWater(al.getWater()+water);
 			Getdata.update(al);
 		}
 		
