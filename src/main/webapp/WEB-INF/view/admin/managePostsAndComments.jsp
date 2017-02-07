@@ -1,20 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page session="true" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page isELIgnored="false" %>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/admin/table.css" />
-
-<%-- <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap-switch.min.css" /> --%>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap-switch.min.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/plugins/datatables/dataTables.bootstrap.css" />
 <jsp:include page="upperheader.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath }/resources/js/admin/table.js"></script>
 <%-- <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.min.js"></script> --%>
-<%-- <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.js"></script>
-<script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
-  <script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script> --%>
+<script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.js"></script>
+<script src="${pageContext.request.contextPath }/resources/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath }/resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<style>
+<!--
+.modal-footer {
+    
+    padding: 15px !important;
+    text-align: right !important;
+    margin:0 !important;
+}
+-->
+</style>
 <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -62,7 +71,7 @@
           </a>
 
         </li>
-        <%} %>
+        <% } %>
         <li class="treeview">
           <a href="${pageContext.request.contextPath }/admin/manageusers">
             <i class="fa fa-user"></i> <span>Manage Users</span>
@@ -72,7 +81,7 @@
           </a>
 
         </li>
-        <li class="active treeview">
+		<li class="treeview">
           <a href="${pageContext.request.contextPath }/admin/managefooditems">
             <i class="fa fa-cutlery"></i> <span>Manage Food Items</span>
             <span class="pull-right-container">
@@ -90,7 +99,7 @@
           </a>
 
         </li>
-        <li class="treeview">
+        <li class="active treeview">
           <a href="managePostsAndComments">
             <i class="fa fa-comments"></i> <span>Manage Posts And Comments</span>
             <span class="pull-right-container">
@@ -99,8 +108,7 @@
           </a>
 
         </li>
-
-<!--         <li class="header">LABELS</li>
+        <!-- <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li> -->
@@ -114,73 +122,87 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        View Food Nutrition Information
+        Manage Posts And Comments
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i> Home</a></li>
-        <li>Manage Food Items</li>
-        <li class="active">View Food Nutrition Information</li>
+        <li class="active">Manage Posts And Comments</li>
       </ol>
     </section>
 
+      <!-- Main row -->
+      <div class="row">
+<!--         Left col -->
+<!--         <section class="col-lg-7 connectedSortable"> -->
+          
 
+          
+<!--         </section> -->
+<!--         /.Left col -->
+<!--         right col (We are only adding the ID to make the widgets sortable) -->
+<!--         <section class="col-lg-5 connectedSortable"> -->
+
+                       
+         
+
+<!--         </section> -->
+<!--         right col -->
 
 			<section class="content">
-			<div class="row">
 			
-				<div class="col-md-8 col-md-offset-2">
-				
-					
-						
-							<div class="box box-primary">
-					            <div class="box-header with-border">
-					              <h3 class="box-title">View Food Nutrition Information</h3>
-				            </div>
-							
-							<div class="box box-solid">
-					            <div class="box-header with-border">
-					              <i class="fa fa-cutlery"  aria-hidden="true"></i>
-					
-					              <h3 class="box-title">Food Nutrition details</h3>
-					            </div>
-					            <!-- /.box-header -->
-					            <div class="box-body">
-					              <dl class="dl-horizontal">
-					              	<dt>Fat</dt>
-					                <dd>${FoodItems.fat}</dd>
-					                <dt>Cholesterol:</dt>
-					                <dd>${FoodItems.cholesterol}.</dd>
-					                <dt>Sodium</dt>
-					                <dd>${FoodItems.sodium}</dd>
-					                <dt>Potassium:</dt>
-					                <dd>${FoodItems.potassium}</dd>
-					                <dt>Carbs</dt>
-					                <dd>${FoodItems.carbs}</dd>
-					                <dt>Fiber</dt>
-					                <dd>${FoodItems.fiber}</dd>
-					                <dt>Sugars</dt>
-					                <dd>${FoodItems.sugars}</dd>
-					                <dt>Protein:</dt>
-					                <dd>${FoodItems.protein}</dd>
-					              </dl>
-					            </div>
-					            <!-- /.box-body -->
-					          </div>
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Posts</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Username</th>
+                  <th>Post</th>
+                  <th>Comments</th>
+                  <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                <c:forEach items="${Post}" var="Post">
+				<tr id=${Post[0] }>
+					<td><img src="${pageContext.request.contextPath}/resources/image/user/${Post[8] }" class="img-circle" alt="Cinque Terre" width="30" height="30"></td>
+					<td>${Post[6] } ${Post[7]}</td>
+					<td>${Post[2] }</td>
+					<td><a href="${pageContext.request.contextPath}/admin/commentdetail/${Post[0]}">See Comments</a></td>
+					<td><a href="javascript:;" onclick="d(${Post[0]});"><i class="fa fa-remove" aria-hidden="true"></i></a></td>
+				</tr>
+			</c:forEach>
+                
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>Image</th>
+                  <th>Username</th>
+                  <th>Post</th>
+                  <th>Comments</th>
+                  <th>Delete</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
           <!-- /.box -->
-          					
-					            
-					          <div class="box-footer">
-				                <button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath }/admin/managefooditems';">Back</button>
-				              </div>
-					          </div>
-							
-            				</div>
+						
 					</div>
 				</div>
 				
 			</div>
-			</section>
+		</section>
       </div>
       <!-- /.row (main row) -->
 
@@ -198,3 +220,64 @@
 <!-- ./wrapper -->
 </body>
 </html>
+<script type="text/javascript">
+
+function d(id) {
+
+	var modal="<div class='modal'>";
+	modal+="<div class='modal-dialog'>";
+	modal+="<div class='modal-content'>";
+	modal+="<div class='modal-header'>";
+	modal+="<button type='button' class='close' data-dismiss='modal' aria-label='Close'>";
+	modal+="<span aria-hidden='true'>&times;</span></button>";
+	modal+="<h4 class='modal-title'>Delete Post</h4>";
+	modal+="</div>";
+	modal+="<div class='modal-body'>";
+	modal+="<p>Are you sure you want to delete this post ?</p>";
+	//modal+="<div class='img-push'><textarea id='eptext' class='form-control' rows='3' placeholder='Update Post'>"+posttext+"</textarea></div>";
+	modal+="</div>";
+	modal+="<div class='modal-footer'>";
+	modal+="<button type='button' class='btn btn-primary pull-left' data-dismiss='modal'>No</button>";
+	modal+="<button type='button' class='btn bg-maroon ep'>Yes</button>";
+	modal+="</div>";
+	modal+="</div>";
+	modal+="<!-- /.modal-content -->";
+	modal+="</div>";
+	modal+="<!-- /.modal-dialog -->";
+	modal+="</div>";
+	//modal+="<!-- /.modal -->";
+	var confirmmodal=$(modal);
+	confirmmodal.modal('show');
+	
+	/*  */
+
+	confirmmodal.find('.ep').click(function(event) {
+
+		$.ajax({
+			type : "POST",
+			//contentType : "application/json",
+			url : "${pageContext.request.contextPath }/deletepost",
+			data : {"postid":id,},
+			//dataType : 'json',
+			timeout : 100000,
+			success : function(data) {
+				$("#"+id).remove();
+			}
+		});
+	      confirmmodal.modal('toggle');
+	      
+	    });
+}
+
+$(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>

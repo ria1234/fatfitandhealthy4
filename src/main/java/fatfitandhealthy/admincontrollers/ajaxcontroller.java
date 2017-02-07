@@ -2,13 +2,19 @@ package fatfitandhealthy.admincontrollers;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ViewScoped;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -17,17 +23,23 @@ import fatfitandhealthy.dao.ActivityLog;
 import fatfitandhealthy.dao.Admin;
 import fatfitandhealthy.dao.AjaxResponseBody;
 import fatfitandhealthy.dao.Breakfast;
+import fatfitandhealthy.dao.Comment;
 import fatfitandhealthy.dao.Dinner;
 import fatfitandhealthy.dao.Exercise;
 import fatfitandhealthy.dao.ExerciseLog;
 import fatfitandhealthy.dao.FoodItems;
+import fatfitandhealthy.dao.Like;
 import fatfitandhealthy.dao.Lunch;
+import fatfitandhealthy.dao.PasswordResetToken;
+import fatfitandhealthy.dao.Post;
 import fatfitandhealthy.dao.UserHealth;
 import fatfitandhealthy.dao.UserLogin;
 import fatfitandhealthy.dao.UsersPersonal;
 import fatfitandhealthy.dao.Weight;
 import fatfitandhealthy.hibernate.Getdata;
 import fatfitandhealthy.jsonview.Views;
+import fatfitandhealthy.ws.LikeAjaxResponseBody;
+import fatfitandhealthy.ws.PostAjaxResponseBody;
 
 @RestController
 public class ajaxcontroller {
@@ -296,6 +308,144 @@ public class ajaxcontroller {
 		
 		
 		
+	
+	}
+	
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/fetchposts",method=RequestMethod.POST)
+	public PostAjaxResponseBody fetchposts()
+	{
+		
+		//System.out.println(id+" "+activityFactor+" "+weightGoal+" "+kgs);
+		List<Object> l=Getdata.getpostencoder();
+		/*Iterator i=l.iterator();
+		for (Object object : l) {
+			Object[] o = (Object[]) object;
+			System.out.println(o[0]+" "+o[1]+" "+o[2]+" "+o[3]+" "+o[4]+" "+o[5]+" "+o[6]+" "+o[7]+" "+o[8]+"\n");
+		}*/
+		PostAjaxResponseBody result=new PostAjaxResponseBody("", "200", l);
+		return result;
+		
+		
+		
+		
+		
+	
+	}
+	
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/fetchcomments",method=RequestMethod.POST)
+	public PostAjaxResponseBody fetchcomments(@RequestParam int postid)
+	{
+		
+		//System.out.println(id+" "+activityFactor+" "+weightGoal+" "+kgs);
+		List<Object> l=Getdata.fetchcomments(postid);
+		/*Iterator i=l.iterator();
+		for (Object object : l) {
+			Object[] o = (Object[]) object;
+			System.out.println(o[0]+" "+o[1]+" "+o[2]+" "+o[3]+" "+o[4]+" "+o[5]+" "+o[6]+" "+o[7]+" "+o[8]+"\n");
+		}*/
+		PostAjaxResponseBody result=new PostAjaxResponseBody("", "200", l);
+		return result;
+		
+		
+		
+		
+		
+	
+	}
+	
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/fetchlike",method=RequestMethod.POST)
+	public PostAjaxResponseBody fetchlike(@RequestParam int uid)
+	{
+		
+		//System.out.println(id+" "+activityFactor+" "+weightGoal+" "+kgs);
+		List<Object> l1=Getdata.fetchlikes(uid);
+		/*Iterator i=l.iterator();
+		for (Like object : l) {
+			System.out.println(object.getId());
+		}*/
+		//List<Object> l=new ArrayList<Object>(l1);
+		PostAjaxResponseBody result=new PostAjaxResponseBody("", "200", l1);
+		return result;
+		
+		
+		
+		
+		
+	
+	}
+	
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/editcomment",method=RequestMethod.POST)
+	public @ResponseBody Map<String,String> editcomment(@RequestParam int cid,@RequestParam String ctext)
+	{
+		
+		//System.out.println(cid+" "+ctext);
+		Comment c=(Comment) Getdata.onecolumnvaluewhere("Comment", "id", Integer.toString(cid)).iterator().next();
+		c.setCtext(ctext);
+		c.setUtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		Getdata.update(c);
+		Map<String, String> e=new HashMap<String,String>();
+		e.put("ctime", c.getCtime());
+		e.put("id", Integer.toString(c.getId()));
+		e.put("uid", Integer.toString(c.getUid()));
+		e.put("postid", Integer.toString(c.getPost().getId()));
+		e.put("ctext", c.getCtext());
+		e.put("utime", c.getUtime());
+		return e;
+		
+		
+		
+		
+		
+	
+	}
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/deletecomment",method=RequestMethod.POST)
+	public void deletecomment(@RequestParam int cid)
+	{
+		Getdata.delete("Comment", "id", cid);	
+		
+	
+	}
+	
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/deletepost",method=RequestMethod.POST)
+	public void deletepost(@RequestParam int postid)
+	{
+		Getdata.delete("Comment", "postid", postid);
+		Getdata.delete("Like", "postid", postid);
+		Getdata.delete("Post", "id", postid);
+		
+	
+	}
+	
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/updatepost",method=RequestMethod.POST)
+	public void updatepost(@RequestParam int postid,@RequestParam String ptext)
+	{
+		Post post=(Post) Getdata.onecolumnvaluewhere("Post", "id", Integer.toString(postid)).iterator().next();
+		post.setPtext(ptext);
+		post.setUtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		Getdata.update(post);
+		
+	
+	}
+	
+	@JsonView(Views.Public.class)
+	@RequestMapping(value="/resetpassword",method=RequestMethod.POST)
+	public void resetpassword(@RequestParam String password,@RequestParam String token)
+	{
+		
+		PasswordResetToken passToken=(PasswordResetToken) Getdata.onecolumnvaluewhere("PasswordResetToken", "token", token).iterator().next();
+		UserLogin ul=(UserLogin) Getdata.onecolumnvaluewhere("UserLogin", "id", Integer.toString(passToken.getUserHealth().getId())).iterator().next();
+		//System.out.println(ul.getPassword());
+		ul.setPassword(password);
+		ul.setEditTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		Getdata.update(ul);
+		Getdata.delete("PasswordResetToken", "id", passToken.getId());
 	
 	}
 }

@@ -4,15 +4,29 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
+import java.util.UUID;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -31,17 +45,29 @@ import com.google.gson.reflect.TypeToken;
 import fatfitandhealthy.dao.ActivityLog;
 import fatfitandhealthy.dao.Admin;
 import fatfitandhealthy.dao.Breakfast;
+import fatfitandhealthy.dao.Comment;
 import fatfitandhealthy.dao.Dinner;
 import fatfitandhealthy.dao.Exercise;
 import fatfitandhealthy.dao.FoodItems;
+import fatfitandhealthy.dao.Like;
 import fatfitandhealthy.dao.Lunch;
 import fatfitandhealthy.dao.NutritionGoal;
+import fatfitandhealthy.dao.PasswordResetToken;
+import fatfitandhealthy.dao.Post;
 import fatfitandhealthy.dao.UserHealth;
 import fatfitandhealthy.dao.UserLogin;
 import fatfitandhealthy.dao.UsersPersonal;
 import fatfitandhealthy.dao.Weight;
 import fatfitandhealthy.hibernate.Getdata;
 import fatfitandhealthy.methods.sendemail;
+import fatfitandhealthy.ws.CommentMessage;
+import fatfitandhealthy.ws.CommentSending;
+import fatfitandhealthy.ws.Greeting;
+import fatfitandhealthy.ws.HelloMessage;
+import fatfitandhealthy.ws.LikeMessage;
+import fatfitandhealthy.ws.LikeSending;
+import fatfitandhealthy.ws.PostMessage;
+import fatfitandhealthy.ws.PostSending;
 
 @Controller
 
@@ -520,6 +546,284 @@ public class login {
 		
 		if(!id.equals(""))
 			return "shareideas";
+			else
+				return "redirect:/login";
+	
+		
+		
+	}
+	
+	@MessageMapping("/shareideas")
+    @SendTo("/topic/post")
+    public PostSending addpost(PostMessage message) throws Exception {
+        
+        //System.out.println(message.getUid()+" "+message.getImage()+" "+message.getPtext());
+        Post post=new Post();
+        String time=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        post.setCtime(time);
+        post.setLikes(0);
+        post.setPtext(message.getPtext());
+        post.setUid(message.getUid());
+        post.setUtime(time);
+        Getdata.save(post);
+        //System.out.println(post.getId());
+        Thread.sleep(1000); // simulated delay
+        PostSending ps=new PostSending(post.getId(), post.getUid(), post.getPtext(), post.getLikes(), post.getCtime(), post.getUtime(), message.getUname(), message.getImage());
+        return ps;
+    }
+	
+	@MessageMapping("/shareideas/comment")
+    @SendTo("/topic/comment")
+    public CommentSending addcomment(CommentMessage message) throws Exception {
+        
+        //System.out.println(message.getUid()+" "+message.getImage()+" "+message.getCtext()+" "+message.getPostid()+" "+message.getUname());
+		String time=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		Comment c=new Comment();
+		c.setCtext(message.getCtext());
+		c.setCtime(time);
+		Post p=new Post();
+		p.setId(message.getPostid());
+		c.setPost(p);
+		c.setUid(message.getUid());
+		c.setUtime(time);
+		Getdata.save(c);
+        //System.out.println(post.getId());
+        Thread.sleep(1000); // simulated delay
+        
+        return new CommentSending(c.getId(), c.getUid(), c.getCtext(), c.getCtime(), c.getUtime(), message.getUname(), message.getImage(), message.getPostid());
+    }
+	
+	@MessageMapping("/shareideas/like")
+    @SendTo("/topic/like")
+    public LikeSending addlike(LikeMessage message) throws Exception {
+        
+        //System.out.println(message.getUid()+" "+message.getPostid());
+		Post post=(Post) Getdata.onecolumnvaluewhere("Post", "id", Integer.toString(message.getPostid())).iterator().next();
+		List m=Getdata.twocolumnvaluewhere("Like", "uid", Integer.toString(message.getUid()), "postid", Integer.toString(message.getPostid()));
+		Like l;
+		String action;
+		if (m.isEmpty()) {
+			
+		
+		l=new Like();
+		
+		post.setLikes(post.getLikes()+1);
+		Getdata.update(post);
+		l.setPost(post);
+		l.setUid(message.getUid());
+		Getdata.save(l);
+		action="add";
+		}
+		else {
+			l=(Like) m.iterator().next();
+			Getdata.delete("Like", "id", l.getId());
+			post.setLikes(post.getLikes()-1);
+			Getdata.update(post);
+			action="delete";
+			
+		}
+        //System.out.println(post.getId());
+        Thread.sleep(1000); // simulated delay
+        
+        return new LikeSending(l.getId(), l.getUid(), post.getId(),action);
+    }
+	
+	@RequestMapping(value={"/resetform","/resetform/{error}"},method=RequestMethod.GET)
+	public String resetform(@PathVariable Optional<String> error,Model model,@CookieValue(value="uname",defaultValue="") String uname)
+	{
+		System.out.println(uname);
+		if (!uname.equals("")) {
+			//System.out.println("abc");
+			return "redirect:/home";
+		}
+		
+		if (error.isPresent()) {
+			//System.out.println("attribute set"+error.get());
+			
+				model.addAttribute("error", error.get());
+			
+			
+		}
+		return "resetform";
+	}
+	
+	@RequestMapping(value={"/resetform","/resetform/{error}"},method=RequestMethod.POST)
+	public String resetform(HttpSession session,@RequestParam(value="email") String email,HttpServletResponse response,HttpServletRequest request)
+	{
+		int u2=0;
+		int id=0;
+		
+		try {
+			/*t=s.beginTransaction();
+			Query query=s.createQuery("from User");
+			List result=query.list();*/
+			List result=Getdata.getData("UserLogin");
+			Iterator i=result.iterator();
+			
+			while (i.hasNext()) {
+				//System.out.println("saras");
+				UserLogin u1 = (UserLogin) i.next();
+				if (u1.getEmail().equals(email)&&u1.getStatus().equals("varified")) {
+					id=u1.getId();
+					u2=1;
+					
+					//System.out.println("saras");
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		if (u2==0) {
+			return "redirect:/resetform/1";
+		}
+		else{
+			String token=UUID.randomUUID().toString();
+			//String path=request.getContextPath();
+			String url=request.getRequestURL().toString();
+			String path=url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
+			System.out.println(path);
+			Calendar c=Calendar.getInstance();
+			c.setTime(new Date());
+			c.add(Calendar.DATE, 2);
+			//String expiryDate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(c.getTime());
+			UserHealth uh=new UserHealth();
+			uh.setId(id);
+			PasswordResetToken prt=new PasswordResetToken(uh, token, c.getTime());
+			Getdata.save(prt);
+			String to=email;
+			String from="snehamerchant1@gmail.com";
+			String host="smtp.gmail.com";
+			Properties properties = System.getProperties();
+			properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			
+			
+		      // Setup mail server
+		      properties.setProperty("mail.smtp.host", host);
+		      properties.setProperty("mail.smtp.socketFactory.fallback", "false");
+		      properties.setProperty("mail.smtp.port", "465");
+		      properties.setProperty("mail.smtp.socketFactory.port", "465");
+		      properties.put("mail.smtp.auth", "true");
+		      properties.put("mail.debug", "true");
+		      properties.put("mail.store.protocol", "pop3");
+		      properties.put("mail.transport.protocol", "smtp");
+		      final String username = "snehamerchant1@gmail.com";//
+		      final String password = "sneha@123";
+		      
+			try {
+				Session session1 = Session.getDefaultInstance(properties,new Authenticator(){
+		            protected PasswordAuthentication getPasswordAuthentication() {
+		                return new PasswordAuthentication(username, password);
+		             }}); 
+				// Create a default MimeMessage object.
+		         MimeMessage message = new MimeMessage(session1);
+
+		         // Set From: header field of the header.
+		         message.setFrom(new InternetAddress(from));
+
+		         // Set To: header field of the header.
+		         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+		         // Set Subject: header field
+		         message.setSubject("Fatfitandhealthy Reset Password Link");
+
+		         // Now set the actual message
+		         //message.setText("Name: "+name+"\nemail: "+email+"\nmessage: "+msg);
+		         String content="<div style='padding: 10px; background-color: lightgray; display: block;'>";
+		         content+="<h1>Fatfitandhealthy</h1>";
+				content+="</div>";
+				content+="<p>Hello User !</p>";
+				content+="<p>Use the link below to reset your password. This link will expire in 2 days. Thank you.</p>";
+				content+="<a href='"+path+"changePassword/"+token+"'>Reset your password</a>";
+				content+="<p>A message from Fatfitandhealthy.</p>";
+				content+="<div style='padding: 0.5px; background-color: lightgray; display: block;'>";
+				content+="<h4>Message generated from : "+path+"</h4>";
+				content+="</div>";
+		         message.setContent(content, "text/html");
+
+		         // Send message
+		         Transport.send(message);
+		         System.out.println("Sent message successfully....");
+		         //return true;
+		      }catch (MessagingException mex) {
+		         mex.printStackTrace();
+		         //return false;
+		      }
+			return "redirect:/resetform/2";
+		}
+		
+	}
+	
+	@RequestMapping(value="/changePassword/{token}",method=RequestMethod.GET)
+	public String changePassword(@PathVariable String token,Model model,@CookieValue(value="uname",defaultValue="") String uname)
+	{
+		PasswordResetToken passToken=null;
+		List l=Getdata.onecolumnvaluewhere("PasswordResetToken", "token", token);
+		//System.out.println(passToken.getId());
+		if (!uname.equals("")) {
+			//System.out.println("abc");
+			return "redirect:/home";
+		}
+		if (l.isEmpty()) {
+		        return "redirect:/tokenValidationError/1";
+		    }
+		else if (((PasswordResetToken) l.iterator().next()).getExpiryDate().before(new Date())) {
+			return "redirect:/tokenValidationError/2";
+		}
+		else{
+			passToken=(PasswordResetToken) l.iterator().next();
+			return "redirect:/newPasswordReset/"+token;
+		}
+		
+		
+	}
+	
+	@RequestMapping(value="/newPasswordReset/{token}",method=RequestMethod.GET)
+	public String newPasswordReset(@PathVariable String token,Model model,@CookieValue(value="uname",defaultValue="") String uname)
+	{
+		System.out.println(uname);
+		if (!uname.equals("")) {
+			//System.out.println("abc");
+			return "redirect:/home";
+		}
+		
+			
+			//System.out.println("attribute set"+error.get());
+			
+				model.addAttribute("token", token);
+			
+			
+		
+		return "newPasswordReset";
+	}
+	
+	@RequestMapping(value={"/tokenValidationError","/tokenValidationError/{error}"},method=RequestMethod.GET)
+	public String tokenValidationError(@PathVariable Optional<String> error,Model model,@CookieValue(value="uname",defaultValue="") String uname)
+	{
+		//System.out.println(uname);
+		if (!uname.equals("")) {
+			//System.out.println("abc");
+			return "redirect:/home";
+		}
+		
+		if (error.isPresent()) {
+			//System.out.println("attribute set"+error.get());
+			
+				model.addAttribute("error", error.get());
+			
+			
+		}
+		return "tokenValidationError";
+	}
+	
+	@RequestMapping(value="/profile",method=RequestMethod.GET)
+	public String profile(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
+		
+		UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", id).iterator().next();
+		model.addAttribute("UserHealth", uh);
+		if(!id.equals(""))
+			return "profile";
 			else
 				return "redirect:/login";
 	

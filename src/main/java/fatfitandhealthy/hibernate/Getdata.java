@@ -1,6 +1,7 @@
 package fatfitandhealthy.hibernate;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import fatfitandhealthy.dao.*;
 
@@ -167,6 +168,60 @@ public class Getdata {
 			transaction.commit();
 			session.close();
 		}
+		
+	}
+	
+	public static List getpostencoder()
+	{
+		Session session=HibernateUtil.openSession();
+		Transaction transaction=session.beginTransaction();
+		try{
+			Query query=session.createSQLQuery("select p.id, p.uid, p.ptext, p.likes, p.ctime, p.utime, u.fname, u.lname, ul.image from post p inner join users_personal u on u.id=p.uid inner join user_login ul on ul.id=p.uid");
+			List obj=query.list();
+			
+			return obj;
+		}
+		finally{
+			transaction.commit();
+			session.close();
+		}
+		
+		
+	}
+	
+	public static List fetchcomments(int postid)
+	{
+		Session session=HibernateUtil.openSession();
+		Transaction transaction=session.beginTransaction();
+		try{
+			Query query=session.createSQLQuery("select c.id, c.uid, c.ctext, c.ctime, c.utime, u.fname, u.lname, ul.image, c.postid from comment c inner join users_personal u on u.id=c.uid inner join user_login ul on ul.id=c.uid where c.postid="+postid);
+			List obj=query.list();
+			
+			return obj;
+		}
+		finally{
+			transaction.commit();
+			session.close();
+		}
+		
+		
+	}
+	
+	public static List fetchlikes(int uid)
+	{
+		Session session=HibernateUtil.openSession();
+		Transaction transaction=session.beginTransaction();
+		try{
+			Query query=session.createSQLQuery("select * from fatfitandhealthy.like where uid= "+uid);
+			List obj=query.list();
+			
+			return obj;
+		}
+		finally{
+			transaction.commit();
+			session.close();
+		}
+		
 		
 	}
 }

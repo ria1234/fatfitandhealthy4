@@ -24,7 +24,13 @@
 	
 
 	<!-- End CSS Files -->
- 
+	<style type="text/css" media="screen and (max-width:360px)">
+
+	.site-logo{
+		font-size: 2.3em;
+	}
+
+	</style> 
 </head>
 
 <body>
@@ -121,9 +127,12 @@
 			<h1 class="header light gray1">About <span class="colored fancy">Fatfitandhealthy!</span></h1>
 
 			<!-- Description -->
-			<p class="h-desc white bold">lorem Ipsum is<span class="colored bold"> Fatfitandhealthy is a fitness website, which is designed for maintaining fitness by providing automatic calculations for fitness</span> lorem Ipsum is simply dummy text of the printing and typesetting industry loremipsum. lorem Ipsum is simply dummy text of the printing and typesetting industry loremipsum is simple.</p>
-
-			
+			<p class="h-desc white bold" style="text-align: left; color: #005bb1;">Remain Healthy and Fit with Fatfitandhealthy - for FREE.</p>
+			<p class="h-desc bold" style="text-align: justify;"><span class="colored bold">Remaining healthy and fit is not easy - we know. But with a membership to Fatfitandhealthy, you will get the tools you need to be successful in remaining healthy and fit. And the best part of it, you can signup for free. So put away your credit card - you will never have to pay a cent.</span></p>
+			<p class="h-desc bold" style="text-align: justify;"><span class="colored bold">The study has confirmed the benefits of keeping track of the food you eat and the activity you do. The more consistently you track your food intake, the more likely you are to maintain your weight. You should keep a food diary and an activity log. But recording everything you eat without the right tools can be tedious at best, or simply impossible at worst.</span></p>
+			<p class="h-desc bold" style="text-align: justify;"><span class="colored bold">The study has also shown that taking sufficient water intake play a major role in maintaining weight and remain healthy.</span></p>
+			<p class="h-desc bold" style="text-align: justify;"><span class="colored bold">Waking up not according to the sleep cycle leaves you feeling tired and groggy. But waking up according to sleep cycle wakes you up feeling refreshed and alert.</span></p>
+			<p class="h-desc bold" style="text-align: justify;"><span class="colored bold">At Fatfitandhealthy, We focus on making sure you can maintain your health as easily as possible. Because the easier it will be, the more likely you are to succeed in your fitness goals.</span></p>
 		</div> <!-- End Features Inner -->
 
 	</section><!-- End Features Section -->
@@ -136,7 +145,7 @@
 			<h1 class="header light gray3 fancy"><span class="colored">Features </span>Of Fatfitandhealthy</h1>
 
 			<!-- Description -->
-			<p class="h-desc gray4">lorem Ipsum is<span class="colored bold"> lorem Ipsum</span> of passages of Lorem Ipsum available, but the majority have suffered alteration.<br /><br /></p> 
+			<p class="h-desc gray4">Following fitness tools and facilities are given in <span class="colored bold">Fatfitandhealthy : </span><br /><br /></p> 
 			<hr>       
         
 			<!-- Boxes -->
@@ -150,7 +159,7 @@
 						<img src="resources/images/food.png" width="200" height="150" alt="Logo" />
 					</a>
 					<br><br>
-					<p class="light about-text">lorem Ipsum is lorem Ipsum of passages of Lorem Ipsum available, but the majority.</p>
+					<p class="light about-text">The user can add food and track daily calories to achieve individual's fitness goal.</p>
 				</div>
 
 				
@@ -161,7 +170,7 @@
 						<img src="resources/images/nutrition.jpg" width="200" height="150" alt="Logo" />
 					</a>
 					<br><br>
-					<p class="light about-text">lorem Ipsum is lorem Ipsum of passages of Lorem Ipsum available, but the majority.</p>
+					<p class="light about-text">Makes sure that you are taking the right amount of nutrients and not lacking in any nutrients and get an alert about nutrients intake level.</p>
 				</div>
 
 				<div class="col-xs-3 col-sm-6 col-md-3 about-box animated" data-animation="fadeIn" data-animation-delay="300">
@@ -171,7 +180,7 @@
 						<img src="resources/images/water intake.jpg" width="200" height="150" alt="Logo" />
 					</a>
 					<br><br>
-					<p class="light about-text">lorem Ipsum is lorem Ipsum of passages of Lorem Ipsum available, but the majority.</p>
+					<p class="light about-text">Track your daily water intake and get an alert if you are not taking sufficient amount of water.</p>
 				</div>
 				<div class="col-xs-3 col-sm-6 col-md-3 about-box animated" data-animation="fadeIn" data-animation-delay="300">
 				<p class="lead">Sleep Cycle Maintain</p>
@@ -180,7 +189,7 @@
 						<i class="fa fa-bed" aria-hidden="true"></i>
 					</a>
 					<br><br>
-					<p class="light about-text">lorem Ipsum is lorem Ipsum of passages of Lorem Ipsum available, but the majority.</p>
+					<p class="light about-text">The user can able to maintain the sleep cycle and know when he should wake up next day morning if he is going to sleep at the specific time and when he should need to fall asleep if he wants to wake up at a specific time next day morning.</p>
 				</div>
 				</div>
 				<br>
@@ -193,7 +202,7 @@
 						<img src="resources/images/exercise.png" width="200" height="150" alt="Logo" />
 					</a>
 					<br><br>
-					<p class="light about-text">lorem Ipsum is lorem Ipsum of passages of Lorem Ipsum available, but the majority.</p>
+					<p class="light about-text">The user can add exercise and track daily calories to keep track of daily consumed calories.</p>
 				</div>
 				<div class="col-xs-3 col-sm-6 col-md-3 about-box animated" data-animation="fadeIn" data-animation-delay="300">
 				<p class="lead"><br>&nbsp;View Your Progress</p>
@@ -202,7 +211,7 @@
 						<img src="resources/images/progress.jpg" width="200" height="150" alt="Logo" />
 					</a>
 					<br><br>
-					<p class="light about-text">lorem Ipsum is lorem Ipsum of passages of Lorem Ipsum available, but the majority.</p>
+					<p class="light about-text">The user can view his progress and know that he is on the right track to achieve his fitness goal or not.</p>
 				</div>
 				<div class="col-xs-3 col-sm-6 col-md-3 about-box animated" data-animation="fadeIn" data-animation-delay="300">
 				<p class="lead"><br>&nbsp;Share Your Ideas</p>
@@ -211,7 +220,7 @@
 						<i class="fa fa-comments" aria-hidden="true"></i>
 					</a>
 					<br><br>
-					<p class="light about-text">lorem Ipsum is lorem Ipsum of passages of Lorem Ipsum available, but the majority.</p>
+					<p class="light about-text">The user can share the ideas publicly and make comment on it and also give likes. The user can also update or delete comments and likes.</p>
 				</div>
 				</div>
 				
@@ -300,8 +309,8 @@
 			<div class="contact-form">
             
             	<h4 class="header light gray3 fancy"><span class="colored">Contact</span> Us</h4>
-                <p class="h-desc white">lorem Ipsum is lorem Ipsum of passages of Lorem Ipsum available, but the majority have suffered alteration.<br />
-                Email us or give us a call at <span class="bold colored">+1 (800) 245-1234.</span></p>
+                <p class="h-desc white">Please, complete below form to ask a question, we will happily answer your questions.<br />
+                or give us a call at <span class="bold colored">+91 (278) 000-0000.</span></p>
 				<!-- Form -->
 				<form id="contact-us" method="post" action="contact">
 					<!-- Left Inputs -->
@@ -378,7 +387,7 @@
 			<!-- Adress, Mail -->
 			<div class="address socials animated" data-animation="fadeInRight" data-animation-delay="500">
 				<!-- Phone Number, Mail -->
-				<p>Phone: +1 (800) 245-1234 Email : <a href="mailto:info@Fitness.com" class="colored">info@Fitness.com</a> Address: 23 Renesa, Surma Beach, Newyork</p>
+				<p>Phone: +91 (278) 000-0000 Email : <a href="mailto:info@Fatfitandhealthy.com" class="colored">info@Fatfitandhealthy.com</a> Address: 23 Abc, Xyz Def, India.</p>
 				<!-- Top Button -->
 				<a href="#home" class="scroll top-button">
 					<i class="fa fa-arrow-circle-up fa-2x"></i>
@@ -401,7 +410,7 @@
 			<!-- </div> -->
 		<!-- Copyright -->
 		</div><br><br>
-		<p class="copyright normal">Â© 2016. <span class="colored">Fatfitandhealthy.</span> All Rights Reserved.</p>
+		<p class="copyright normal">© 2016. <span class="colored">Fatfitandhealthy.</span> All Rights Reserved.</p>
 	</footer><!-- End Footer -->
 
 	<!-- JS Files -->

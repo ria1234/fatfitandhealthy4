@@ -32,7 +32,9 @@
        <mapping class="fatfitandhealthy.dao.Weight" />
        <mapping class="fatfitandhealthy.dao.SystemLog" />
        <mapping class="fatfitandhealthy.dao.PasswordResetToken" />
-       
+       <mapping class="fatfitandhealthy.dao.Post" />
+       <mapping class="fatfitandhealthy.dao.Comment" />
+       <mapping class="fatfitandhealthy.dao.Like" />
         <!-- <mapping class="facebook.dao.Comment" />
         <mapping class="facebook.dao.User" />
         <mapping class="facebook.dao.HibernateSequence" /> -->

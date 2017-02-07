@@ -169,6 +169,19 @@
 		    <version>1.4</version>
 		</dependency>
 		
+		<!-- dependencies for spring mvc websocket -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		    <version>4.1.5.RELEASE</version>
+		</dependency>
+		 
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-messaging</artifactId>
+		    <version>4.1.5.RELEASE</version>
+		</dependency>
+		
   </dependencies>
   <build>
     <finalName>fatfitandhealthy</finalName>

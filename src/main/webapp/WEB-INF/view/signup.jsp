@@ -1,14 +1,15 @@
 <jsp:include page="header.jsp"></jsp:include>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/user/form.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/plugins/datepicker/datepicker3.css">
-<div style="display: block; height: 100px;"></div>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/validationEngine.jquery.css" />
+<div style="display: block; height: 100px; background-color: gray;"></div>
 <div class="container">
-	<div class="row">
+	<div class="row" style="background-color: gray;">
 		<div class="col-md-3"></div>
 		<div class="col-md-6">
           <!-- general form elements -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
+          <div class="box box-primary" style="z-index: 20 !important;">
+            <div class="box-header with-border" style="margin-top: -30px !important;">
               <h3 class="box-title">Sign up</h3>
             </div>
             <!-- /.box-header -->
@@ -17,20 +18,20 @@
               <div class="box-body">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Email address</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" name="email">
+                  <input type="email" class="form-control validate[required,custom[email]]" id="exampleInputEmail1" placeholder="Enter email" name="email">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
+                  <input type="password" class="form-control validate[required] text-input" id="exampleInputPassword1" placeholder="Password" name="password">
                 </div>
                 
                 <div class="form-group">
                   <label for="exampleInputEmail1">First name</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" name="firstname" placeholder="Enter firstname">
+                  <input type="text" class="form-control  validate[required] text-input" id="exampleInputEmail1" name="firstname" placeholder="Enter firstname">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Last name</label>
-                  <input type="text" class="form-control" name="lastname" id="exampleInputEmail1" placeholder="Enter lastname">
+                  <input type="text" class="form-control  validate[required] text-input" name="lastname" id="exampleInputEmail1" placeholder="Enter lastname">
                 </div>
                 <div class="form-group">
                 	<label>Gender</label><br>
@@ -62,20 +63,20 @@
 				</div>
 				<div class="form-group">
                   <label for="exampleInputEmail1">Mobile number</label>
-                  <input type="number" class="form-control" id="exampleInputEmail1" name="mobile" oninput="maxLengthCheck(this)" maxlength = "10">
+                  <input type="number" class="form-control validate[required,minSize[10],maxSize[10]] text-input" id="exampleInputEmail1" name="mobile" oninput="maxLengthCheck(this)" maxlength = "10">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Weight (in kg)</label>
-                  <input type="number" class="form-control" id="exampleInputEmail1" name="weight" oninput="maxLengthCheck(this)" maxlength = "4" step="0.01">
+                  <input type="number" class="form-control validate[required]" id="exampleInputEmail1" name="weight" oninput="maxLengthCheck(this)" maxlength = "4" step="0.01">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Height (in cm)</label>
-                  <input type="number" class="form-control" id="exampleInputEmail1" name="height" oninput="maxLengthCheck(this)" maxlength = "6" step="0.01">
+                  <input type="number" class="form-control validate[required]" id="exampleInputEmail1" name="height" oninput="maxLengthCheck(this)" maxlength = "6" step="0.01">
                 </div>
                 <div class="form-group">
                   <label>Activity Factor</label>
-                  <select name="activity_factor" class="form-control">
-                  	<option selected="selected">----select----</option>
+                  <select name="activity_factor" class="form-control validate[required]">
+                  	<option selected="selected" value="">----select----</option>
                   	<option value="sedentary">sedentary</option>
                   	<option value="lightly active">lightly active</option>
                   	<option value="moderetely active">moderetly active</option>
@@ -85,8 +86,8 @@
 		        </div>
 		         <div class="form-group">
                   <label>Weight Goal</label>
-                  <select name="weight_goal" class="form-control" onchange="kgs();" id="a">
-                  	<option selected="selected">----select----</option>
+                  <select name="weight_goal" class="form-control validate[required]" onchange="kgs();" id="a">
+                  	<option selected="selected" value="">----select----</option>
                   	<option value="maintain weight">maintain weight</option>
                   	<option value="loose weight">loose weight</option>
                   	<option value="gain weight">gain weight</option>
@@ -118,6 +119,8 @@
 <jsp:include page="footer.jsp"></jsp:include>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine-en.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine.js"></script>
 <script type="text/javascript">
 var loadFile = function(event) {
 	//alert("cvd");
@@ -164,5 +167,10 @@ var loadFile = function(event) {
 	   $('#datepicker').datepicker({
 		      autoclose: true
 		    });
+	});
+  jQuery(document).ready(function(){
+		// binds form submission and fields to the validation engine
+		//alert();
+		jQuery("form").validationEngine();
 	});
 </script>

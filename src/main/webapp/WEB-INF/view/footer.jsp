@@ -29,7 +29,7 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery.mb.YTPlayer.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery.fitvids.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery.slabtext.js"></script>
-	<!-- <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/plugins.js"></script> -->
+	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/plugins.js"></script>
 
 	<script>
 

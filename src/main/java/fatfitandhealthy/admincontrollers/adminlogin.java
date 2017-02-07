@@ -26,8 +26,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import antlr.StringUtils;
 import fatfitandhealthy.dao.Admin;
+import fatfitandhealthy.dao.Comment;
 import fatfitandhealthy.dao.Exercise;
 import fatfitandhealthy.dao.FoodItems;
+import fatfitandhealthy.dao.Post;
 import fatfitandhealthy.dao.UserHealth;
 import fatfitandhealthy.dao.UserLogin;
 import fatfitandhealthy.dao.UsersPersonal;
@@ -160,7 +162,7 @@ public class adminlogin {
 		List<Admin> l=Getdata.onecolumnvaluewhere("Admin", "role", "admin");
 		System.out.println(l);
 		model.addAttribute("admin", l);
-		if(session.getAttribute("aname")!=null||session.getAttribute("role").equals("superadmin"))
+		if(session.getAttribute("aname")!=null&&session.getAttribute("role").equals("superadmin"))
 			return "admin/manageadmin";
 			else
 				return "redirect:/admin/";
@@ -408,6 +410,30 @@ if (!file.getOriginalFilename().isEmpty()) {
 			return "redirect:/admin/";
 		}
 		return "admin/exerciseupdate";
+		
+	}
+	
+	@RequestMapping(value="/managePostsAndComments",method=RequestMethod.GET)
+	public String managePostsAndComments(HttpSession session,Model model) {
+		List<Object> l=Getdata.getpostencoder();
+		model.addAttribute("Post", l);
+		if(session.getAttribute("aname")!=null)
+			return "admin/managePostsAndComments";
+			else
+				return "redirect:/admin/";
+		
+	}
+	
+	@RequestMapping(value="/commentdetail/{id}",method=RequestMethod.GET)
+	public String commentdetail(HttpSession session,ModelMap model,@PathVariable int id)
+	{
+		List<Object> l=Getdata.fetchcomments(id);
+		model.addAttribute("Comment", l);
+		
+		if (session.getAttribute("aname")==null) {
+			return "redirect:/admin/";
+		}
+		return "admin/commentdetail";
 		
 	}
 }
