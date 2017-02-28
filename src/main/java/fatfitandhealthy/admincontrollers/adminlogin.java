@@ -3,6 +3,7 @@ package fatfitandhealthy.admincontrollers;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +20,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Map.Entry;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -28,12 +31,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.WebUtils;
 
 import antlr.StringUtils;
 import fatfitandhealthy.dao.Admin;
@@ -138,6 +143,7 @@ public class adminlogin {
 					session.setAttribute("aname", u1.getFirstname()+" "+u1.getLastname());					
 					session.setAttribute("role", u1.getRole());
 					session.setAttribute("image", u1.getImage());
+					session.setAttribute("uid", u1.getId());
 					u2=1;
 					System.out.println("saras");
 				}
@@ -285,6 +291,7 @@ public class adminlogin {
 		session.removeAttribute("uid");
 		session.removeAttribute("aname");
 		session.removeAttribute("image");
+		session.removeAttribute("role");
 		return "redirect:/admin/";
 		
 	}
@@ -565,6 +572,86 @@ if (!file.getOriginalFilename().isEmpty()) {
 			return "redirect:/admin/";
 		}
 		return "admin/commentdetail";
+		
+	}
+	
+	@RequestMapping(value="/adminprofile",method=RequestMethod.GET)
+	public String adminprofile(HttpSession session,Model model) {
+		
+		
+		if(session.getAttribute("aname")!=null&&!session.getAttribute("aname").equals(""))
+		{
+			Admin a=(Admin) Getdata.onecolumnvaluewhere("Admin", "id", session.getAttribute("uid").toString()).iterator().next();
+			model.addAttribute("Admin", a);
+			
+			return "admin/adminprofile";
+		}
+			else
+				return "redirect:/admin/";
+	
+		
+		
+	}
+	
+	@RequestMapping(value="/adminprofile",method=RequestMethod.POST)
+	public String adminprofile(HttpSession session,HttpServletResponse response,HttpServletRequest request,@ModelAttribute("Admin") Admin a,@RequestParam(value="file") MultipartFile file) throws IOException {
+		
+		String path=request.getServletContext().getRealPath("/").replace("\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps", "")+"src\\main\\webapp\\resources\\image\\admin";
+		session.setAttribute("image", a.getId()+a.getImage());
+		
+		
+		//System.out.println(path);
+		//System.out.println(ul.getEmail()+up.getMobNo()+uh.getActivityFactor());
+		
+		
+		
+		//ul.setImage(ul.getId()+ul.getImage().substring(ul.getImage().lastIndexOf(".")));
+		if (file.getOriginalFilename()!=null&&!file.getOriginalFilename().isEmpty()) {
+			a.setImage(a.getId()+a.getImage());
+			File file1=new File(path+File.separator+((Admin)Getdata.onecolumnvaluewhere("Admin", "id", a.getId().toString()).iterator().next()).getImage());
+			file1.delete();
+		}
+		Getdata.update(a);
+if (!file.getOriginalFilename().isEmpty()) {
+			
+			try {
+				byte[] bytes = file.getBytes();
+
+				// Creating the directory to store file
+				String rootPath = System.getProperty("catalina.home");
+				File dir = new File(path);
+				//System.out.println("E:\\javapractise\\spring\\facebook\\src\\main\\webapp\\image");
+				if (!dir.exists())
+					dir.mkdirs();
+				//System.out.println(dir.getAbsolutePath()+ File.separator + u.getImage());
+				// Create the file on server
+				
+				File serverFile = new File(dir.getAbsolutePath()
+						+ File.separator + a.getId()+a.getImage().substring(a.getImage().lastIndexOf(".")));
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+
+				//logger.info("Server File Location="+serverFile.getAbsolutePath());
+
+				//return "You successfully uploaded file=" + name; 
+			} catch (Exception e) {
+				System.out.println("You failed to upload " + a.getImage() + " => " + e.getMessage());
+			}
+		}
+		
+		
+		/*
+		uh.setId(ul.getId());
+		uh.setUno(ul.getId()); */
+	  /*
+		if (uh.getWeightGoal().equals("maintain weight")) {
+			uh.setKgs("0");
+		}*/
+		
+		  
+		return "redirect:/admin/adminprofile";
 		
 	}
 	
