@@ -3,6 +3,7 @@ package fatfitandhealthy.controllers;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,12 +30,15 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.WebUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -820,14 +824,87 @@ public class login {
 	@RequestMapping(value="/profile",method=RequestMethod.GET)
 	public String profile(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
 		
-		UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", id).iterator().next();
-		model.addAttribute("UserHealth", uh);
+		
 		if(!id.equals(""))
+		{
+			UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", id).iterator().next();
+			model.addAttribute("UserHealth", uh);
+			UserLogin ul=(UserLogin) Getdata.onecolumnvaluewhere("UserLogin", "id", id).iterator().next();
+			model.addAttribute("UserLogin", ul);
+			UsersPersonal up=(UsersPersonal) Getdata.onecolumnvaluewhere("UsersPersonal", "id", id).iterator().next();
+			model.addAttribute("UsersPersonal", up);
 			return "profile";
+		}
 			else
 				return "redirect:/login";
 	
 		
+		
+	}
+	
+	@RequestMapping(value="/userupdate",method=RequestMethod.POST)
+	public String userupdate(HttpSession session,HttpServletResponse response,HttpServletRequest request,@ModelAttribute("UserLogin") UserLogin ul,BindingResult resultUserLogin,@ModelAttribute("UsersPersonal") UsersPersonal up,BindingResult resultUsersPersonal,@ModelAttribute("UserHealth") UserHealth uh,BindingResult resultUserHealth,@RequestParam(value="file") MultipartFile file) throws IOException {
+		
+		String path=request.getServletContext().getRealPath("/").replace("\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps", "")+"src\\main\\webapp\\resources\\image\\user";
+		UserHealth uhr=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", Integer.toString(ul.getId())).iterator().next();
+		UserLogin ulr=(UserLogin) Getdata.onecolumnvaluewhere("UserLogin", "id", Integer.toString(ul.getId())).iterator().next();
+		Cookie uimage=WebUtils.getCookie(request, "uimage");
+		uimage.setValue(ul.getId()+ul.getImage());
+		response.addCookie(uimage);
+		//System.out.println(path);
+		//System.out.println(ul.getEmail()+up.getMobNo()+uh.getActivityFactor());
+		ul.setEditTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		ul.setStatus(ulr.getStatus());
+		ul.setCreateTimestamp(ulr.getCreateTimestamp());
+		//ul.setImage(ul.getId()+ul.getImage().substring(ul.getImage().lastIndexOf(".")));
+		if (file.getOriginalFilename()!=null&&!file.getOriginalFilename().isEmpty()) {
+			ul.setImage(ul.getId()+ul.getImage());
+			File file1=new File(path+File.separator+((UserLogin)Getdata.onecolumnvaluewhere("UserLogin", "id", ul.getId().toString()).iterator().next()).getImage());
+			file1.delete();
+		}
+		Getdata.update(ul);
+if (!file.getOriginalFilename().isEmpty()) {
+			
+			try {
+				byte[] bytes = file.getBytes();
+
+				// Creating the directory to store file
+				String rootPath = System.getProperty("catalina.home");
+				File dir = new File(path);
+				//System.out.println("E:\\javapractise\\spring\\facebook\\src\\main\\webapp\\image");
+				if (!dir.exists())
+					dir.mkdirs();
+				//System.out.println(dir.getAbsolutePath()+ File.separator + u.getImage());
+				// Create the file on server
+				
+				File serverFile = new File(dir.getAbsolutePath()
+						+ File.separator + ul.getId()+ul.getImage().substring(ul.getImage().lastIndexOf(".")));
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+
+				//logger.info("Server File Location="+serverFile.getAbsolutePath());
+
+				//return "You successfully uploaded file=" + name; 
+			} catch (Exception e) {
+				System.out.println("You failed to upload " + ul.getImage() + " => " + e.getMessage());
+			}
+		}
+		
+		up.setId(ul.getId());
+		/*
+		uh.setId(ul.getId());
+		uh.setUno(ul.getId()); */
+		uhr.setHeight(uh.getHeight());
+		Getdata.update(up);  /*
+		if (uh.getWeightGoal().equals("maintain weight")) {
+			uh.setKgs("0");
+		}*/
+		double daily_cal_goal=Getdata.calcuatecalgoal(up.getDob(), up.getGender(), uhr.getWeight(), uhr.getHeight(), uhr.getActivityFactor(), uhr.getWeightGoal(), uhr.getKgs());
+		uhr.setDailyCalGoal(Double.toString(Math.round(daily_cal_goal)));
+		Getdata.update(uhr);  
+		return "redirect:/profile";
 		
 	}
 	

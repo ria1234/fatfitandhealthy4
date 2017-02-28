@@ -4,6 +4,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib  uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ page session="true" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page isELIgnored="false" %>
@@ -11,17 +12,23 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/plugins/select2/select2.min.css" />
 
 <%-- <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap-switch.min.css" /> --%>
+
 <jsp:include page="upperheader.jsp"></jsp:include>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/plugins/datepicker/datepicker3.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/validationEngine.jquery.css" />
 <script src="${pageContext.request.contextPath }/resources/js/admin/table.js"></script>
 <%-- <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.min.js"></script> --%>
 <%-- <script src="${pageContext.request.contextPath }/resources/js/bootstrap-switch.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
   <script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script> --%>
   <script type="text/javascript" src="${pageContext.request.contextPath }/resources/plugins/select2/select2.full.min.js"">
+
 <!--
 
 //-->
 </script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+  <script src="${pageContext.request.contextPath }/resources/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -230,12 +237,12 @@
         <div class="col-md-9">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
-              <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
-              <li><a href="#settings" data-toggle="tab">Settings</a></li>
+              <!-- <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
+              <li><a href="#timeline" data-toggle="tab">Timeline</a></li> -->
+              <li class="active"><a href="#settings" data-toggle="tab">Settings</a></li>
             </ul>
             <div class="tab-content">
-              <div class="active tab-pane" id="activity">
+<%--               <div class="active tab-pane" id="activity">
                 <!-- Post -->
                 <div class="post">
                   <div class="user-block">
@@ -348,19 +355,19 @@
                   <input class="form-control input-sm" type="text" placeholder="Type a comment">
                 </div>
                 <!-- /.post -->
-              </div>
+              </div> --%>
               <!-- /.tab-pane -->
-              <div class="tab-pane" id="timeline">
-                <!-- The timeline -->
+<!--               <div class="tab-pane" id="timeline">
+                The timeline
                 <ul class="timeline timeline-inverse">
-                  <!-- timeline time label -->
+                  timeline time label
                   <li class="time-label">
                         <span class="bg-red">
                           10 Feb. 2014
                         </span>
                   </li>
-                  <!-- /.timeline-label -->
-                  <!-- timeline item -->
+                  /.timeline-label
+                  timeline item
                   <li>
                     <i class="fa fa-envelope bg-blue"></i>
 
@@ -381,8 +388,8 @@
                       </div>
                     </div>
                   </li>
-                  <!-- END timeline item -->
-                  <!-- timeline item -->
+                  END timeline item
+                  timeline item
                   <li>
                     <i class="fa fa-user bg-aqua"></i>
 
@@ -393,8 +400,8 @@
                       </h3>
                     </div>
                   </li>
-                  <!-- END timeline item -->
-                  <!-- timeline item -->
+                  END timeline item
+                  timeline item
                   <li>
                     <i class="fa fa-comments bg-yellow"></i>
 
@@ -413,15 +420,15 @@
                       </div>
                     </div>
                   </li>
-                  <!-- END timeline item -->
-                  <!-- timeline time label -->
+                  END timeline item
+                  timeline time label
                   <li class="time-label">
                         <span class="bg-green">
                           3 Jan. 2014
                         </span>
                   </li>
-                  <!-- /.timeline-label -->
-                  <!-- timeline item -->
+                  /.timeline-label
+                  timeline item
                   <li>
                     <i class="fa fa-camera bg-purple"></i>
 
@@ -438,60 +445,127 @@
                       </div>
                     </div>
                   </li>
-                  <!-- END timeline item -->
+                  END timeline item
                   <li>
                     <i class="fa fa-clock-o bg-gray"></i>
                   </li>
                 </ul>
-              </div>
+              </div> -->
               <!-- /.tab-pane -->
 
-              <div class="tab-pane" id="settings">
-                <form class="form-horizontal">
+              <div class="active tab-pane" id="settings">
+              <div class="alert alert-info alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-info"></i> Info!</h4>
+                Updating your information like height, Date of birth or gender will recalculate your daily Calorie goal which will overwrite it. 
+              </div>
+                <form class="form-horizontal" method="post" action="${pageContext.request.contextPath }/userupdate" enctype="multipart/form-data">
+                 <spring:bind path="UserLogin.id">
+					<input type="hidden" name="${status.expression }" value="${status.value}">
+				</spring:bind>
+                 <div class="form-group">
+                 <div class="row">
+                 <div class="col-sm-4"></div>
+                 <div class="col-sm-4" style="margin-bottom: 5px;">
+                 <img class="profile-user-img img-responsive img-circle" src="${pageContext.request.contextPath }/resources/image/user/${UserLogin.image}" alt="User profile picture" style="width: 140px;" id="output">
+                 </div>
+                 <div class="col-sm-4"></div>
+                 </div>
+                 <div class="row">
+                  <div class="col-sm-5">
+                  	
+                  </div>
+                  <div class="col-sm-2">
+                  <input type="file" id="image" name="file" class="file" onchange="loadFile(event)">
+                  <spring:bind path="UserLogin.image">
+				  <input type="hidden" name="${status.expression }" value="${status.value}" class="image" />
+				  </spring:bind>
+				  </div>
+                  <div class="col-sm-5"></div>
+                  </div>
+                </div>
                   <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+                    <label for="inputName" class="col-sm-2 control-label">Email Id</label>
 
                     <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" placeholder="Name">
+                    	<spring:bind path="UserLogin.email">
+                      <input type="email" class="form-control  validate[required,custom[email]]" id="inputName" placeholder="Email" name="${status.expression }" value="${status.value}">
+                      </spring:bind>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                    <label for="inputEmail" class="col-sm-2 control-label">Password</label>
 
                     <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                    <spring:bind path="UserLogin.password">
+                      <input type="password" class="form-control  validate[required] text-input" id="inputEmail" placeholder="Password" name="${status.expression }" value="${status.value}">
+                      </spring:bind>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+                    <label for="inputName" class="col-sm-2 control-label">Height (in cm)</label>
 
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" placeholder="Name">
+                    <spring:bind path="UserHealth.height">
+                      <input type="number" class="form-control  validate[required]" id="inputName" placeholder="Height" name="${status.expression }" value="${status.value}" oninput="maxLengthCheck(this)" maxlength = "6" step="0.01">
+                      </spring:bind>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+                    <label for="inputExperience" class="col-sm-2 control-label">First Name</label>
 
                     <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                    <spring:bind path="UsersPersonal.fname">
+                      <input type="text" class="form-control  validate[required] text-input" id="inputName" placeholder="First Name" name="${status.expression }" value="${status.value}">
+                    </spring:bind>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
+                    <label for="inputExperience" class="col-sm-2 control-label">Last Name</label>
 
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                    <spring:bind path="UsersPersonal.lname">
+                      <input type="text" class="form-control validate[required] text-input" id="inputName" placeholder="Last Name" name="${status.expression }" value="${status.value}">
+                      </spring:bind>
                     </div>
                   </div>
                   <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                        </label>
-                      </div>
-                    </div>
+					<label class="col-sm-2 control-label">Date Of Birth</label>
+					<div class="input-group date col-sm-10" style="padding-left: 15px; padding-right: 15px;">
+					<div class="input-group-addon">
+						<i class="fa fa-calendar"></i>
+					</div>
+					<spring:bind path="UsersPersonal.dob">
+					<input id="datepicker" class="form-control pull-right" type="text" name="${status.expression }" value="${status.value}">
+					</spring:bind>
+					</div>
+				</div>
+				<div class="form-group">
+                  <label for="exampleInputEmail1"  class="col-sm-2 control-label">Mobile number</label>
+                  <div class="col-sm-10">
+                  <spring:bind path="UsersPersonal.mobNo">
+                  <input type="number" class="form-control validate[required,minSize[10],maxSize[10]] text-input" id="exampleInputEmail1"  name="${status.expression }" value="${status.value}" oninput="maxLengthCheck(this)" maxlength = "10">
+                  </spring:bind>
                   </div>
+                </div>
+                
+                <div class="form-group">
+                	<spring:bind path="UsersPersonal.gender">
+                	<label class="col-sm-2 control-label">Gender</label>
+                  	<div class="col-sm-10">
+                    <label class="radio-inline">
+                      <input type="radio" name="${status.expression }" id="optionsRadios1" value="male" ${UsersPersonal.gender eq 'male'?'checked':'' }>Male
+                     </label>
+                     <label class="radio-inline">
+                      <input type="radio" name="${status.expression }" id="optionsRadios1" value="female" ${UsersPersonal.gender eq 'female'?'checked':'' }>female
+                     </label>
+                     
+                  	</div>
+                  	</spring:bind>
+                </div>
+                
+
+                  
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                       <button type="submit" class="btn btn-danger">Submit</button>
@@ -520,7 +594,7 @@
  <!--  </div> -->
   <!-- /.content-wrapper -->
   <jsp:include page="admin/footer.jsp"></jsp:include>
-
+  <script src="${pageContext.request.contextPath }/resources/plugins/datepicker/bootstrap-datepicker.js"></script>
   
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
@@ -529,44 +603,37 @@
 </body>
 </html>
 <script>
- 
-
+var loadFile = function(event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+      var output = document.getElementById('output');
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  };
+  function maxLengthCheck(object)
+  {
+    if (object.value.length > object.maxLength)
+      object.value = object.value.slice(0, object.maxLength)
+  }
   $(document).ready(function(){
-
-		//submit exerciseitems form
-		$("#w").submit(function(e)
-		{
-			e.preventDefault();
-			//this.reset();
-			
-			//var select=$("#fooditem");
-		
-			var water=$("input[name=glass]").val();
-			var uid=${cookie.id.value};
-			//alert(water);
-			this.reset();
-			var formURL = $(this).attr("action");
-			$.ajax(
-					{
-						url : formURL,
-						type: "POST",
-						data : {"water":water,"uid":uid},
-						success:function(data, textStatus, jqXHR) 
-						{
-							//alert(data.result);
-							$('#wateri').removeClass( "in" );
-							//$("#f").reset();
-							//data: return data from server
-							$("#water").text((parseFloat($("#water").text())+parseFloat(water)).toFixed(2));
-							$("#total").text((parseFloat($("#goal").text())-parseFloat($("#water").text())).toFixed(2));
-							//alert($("fcal").html());
-						},
-						error: function(jqXHR, textStatus, errorThrown) 
-						{
-							//if fails		
-						}
-					});
-			//$(this).unbind(e);
+	  
+	   $(".file").change(function(){
+			var filename=$(this).val();
+			filename=filename.substr(filename.indexOf('.'));
+			//alert(filename);
+			$(".image").val(filename);
+		}); 
+	});
+	$(function(){
+		//Date picker
+	    $('#datepicker').datepicker({
+	      autoclose: true
+	    });
 		});
-	  });
+	jQuery(document).ready(function(){
+		// binds form submission and fields to the validation engine
+		//alert();
+		jQuery("form").validationEngine();
+	});
 </script>

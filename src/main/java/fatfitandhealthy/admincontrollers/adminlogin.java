@@ -3,16 +3,27 @@ package fatfitandhealthy.admincontrollers;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Transaction;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -26,9 +37,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import antlr.StringUtils;
 import fatfitandhealthy.dao.Admin;
+import fatfitandhealthy.dao.Breakfast;
 import fatfitandhealthy.dao.Comment;
+import fatfitandhealthy.dao.Dinner;
 import fatfitandhealthy.dao.Exercise;
+import fatfitandhealthy.dao.ExerciseLog;
 import fatfitandhealthy.dao.FoodItems;
+import fatfitandhealthy.dao.Lunch;
 import fatfitandhealthy.dao.Post;
 import fatfitandhealthy.dao.UserHealth;
 import fatfitandhealthy.dao.UserLogin;
@@ -141,10 +156,126 @@ public class adminlogin {
 		
 	}
 	@RequestMapping(value="/dashboard",method=RequestMethod.GET)
-	public String index(HttpSession session) {
+	public String index(HttpSession session,Model model) throws ParseException {
 		
 		if(session.getAttribute("aname")!=null)
+		{
+		int nu=0;
+		List<UserLogin> ul=Getdata.getData("UserLogin");
+		ListIterator<UserLogin> u=ul.listIterator(ul.size());
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		
+		Calendar cal = Calendar.getInstance();
+		Date c=new Date();
+		cal.setTime(c);
+		cal.add(Calendar.DATE, -7);
+		c=cal.getTime();
+		//System.out.println(format.format(c));
+		while (u.hasPrevious()) {
+			
+			UserLogin userLogin = (UserLogin) u.previous();
+			
+			Date d=format.parse(userLogin.getCreateTimestamp());
+			/*cal.setTime(d);
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 0);
+			d = cal.getTime();*/
+			
+			
+			
+			/*cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 0);
+			c = cal.getTime();*/
+			if (d.after(c)) {
+				//System.out.println(format.format(d));
+				nu++;
+			}
+		}
+		model.addAttribute("nu",nu);
+		int np=0;
+		Iterator<Post> lp=Getdata.getData("Post").iterator();
+		while (lp.hasNext()) {
+			Post post = (Post) lp.next();
+			Date d=format.parse(post.getCtime());
+			if (d.after(c)) {
+				np++;
+			}
+		}
+		model.addAttribute("np", np);
+		int nc=0;
+		Iterator<Comment> lc=Getdata.getData("Comment").iterator();
+		while (lc.hasNext()) {
+			Comment comment = (Comment) lc.next();
+			Date d=format.parse(comment.getCtime());
+			if (d.after(c)) {
+				nc++;
+			}
+		}
+		model.addAttribute("nc",nc);
+		Iterator<Breakfast> bf=Getdata.getData("Breakfast").iterator();
+		HashMap<String, Integer> bhHashMap=new HashMap<String,Integer>();
+		while (bf.hasNext()) {
+			Breakfast breakfast = (Breakfast) bf.next();
+			String name=breakfast.getFoodItems().getName();
+			if (bhHashMap.containsKey(name)) {
+				bhHashMap.put(name, bhHashMap.get(name)+1);
+			}
+			else{
+				bhHashMap.put(name, 1);
+			}
+		}
+		Iterator<Lunch> lu=Getdata.getData("Lunch").iterator();
+		while (lu.hasNext()) {
+			Lunch lunch = (Lunch) lu.next();
+			String name=lunch.getFoodItems().getName();
+			if (bhHashMap.containsKey(name)) {
+				bhHashMap.put(name, bhHashMap.get(name)+1);
+			}
+			else{
+				bhHashMap.put(name, 1);
+			}
+		}
+		Iterator<Dinner> dn=Getdata.getData("Dinner").iterator();
+		while (dn.hasNext()) {
+			Dinner dinner = (Dinner) dn.next();
+			String name=dinner.getFoodItems().getName();
+			if (bhHashMap.containsKey(name)) {
+				bhHashMap.put(name, bhHashMap.get(name)+1);
+			} else {
+				bhHashMap.put(name, 1);
+			}
+		}
+		List<Entry<String, Integer>> tf=entriesSortedByValues(bhHashMap);
+		int s=10;
+		if (tf.size()<10) {
+			s=tf.size();
+		}
+		model.addAttribute("tenfood",tf.subList(0,s));
+		//System.out.println(bhHashMap);
+		HashMap<String, Integer> eHashMap=new HashMap<String,Integer>();
+		Iterator<ExerciseLog> ie=Getdata.getData("ExerciseLog").iterator();
+		while (ie.hasNext()) {
+			ExerciseLog exerciseLog = (ExerciseLog) ie.next();
+			String name=((Exercise)Getdata.onecolumnvaluewhere("Exercise", "id", Integer.toString(exerciseLog.getExercise().getId())).iterator().next()).getName();
+			if (eHashMap.containsKey(name)) {
+				eHashMap.put(name, eHashMap.get(name)+1);
+			}
+			else{
+				eHashMap.put(name, 1);
+			}
+		}
+		List<Entry<String, Integer>> te=entriesSortedByValues(eHashMap);
+		s=10;
+		if (te.size()<10) {
+			s=te.size();
+		}
+		model.addAttribute("tenexercise",te.subList(0,s));
 		return "admin/index";
+		}
 		else
 			return "redirect:/admin/";
 		
@@ -436,4 +567,21 @@ if (!file.getOriginalFilename().isEmpty()) {
 		return "admin/commentdetail";
 		
 	}
+	
+	static <K,V extends Comparable<? super V>> 
+    List<Entry<K, V>> entriesSortedByValues(Map<K,V> map) {
+
+List<Entry<K,V>> sortedEntries = new ArrayList<Entry<K,V>>(map.entrySet());
+
+Collections.sort(sortedEntries, 
+    new Comparator<Entry<K,V>>() {
+        @Override
+        public int compare(Entry<K,V> e1, Entry<K,V> e2) {
+            return e2.getValue().compareTo(e1.getValue());
+        }
+    }
+);
+
+return sortedEntries;
+}
 }
