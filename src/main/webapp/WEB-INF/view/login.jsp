@@ -15,6 +15,7 @@
     <input type="password" value="" placeholder="Password" id="password" name="password"  class="validate[required] text-input"/>
     <p>New User? Register <a style="color:#3c8dbc " href="${pageContext.request.contextPath }/signup">Here</a></p>
     <p>Forgot Password? Reset <a style="color:#3c8dbc " href="${pageContext.request.contextPath }/resetform">Here</a></p>
+    <p>Login As An Admin <a style="color:#3c8dbc " href="${pageContext.request.contextPath }/admin/">Here</a></p>
     <button type="submit">Submit</button>
     </form>
 </div>

@@ -63,7 +63,7 @@ public class adminlogin {
 		if(session.getAttribute("aname")==null)
 		return "admin/signup";
 		else
-			return "redirect:/dashboard";
+			return "redirect:/admin/dashboard";
 		
 	}
 	@RequestMapping(value="/signup",method=RequestMethod.POST)
@@ -309,8 +309,11 @@ public class adminlogin {
 	@RequestMapping(value="/adminupdate/{id}",method=RequestMethod.GET)
 	public String adminupdate(HttpSession session,Model model,@PathVariable int id)
 	{
+		if(Getdata.onecolumnvaluewhere("Admin", "id", String.valueOf(id)).iterator().hasNext())
+		{
 		Admin admin=(Admin)Getdata.onecolumnvaluewhere("Admin", "id", String.valueOf(id)).iterator().next();
 		model.addAttribute("admin", admin);
+		}
 		if (session.getAttribute("aname")==null||session.getAttribute("role").equals("admin")) {
 			return "redirect:/admin/";
 		}

@@ -37,7 +37,7 @@
         </div>
       </div>
       <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
+      <form action="#" method="get" class="sidebar-form" style="display:none;">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
               <span class="input-group-btn">
@@ -374,7 +374,7 @@
 						data : {"foodId":foodId,"servingNo":servingNo,"uid":uid,"slot":food},
 						success:function(data, textStatus, jqXHR) 
 						{
-							alert(data.result);
+							//alert(data.result);
 							$('#food').removeClass( "in" );
 							//$("#f").reset();
 							//data: return data from server
@@ -411,7 +411,7 @@
 						data : {"exerciseId":exerciseId,"minutes":minutes,"uid":uid},
 						success:function(data, textStatus, jqXHR) 
 						{
-							alert(data.result);
+							//alert(data.result);
 							$('#exercisei').removeClass( "in" );
 							//$("#f").reset();
 							//data: return data from server

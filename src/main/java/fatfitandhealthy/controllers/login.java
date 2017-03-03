@@ -111,7 +111,12 @@ public class login {
 		
 	}
 	@RequestMapping(value="/signup",method=RequestMethod.GET)
-	public String signup(HttpSession session) {
+	public String signup(HttpSession session,@CookieValue(value="uname",defaultValue="") String uname) {
+		
+		if (!uname.equals("")) {
+			//System.out.println("abc");
+			return "redirect:/home";
+		}
 		return "signup";
 		
 	}
@@ -270,7 +275,7 @@ public class login {
 	}
 	@RequestMapping(value="/home",method=RequestMethod.GET)
 	public String home(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
-		float foodcal=0;
+		/*float foodcal=0;
 		float execal=0;
 		List<FoodItems> l=Getdata.getData("FoodItems");
 		model.addAttribute("FoodItems", l);
@@ -287,9 +292,29 @@ public class login {
 			}
 		}
 		model.addAttribute("foodcal", foodcal);
-		model.addAttribute("execal", execal);
+		model.addAttribute("execal", execal);*/
 		if(!id.equals(""))
+		{
+			float foodcal=0;
+			float execal=0;
+			List<FoodItems> l=Getdata.getData("FoodItems");
+			model.addAttribute("FoodItems", l);
+			List<Exercise> l2=Getdata.getData("Exercise");
+			model.addAttribute("Exercise", l2);
+			UserHealth uh=(UserHealth)Getdata.onecolumnvaluewhere("UserHealth", "id", id.toString()).iterator().next();
+			model.addAttribute("calgoal",Float.parseFloat(uh.getDailyCalGoal()));
+			Iterator<ActivityLog> i=uh.getActivityLogs().iterator();
+			while (i.hasNext()) {
+				ActivityLog activityLog = (ActivityLog) i.next();
+				if (activityLog.getDate().equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+					foodcal=Float.parseFloat(activityLog.getBreakfast())+Float.parseFloat(activityLog.getLunch())+Float.parseFloat(activityLog.getDinner());
+					execal=Float.parseFloat(activityLog.getExercise());
+				}
+			}
+			model.addAttribute("foodcal", foodcal);
+			model.addAttribute("execal", execal);
 			return "home";
+		}
 			else
 				return "redirect:/login";
 	
@@ -421,14 +446,22 @@ public class login {
 	
 	@RequestMapping(value="/caloriehistory",method=RequestMethod.GET)
 	public String caloriehistory(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
-		UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", id).iterator().next();
+		/*UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", id).iterator().next();
 		model.addAttribute("calGoal",uh.getDailyCalGoal());
 		NutritionGoal ng=(NutritionGoal) Getdata.getData("NutritionGoal").iterator().next();
 		model.addAttribute("watergoal", ng.getWater());
 		List<ActivityLog> l=Getdata.lastnrecord(ActivityLog.class, "date", 10,"userHealth",uh,"date",new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-		model.addAttribute("activitylog", l);
+		model.addAttribute("activitylog", l);*/
 		if(!id.equals(""))
+		{
+			UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", id).iterator().next();
+			model.addAttribute("calGoal",uh.getDailyCalGoal());
+			NutritionGoal ng=(NutritionGoal) Getdata.getData("NutritionGoal").iterator().next();
+			model.addAttribute("watergoal", ng.getWater());
+			List<ActivityLog> l=Getdata.lastnrecord(ActivityLog.class, "date", 10,"userHealth",uh,"date",new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+			model.addAttribute("activitylog", l);
 			return "caloriehistory";
+		}
 			else
 				return "redirect:/login";
 	
@@ -512,10 +545,14 @@ public class login {
 	
 	@RequestMapping(value="/editgoal",method=RequestMethod.GET)
 	public String editgoal(HttpSession session,@CookieValue(value="id",defaultValue="") String id,Model model) {
-		UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", id).iterator().next();
-		model.addAttribute("UserHealth", uh);
+		/*UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", id).iterator().next();
+		model.addAttribute("UserHealth", uh);*/
 		if(!id.equals(""))
+		{
+			UserHealth uh=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", id).iterator().next();
+			model.addAttribute("UserHealth", uh);
 			return "editgoal";
+		}
 			else
 				return "redirect:/login";
 	
@@ -848,9 +885,9 @@ public class login {
 		String path=request.getServletContext().getRealPath("/").replace("\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps", "")+"src\\main\\webapp\\resources\\image\\user";
 		UserHealth uhr=(UserHealth) Getdata.onecolumnvaluewhere("UserHealth", "id", Integer.toString(ul.getId())).iterator().next();
 		UserLogin ulr=(UserLogin) Getdata.onecolumnvaluewhere("UserLogin", "id", Integer.toString(ul.getId())).iterator().next();
-		Cookie uimage=WebUtils.getCookie(request, "uimage");
-		uimage.setValue(ul.getId()+ul.getImage());
-		response.addCookie(uimage);
+		Cookie uname=WebUtils.getCookie(request, "uname");
+		uname.setValue(up.getFname()+" "+up.getLname());
+		response.addCookie(uname);
 		//System.out.println(path);
 		//System.out.println(ul.getEmail()+up.getMobNo()+uh.getActivityFactor());
 		ul.setEditTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
@@ -858,6 +895,9 @@ public class login {
 		ul.setCreateTimestamp(ulr.getCreateTimestamp());
 		//ul.setImage(ul.getId()+ul.getImage().substring(ul.getImage().lastIndexOf(".")));
 		if (file.getOriginalFilename()!=null&&!file.getOriginalFilename().isEmpty()) {
+			Cookie uimage=WebUtils.getCookie(request, "uimage");
+			uimage.setValue(ul.getId()+ul.getImage());
+			response.addCookie(uimage);
 			ul.setImage(ul.getId()+ul.getImage());
 			File file1=new File(path+File.separator+((UserLogin)Getdata.onecolumnvaluewhere("UserLogin", "id", ul.getId().toString()).iterator().next()).getImage());
 			file1.delete();

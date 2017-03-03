@@ -58,7 +58,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-calendar"></i>
 					</div>
-					<input id="datepicker" class="form-control pull-right" type="text" name="dob">
+					<input id="datepicker" class="form-control pull-right" type="text" name="dob" required>
 					</div>
 				</div>
 				<div class="form-group">
@@ -152,6 +152,7 @@ var loadFile = function(event) {
 				}
 			else{
 				document.getElementById("kg").style.display="none";
+				$("select[name=kg]").val($("select[name=kg] option:first").val());
 				}
 		}
 	

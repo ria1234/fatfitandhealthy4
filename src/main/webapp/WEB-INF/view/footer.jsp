@@ -10,7 +10,7 @@
 			<!-- </div> -->
 		<!-- Copyright -->
 		</div><br><br>
-		<p class="copyright normal">© 2016. <span class="colored">Fatfitandhealthy.</span> All Rights Reserved.</p>
+		<p class="copyright normal">© 2016. <span class="colored">Fatfitandhealthy.</span> All Rights Reserved.<br>Created By: <span class="colored">Ria Bhatt</span></p>
 	</footer><!-- End Footer -->
 
 	<!-- JS Files -->

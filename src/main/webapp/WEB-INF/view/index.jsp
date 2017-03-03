@@ -254,9 +254,9 @@
 			    	<ul>
 				     <li class="monial">
 						<!-- Text -->
-						<h1 class="condensed white">"<span class="colored">Lorem ipsum dolor</span> sit amet, consectetur adipiscing elit. Cras euismod vestibulum orci, mollis vulpute felis dapibus sed. Nam ullamcorper congue elit."</h1>
+						<h1 class="condensed white">"<span class="colored">Fatfitandhealthy</span> is very good website for tracking daily Calories."</h1>
 						<!-- Name -->
-						<p class="light">John Doe</p>
+						<p class="light">Nayana Bhatt</p>
 					</li>
 					</ul>
 			    </div>
@@ -264,9 +264,9 @@
 			      <ul>
 			      <li class="monial">
 						<!-- Text -->
-						<h1 class="condensed white"><span class="colored">Lorem ipsum dolor</span> sit amet, consectetur adipiscing elit. Cras euismod vestibulum orci, mollis vulputate felis dapibus sed. Nam ullamcorper congue elit."</h1>
+						<h1 class="condensed white"><span class="colored">Fatfitandhealthy</span> provides very useful tools for fitness. It is really very useful website."</h1>
 						<!-- Name -->
-						<p class="light">Jane Doe</p>
+						<p class="light">Nilesh Bhatt</p>
 					</li>
 				</ul>	
 			    </div>
@@ -274,9 +274,9 @@
 			    <ul>
 			      <li class="monial">
 						<!-- Text -->
-						<h1 class="condensed white">"<span class="colored">Lorem ipsum dolor</span> sit amet, consectetur adipiscing elit. Cras euismod vestibulum orci, mollis vulputate felis dapibus sed. Nam ullamcorper congue elit."</h1>
+						<h1 class="condensed white">"<span class="colored">Fatfitandhealthy</span> is very effective website for achieving our fitness goal."</h1>
 						<!-- Name -->
-						<p class="light">Severe Dane</p>
+						<p class="light">Twinkle Pandit</p>
 					</li>
 				</ul>	
 			    </div>
@@ -294,7 +294,7 @@
 
 		<div class="inner no-padding">
 			<!-- Your Text -->
-			<p class="normal white blockquote fancy">This is our Client's motivation, we work with Passion! 
+			<p class="normal white blockquote fancy">We work with Passion! 
 			<a href="#about" class="scroll"><i class="fa fa-arrow-right"></i></a></p>
 		</div>
 
@@ -354,7 +354,7 @@
 	<section id="site-socials" class="no-padding white-bg">
 		<div class="site-socials inner no-padding">
 			<!-- Socials -->
-			<div class="socials animated" data-animation="fadeInLeft" data-animation-delay="400">
+			<div class="socials animated" data-animation="fadeInLeft" data-animation-delay="400" style="display:none;">
 				<!-- Facebook -->
 				<a href="#" target="_blank" class="social">
 					<i class="fa fa-facebook"></i>
@@ -410,7 +410,7 @@
 			<!-- </div> -->
 		<!-- Copyright -->
 		</div><br><br>
-		<p class="copyright normal">© 2016. <span class="colored">Fatfitandhealthy.</span> All Rights Reserved.</p>
+		<p class="copyright normal">© 2016. <span class="colored">Fatfitandhealthy.</span> All Rights Reserved.<br>Created By: <span class="colored">Ria Bhatt</span></p>
 	</footer><!-- End Footer -->
 
 	<!-- JS Files -->
@@ -438,7 +438,13 @@
  }, function(){
  	$(this).children("i").removeClass("fa-spin");
  });
-
+  
+$(document).ready(function(){
+	$("#contact-us").submit(function(){
+			document.getElementById('contact-us').reset();
+		});
+});
+</script>
 
 
 </body>
